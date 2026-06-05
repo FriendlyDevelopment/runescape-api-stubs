@@ -41,32 +41,32 @@ function PersistentDB:GetStructuredData(key) end
 ---Stores the provided value in the persistent DB, associating it with the specified key and the current plugin.
 ---@param key String The name associated with a persistent DB entry.
 ---@param value Bool|Int|Float|String|Table
----@return Bool|Int|Float|String|Table|nil Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry.
+---@return Bool|Int|Float|String|Table|nil Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry. Note when using tables, fields with types other than the ones allowed by this function will be ignored.
 function PersistentDB:Set(key, value) end
 
 ---@param key String The name associated with a persistent DB entry.
 ---@param value Bool
----@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry.
+---@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry. Note when using tables, fields with types other than the ones allowed by this function will be ignored.
 function PersistentDB:SetBool(key, value) end
 
 ---@param key String The name associated with a persistent DB entry.
 ---@param value Int
----@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry.
+---@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry. Note when using tables, fields with types other than the ones allowed by this function will be ignored.
 function PersistentDB:SetInt(key, value) end
 
 ---@param key String The name associated with a persistent DB entry.
 ---@param value Float
----@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry.
+---@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry. Note when using tables, fields with types other than the ones allowed by this function will be ignored.
 function PersistentDB:SetFloat(key, value) end
 
 ---@param key String The name associated with a persistent DB entry.
 ---@param value String
----@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry.
+---@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry. Note when using tables, fields with types other than the ones allowed by this function will be ignored.
 function PersistentDB:SetString(key, value) end
 
 ---@param key String The name associated with a persistent DB entry.
 ---@param value Table
----@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry.
+---@return Bool Value associated with the entry matching the provided key, or nil if there is no such entry. The returned type matches the type originally used when storing that entry. Note when using tables, fields with types other than the ones allowed by this function will be ignored.
 function PersistentDB:SetStructuredData(key, value) end
 
 ---Checks if an entry exists in the persistent DB with the specified key for the current plugin.

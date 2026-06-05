@@ -11,6 +11,7 @@ ui.ComponentType = {
     MODEL_GROUP = "MODEL_GROUP", -- A model group component.
     RADIAL_PROGRESS_OVERLAY = "RADIAL_PROGRESS_OVERLAY", -- A radial progress overlay component.
     CUTSCENE_LAYER = "CUTSCENE_LAYER", -- A cutscene layer component.
+    CANVAS = "CANVAS", -- A canvas component.
     BUTTON = "BUTTON", -- A button component.
     CHECK = "CHECK", -- A check component.
     LIST = "LIST", -- A list component.
