@@ -82,11 +82,26 @@ def load_csv(path: Path) -> list[tuple[int, str]]:
 
 
 def generate_enum(enum_name: str, entries: list[tuple[int, str]]) -> str:
-    lines = ["---@meta", "", f"---@enum {enum_name}", f"{enum_name} = {{"]
-    for npc_id, name in entries:
-        lines.append(f"    {lua_key(name)} = {npc_id},")
-    lines.append("}")
-    lines.append("")
+    kv_lines = [f"    {lua_key(name)} = {entry_id}," for entry_id, name in entries]
+    kv_block = "\n".join(kv_lines)
+
+    lines = [
+        "---@meta",
+        "",
+        f"---@enum id.{enum_name}",
+        f"id.{enum_name} = {{",
+        kv_block,
+        "}",
+        "",
+        f"config.{enum_name} = {{",
+        kv_block,
+        "}",
+        "",
+        f"---@param id integer",
+        f"---@return string",
+        f"function config.{enum_name}.FromID(id) end",
+        "",
+    ]
     return "\n".join(lines)
 
 
