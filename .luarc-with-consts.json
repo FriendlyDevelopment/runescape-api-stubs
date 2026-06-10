@@ -1,0 +1,10 @@
+{
+	"$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+	"workspace.library": [
+		"../runescape-api-stubs/types.lua",
+		"../runescape-api-stubs/generated/",
+		"../runescape-api-stubs/consts/"
+	],
+	"workspace.checkThirdParty": false,
+	"workspace.preloadFileSize": 100000
+}
