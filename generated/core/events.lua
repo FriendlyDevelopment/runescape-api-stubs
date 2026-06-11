@@ -108,6 +108,13 @@ function addHello(chatMessageEvent) end
 ---@param chatMessageEvent any
 function addGoodbye(chatMessageEvent) end
 
+---Called when a Keyboard key press is first pressed, and when a key-repeat event is sent by the OS.
+---@class KeyDown
+KeyDown = {}
+
+---@param keyDownEvent any
+function keyDownFunc(keyDownEvent) end
+
 ---Called when a variable update is transmitted from the server to the client. The variable is not guaranteed to have changed.
 ---@class VarTransmit
 VarTransmit = {}
