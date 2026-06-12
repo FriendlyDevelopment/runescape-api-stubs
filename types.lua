@@ -49,6 +49,8 @@ id = {}
 
 ---Single event subscription channel — e.g. Event.Logic, Event.EntityDraw.
 ---@class EventSubscription
+---@field Subscribe fun(name: string, callback: function)
+---@field Unsubscribe fun(name: string)
 ---@field Add fun(name: string, callback: function)
 ---@field Remove fun(name: string)
 EventSubscription = {}
