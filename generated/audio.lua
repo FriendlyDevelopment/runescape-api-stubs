@@ -1,51 +1,53 @@
 ---@meta
 
----Identifies the type of sound associated with a SoundInstance 's playback. Unless otherwise stated, these are just used to categorise sounds and don't affect playback.
+---Identifies the type of sound associated with a SoundInstance 's playback.Unless otherwise stated, these are just used to categorise sounds and don't affect playback.
 ---@enum audio.SoundType
 audio.SoundType = {
-    invalid = "invalid",
-    entity = "entity",
-    location = "location",
-    location_random = "location_random",
-    generalAnimation = "generalAnimation",
-    locationAnimation = "locationAnimation",
-    entityAnimation = "entityAnimation",
-    spotAnimation = "spotAnimation",
-    script = "script",
-    serverTriggered = "serverTriggered",
-    music = "music", -- Identifies a sound meant to be played as music. Playback for audio of this type cannot be manually stopped.
-    jingle = "jingle", -- Identifies a sound meant to be played as a short jingle. Playback for audio of this type cannot be manually stopped.
-    entityMovement = "entityMovement",
-    interfaceAnimation = "interfaceAnimation",
+    INVALID = "INVALID", -- 255
+    ENTITY = "ENTITY", -- 0
+    LOCATION = "LOCATION", -- 1
+    LOCATION_RANDOM = "LOCATION_RANDOM", -- 2
+    GENERAL_ANIMATION = "GENERAL_ANIMATION", -- 3
+    LOCATION_ANIMATION = "LOCATION_ANIMATION", -- 4
+    ENTITY_ANIMATION = "ENTITY_ANIMATION", -- 5
+    SPOT_ANIMATION = "SPOT_ANIMATION", -- 6
+    SCRIPT = "SCRIPT", -- 7
+    SERVER_TRIGGERED = "SERVER_TRIGGERED", -- 8
+    MUSIC = "MUSIC", -- 9
+    JINGLE = "JINGLE", -- 10
+    ENTITY_MOVEMENT = "ENTITY_MOVEMENT", -- 11
+    INTERFACE_ANIMATION = "INTERFACE_ANIMATION", -- 12
 }
 
----Identifies the audio bus a sound instance is playing into, used by the audio mixer system. These are used to identify certain elements used during audio playback, such as the desired volume based on game settings.
+---Identifies the audio bus a sound instance is playing into, used by the audio mixer system.These are used to identify certain elements used during audio playback, such as the desired volume based on game settings.
 ---@enum audio.AudioBus
 audio.AudioBus = {
-    master = "master",
-    sfx = "sfx",
-    music = "music",
-    musicLogin = "musicLogin",
-    ambient = "ambient",
-    voiceover = "voiceover",
-    dialog = "dialog",
-    playerAnimation = "playerAnimation",
-    npcAnimation = "npcAnimation",
-    locationAnimation = "locationAnimation",
-    generalAnimation = "generalAnimation",
-    locations = "locations",
-    locationRandom = "locationRandom",
-    locationGeneric = "locationGeneric",
+    MASTER = 0,
+    SFX = 1,
+    MUSIC = 2,
+    MUSIC_LOGIC = 3,
+    AMBIENT = 4,
+    VOICEOVER = 5,
+    SFX_SUB = 6,
+    MUSIC_SUB = 7,
+    DIALOG_SUB = 8,
+    PLAYER_ANIMATION_SUB = 9,
+    NPC_ANIMATION_SUB = 10,
+    LOCATION_ANIMATION_SUB = 11,
+    GENERAL_ANIMATION_SUB = 12,
+    LOCATIONS_SUB = 13,
+    LOCATION_RANDOM_SUB = 14,
+    LOCATION_GENERIC_SUB = 15,
 }
 
 ---Controls how spatial audio applies to this sound instance.
 ---@enum audio.EmitterShape
 audio.EmitterShape = {
-    sphere = "sphere", -- The sound's volume scales based on distance between the emitter and the listener, and takes into account the angle between them. Represents a spherical volume.
-    box = "box", -- The sound's volume scales based on distance between the emitter and the listener, and takes into account the angle between them. Represents a box volume.
-    sphereNoPanning = "sphereNoPanning", -- The sound's volume scales based on distance between the emitter and the listener, ignoring the angle between them. Represents a spherical volume.
-    boxNoPanning = "boxNoPanning", -- The sound's volume scales based on distance between the emitter and the listener, ignoring the angle between them. Represents a box volume.
-    none = "none", -- The emitter doesn't use spatial audio.
+    SPHERE = "SPHERE", -- 0
+    BOX = "BOX", -- 1
+    SPHERE_NO_PANNING = "SPHERE_NO_PANNING", -- 2
+    BOX_NO_PANNING = "BOX_NO_PANNING", -- 3
+    NONE = "NONE", -- 4
 }
 
 ---@class audio

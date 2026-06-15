@@ -3,11 +3,11 @@
 ---Enumeration representing the type of the an entry in the persistent DB.
 ---@enum PersistentDBType
 PersistentDBType = {
-    Bool = "Bool", -- True/false entry
-    Int = "Int", -- Integer entry
-    Float = "Float", -- Floating point entry
-    String = "String", -- Text-based entry
-    StructuredData = "StructuredData", -- Entry that gets serialized directly to/from Lua tables
+    BOOL = "BOOL", -- 0
+    INT = "INT", -- 1
+    FLOAT = "FLOAT", -- 2
+    STRING = "STRING", -- 3
+    STRUCTURED_DATA = "STRUCTURED_DATA", -- 4
 }
 
 ---@class PersistentDB
