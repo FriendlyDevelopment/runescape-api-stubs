@@ -19,7 +19,7 @@ function ComponentCollection:IterateStaticComponents(callback) end
 function ComponentCollection:IterateDynamicComponents(callback) end
 
 ---Attempts to retrieve the static or dynamic child component corresponding to the provided IDs, returning nil if missing.
----@overload fun(self: ComponentCollection, categoryID: Int, dynamicID: Int): Component?
+---@overload fun(self: ui.ComponentCollection, categoryID: Int, dynamicID: Int): Component?
 ---@param staticID Int Value used to identify a static component.
 ---@return Component? The existing component if found, or nil if missing
 function ComponentCollection:GetChild(staticID) end

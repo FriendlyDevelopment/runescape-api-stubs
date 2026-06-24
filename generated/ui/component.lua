@@ -40,6 +40,8 @@ ui = {}
 ---@field height Int (Read-only) Current height for this component
 Component = {}
 
+---@alias Component ui.Component
+
 ---Moves this component's origin to the provided coordinates, optionally taking into account the parent's dimensions, and this component's own dimensions.
 ---@param x Int Absolute horizontal coordinate to move this component to in interface units
 ---@param parentPercentageX Float? If specified, offsets this component's horizontal origin based on a percentage of its parent's width.
@@ -92,7 +94,7 @@ function Component:MoveToBack() end
 function Component:UpdateLayout() end
 
 ---Subscribes a listener for an event hook, setting a callback to be triggered whenever this event occurs, and optionally assigning it an ID allowing it to be referenced to in the future.
----@overload fun(self: Component, hook: ui.Hook, id: String, callback: function (...) -> Bool?)
+---@overload fun(self: Component, hook: ui.Hook, id: String, callback: fun (...): Bool?)
 ---@param hook ui.Hook The event hook to listen for.
 ---@param callback function (...) -> Bool? The callback to trigger on this event, with parameters varying based on the event hook type. Can return a boolean indicating whether or not to continue processing listeners afterwards. If omitted, the callback is treated as if it returned true, resulting in other listeners still getting triggered.
 function Component:Subscribe(hook, callback) end
@@ -109,51 +111,52 @@ function Component:UnsubscribeAll(hook) end
 ---These events are only triggered when using a touchscreen.
 ---@enum ui.Hook
 ui.Hook = {
-    ONCLICK = "ONCLICK", -- Triggered when the user clicks the left mouse button or taps on this component.
-    ONCLICKREPEAT = "ONCLICKREPEAT", -- Triggered when the user clicks the left mouse button or taps on this component.
-    ONRELEASE = "ONRELEASE", -- Triggered when the user stops clicking on this component or stops a tap gesture.
-    ONHOLD = "ONHOLD", -- Triggered while the user is clicking on this component.
-    ONMOUSEOVER = "ONMOUSEOVER", -- Triggered when the cursor enters this component's region.
-    ONMOUSEREPEAT = "ONMOUSEREPEAT", -- Triggered while the cursor is over this component's region.
-    ONMOUSELEAVE = "ONMOUSELEAVE", -- Triggered when the cursor leaves this component's region.
-    ONDRAG = "ONDRAG", -- Triggered when the user starts dragging this component.
-    ONDRAGCOMPLETE = "ONDRAGCOMPLETE", -- Triggered when the user finishes dragging this component.
-    ONSCROLLWHEEL = "ONSCROLLWHEEL", -- Triggered when the user moves the mouse's scrollwheel.
-    ONKEY = "ONKEY", -- Triggered when the user inputs a key on their keyboard.
-    ONSWIPEVERTICAL = "ONSWIPEVERTICAL", -- Triggered whenever a horizontal swipe motion occurs.
-    ONSWIPEHORIZONTAL = "ONSWIPEHORIZONTAL", -- Triggered whenever a vertical swipe motion occurs.
-    ONSWIPECOMPLETE = "ONSWIPECOMPLETE", -- Triggered when a swipe gesture terminates.
-    ONPINCHHORIZONTAL = "ONPINCHHORIZONTAL", -- Triggered whenever a horizontal pinch motion occurs. Direction is -1 for inwards pinch gestures, and 1 for outwards.
-    ONPINCHVERTICAL = "ONPINCHVERTICAL", -- Triggered whenever a vertical pinch motion occurs. Direction is -1 for inwards pinch gestures, and 1 for outwards.
-    ONPINCHCOMPLETE = "ONPINCHCOMPLETE", -- Triggered when a pinch gesture terminates.
-    ONGAMEPADBUTTON = "ONGAMEPADBUTTON",
-    ONGAMEPADBUTTONHELD = "ONGAMEPADBUTTONHELD",
-    ONGAMEPADAXIS = "ONGAMEPADAXIS",
-    ONGAMEPADTRIGGER = "ONGAMEPADTRIGGER",
-    ONOP = "ONOP", -- Triggered whenever the user interacts with something in the game world, or with a UI component that has ops specified for its interactions.
-    ONOPT = "ONOPT", -- Triggered when the user selects another UI component while in target selection mode.
-    ONTARGETENTER = "ONTARGETENTER", -- Triggered when the component enters target selection mode.
-    ONTARGETLEAVE = "ONTARGETLEAVE", -- Triggered when the component leaves target selection mode.
-    ONVARPTRANSMIT = "ONVARPTRANSMIT", -- Triggered when the game client receives a server transmission for player variables.
-    ONINVTRANSMIT = "ONINVTRANSMIT", -- Triggered when the game client receives a server transmission for inventories.
-    ONSTATTRANSMIT = "ONSTATTRANSMIT", -- Triggered when the game client receives a server transmission for stats.
-    ONVARCTRANSMIT = "ONVARCTRANSMIT", -- Triggered when the game client receives a server transmission for client variables.
-    ONVARCSTRTRANSMIT = "ONVARCSTRTRANSMIT", -- Triggered when the game client receives a server transmission for client string variables.
-    ONVARCLANTRANSMIT = "ONVARCLANTRANSMIT", -- Triggered when the game client receives a server transmission for clan variables.
-    ONCHATTRANSMIT = "ONCHATTRANSMIT", -- Triggered when the game client receives a server transmission for chat messages.
-    ONFRIENDTRANSMIT = "ONFRIENDTRANSMIT", -- Triggered when the game client receives a server transmission for friends data.
-    ONCLANTRANSMIT = "ONCLANTRANSMIT", -- Triggered when the game client receives a server transmission for clan data.
-    ONCLANSETTINGSTRANSMIT = "ONCLANSETTINGSTRANSMIT", -- Triggered when the game client receives a server transmission for clan settings data.
-    ONCLANCHANNELTRANSMIT = "ONCLANCHANNELTRANSMIT", -- Triggered when the game client receives a server transmission for clan chat messages.
-    ONRELATIONSHIPSETTRANSMIT = "ONRELATIONSHIPSETTRANSMIT", -- Triggered when the game client receives a server transmission for friends/clans/ignore lists.
-    ONMISCTRANSMIT = "ONMISCTRANSMIT", -- Triggered when the game client receives a server transmission for miscellaneous data.
-    ONSTOCKTRANSMIT = "ONSTOCKTRANSMIT", -- Triggered when the game client receives a server transmission for stock data.
-    ONPLAYERGROUPTRANSMIT = "ONPLAYERGROUPTRANSMIT", -- Triggered when the game client receives a server transmission involving the current player group state.
-    ONPLAYERGROUPVARPTRANSMIT = "ONPLAYERGROUPVARPTRANSMIT", -- Triggered when the game client receives a server transmission for the current group's player variable.
-    ONCAMERAUPDATETRANSMIT = "ONCAMERAUPDATETRANSMIT", -- Triggered when the game client receives a server transmission involving camera changes.
-    ONTIMER = "ONTIMER", -- Triggered once per logic tick. Prefer using PluginLogic over this as it's a more general solution.
-    ONDIALOGABORT = "ONDIALOGABORT", -- Triggered manually by the server.
-    ONSUBCHANGE = "ONSUBCHANGE", -- Triggered whenever a sub-interface loads.
-    ONCAMFINISHED = "ONCAMFINISHED", -- Triggered whenever a server-controlled camera motion finishes.
-    ONRESIZE = "ONRESIZE", -- Triggered whenever this component has its dimensions changed.
+	ONCLICK = "ONCLICK", -- Triggered when the user clicks the left mouse button or taps on this component.
+	ONCLICKREPEAT = "ONCLICKREPEAT", -- Triggered when the user clicks the left mouse button or taps on this component.
+	ONRELEASE = "ONRELEASE", -- Triggered when the user stops clicking on this component or stops a tap gesture.
+	ONHOLD = "ONHOLD", -- Triggered while the user is clicking on this component.
+	ONMOUSEOVER = "ONMOUSEOVER", -- Triggered when the cursor enters this component's region.
+	ONMOUSEREPEAT = "ONMOUSEREPEAT", -- Triggered while the cursor is over this component's region.
+	ONMOUSELEAVE = "ONMOUSELEAVE", -- Triggered when the cursor leaves this component's region.
+	ONDRAG = "ONDRAG", -- Triggered when the user starts dragging this component.
+	ONDRAGCOMPLETE = "ONDRAGCOMPLETE", -- Triggered when the user finishes dragging this component.
+	ONSCROLLWHEEL = "ONSCROLLWHEEL", -- Triggered when the user moves the mouse's scrollwheel.
+	ONKEY = "ONKEY", -- Triggered when the user inputs a key on their keyboard.
+	ONSWIPEVERTICAL = "ONSWIPEVERTICAL", -- Triggered whenever a horizontal swipe motion occurs.
+	ONSWIPEHORIZONTAL = "ONSWIPEHORIZONTAL", -- Triggered whenever a vertical swipe motion occurs.
+	ONSWIPECOMPLETE = "ONSWIPECOMPLETE", -- Triggered when a swipe gesture terminates.
+	ONPINCHHORIZONTAL = "ONPINCHHORIZONTAL", -- Triggered whenever a horizontal pinch motion occurs. Direction is -1 for inwards pinch gestures, and 1 for outwards.
+	ONPINCHVERTICAL = "ONPINCHVERTICAL", -- Triggered whenever a vertical pinch motion occurs. Direction is -1 for inwards pinch gestures, and 1 for outwards.
+	ONPINCHCOMPLETE = "ONPINCHCOMPLETE", -- Triggered when a pinch gesture terminates.
+	ONGAMEPADBUTTON = "ONGAMEPADBUTTON",
+	ONGAMEPADBUTTONHELD = "ONGAMEPADBUTTONHELD",
+	ONGAMEPADAXIS = "ONGAMEPADAXIS",
+	ONGAMEPADTRIGGER = "ONGAMEPADTRIGGER",
+	ONOP = "ONOP", -- Triggered whenever the user interacts with something in the game world, or with a UI component that has ops specified for its interactions.
+	ONOPT = "ONOPT", -- Triggered when the user selects another UI component while in target selection mode.
+	ONTARGETENTER = "ONTARGETENTER", -- Triggered when the component enters target selection mode.
+	ONTARGETLEAVE = "ONTARGETLEAVE", -- Triggered when the component leaves target selection mode.
+	ONVARPTRANSMIT = "ONVARPTRANSMIT", -- Triggered when the game client receives a server transmission for player variables.
+	ONINVTRANSMIT = "ONINVTRANSMIT", -- Triggered when the game client receives a server transmission for inventories.
+	ONSTATTRANSMIT = "ONSTATTRANSMIT", -- Triggered when the game client receives a server transmission for stats.
+	ONVARCTRANSMIT = "ONVARCTRANSMIT", -- Triggered when the game client receives a server transmission for client variables.
+	ONVARCSTRTRANSMIT = "ONVARCSTRTRANSMIT", -- Triggered when the game client receives a server transmission for client string variables.
+	ONVARCLANTRANSMIT = "ONVARCLANTRANSMIT", -- Triggered when the game client receives a server transmission for clan variables.
+	ONCHATTRANSMIT = "ONCHATTRANSMIT", -- Triggered when the game client receives a server transmission for chat messages.
+	ONFRIENDTRANSMIT = "ONFRIENDTRANSMIT", -- Triggered when the game client receives a server transmission for friends data.
+	ONCLANTRANSMIT = "ONCLANTRANSMIT", -- Triggered when the game client receives a server transmission for clan data.
+	ONCLANSETTINGSTRANSMIT = "ONCLANSETTINGSTRANSMIT", -- Triggered when the game client receives a server transmission for clan settings data.
+	ONCLANCHANNELTRANSMIT = "ONCLANCHANNELTRANSMIT", -- Triggered when the game client receives a server transmission for clan chat messages.
+	ONRELATIONSHIPSETTRANSMIT = "ONRELATIONSHIPSETTRANSMIT", -- Triggered when the game client receives a server transmission for friends/clans/ignore lists.
+	ONMISCTRANSMIT = "ONMISCTRANSMIT", -- Triggered when the game client receives a server transmission for miscellaneous data.
+	ONSTOCKTRANSMIT = "ONSTOCKTRANSMIT", -- Triggered when the game client receives a server transmission for stock data.
+	ONPLAYERGROUPTRANSMIT = "ONPLAYERGROUPTRANSMIT", -- Triggered when the game client receives a server transmission involving the current player group state.
+	ONPLAYERGROUPVARPTRANSMIT = "ONPLAYERGROUPVARPTRANSMIT", -- Triggered when the game client receives a server transmission for the current group's player variable.
+	ONCAMERAUPDATETRANSMIT = "ONCAMERAUPDATETRANSMIT", -- Triggered when the game client receives a server transmission involving camera changes.
+	ONTIMER = "ONTIMER", -- Triggered once per logic tick. Prefer using PluginLogic over this as it's a more general solution.
+	ONDIALOGABORT = "ONDIALOGABORT", -- Triggered manually by the server.
+	ONSUBCHANGE = "ONSUBCHANGE", -- Triggered whenever a sub-interface loads.
+	ONCAMFINISHED = "ONCAMFINISHED", -- Triggered whenever a server-controlled camera motion finishes.
+	ONRESIZE = "ONRESIZE", -- Triggered whenever this component has its dimensions changed.
+	ONBUTTONPRESSED = "ONBUTTONPRESSED",
 }
