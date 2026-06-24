@@ -120,6 +120,11 @@ GameState = {
 ---@field SkillTransmit EventSubscription
 ---@field RunEnergyTransmit EventSubscription
 ---@field RunWeightTransmit EventSubscription
+---@field MiniMenuOpened EventSubscription
+---@field MiniMenuClosed EventSubscription
+---@field MiniMenuReady EventSubscription
+---@field MiniMenuEntryAdded EventSubscription
+---@field MiniMenuEntrySelected EventSubscription
 
 ---Each event provides a table containing data related to the change which occurred.
 ---@class EventPayload
@@ -326,3 +331,43 @@ RunWeightTransmit = {}
 
 ---@param runWeightTransmitEvent any
 function runWeightTransmitFunc(runWeightTransmitEvent) end
+
+---Called when the MiniMenu has been opened.
+---@class MiniMenuOpened
+---@field miniMenu MiniMenu The current MiniMenu and its list of entries.
+MiniMenuOpened = {}
+
+---@param miniMenuOpenedEvent any
+function miniMenuOpenedFunc(miniMenuOpenedEvent) end
+
+---Called when the MiniMenu has been closed.
+---@class MiniMenuClosed
+---@field miniMenu MiniMenu The current MiniMenu and its list of entries.
+MiniMenuClosed = {}
+
+---@param miniMenuClosedEvent any
+function miniMenuClosedFunc(miniMenuClosedEvent) end
+
+---Called when the MiniMenu has finished adding all entries for the current Logic tick and can now be altered.
+---@class MiniMenuReady
+---@field miniMenu MiniMenu The current MiniMenu and its list of entries.
+MiniMenuReady = {}
+
+---@param miniMenuReadyEvent any
+function miniMenuReadyFunc(miniMenuReadyEvent) end
+
+---Called when a MiniMenuEntry has been added to the MiniMenu .
+---@class MiniMenuEntryAdded
+---@field entry MiniMenuEntry The MiniMenuEntry which has been added to the MiniMenu.
+MiniMenuEntryAdded = {}
+
+---@param miniMenuEntryAddedEvent any
+function miniMenuEntryAddedFunc(miniMenuEntryAddedEvent) end
+
+---Called when a MiniMenuEntry has been selected from the MiniMenu .
+---@class MiniMenuEntrySelected
+---@field entry MiniMenuEntry The MiniMenuEntry which has been selected from the MiniMenu.
+MiniMenuEntrySelected = {}
+
+---@param miniMenuEntrySelectedEvent any
+function miniMenuEntrySelectedFunc(miniMenuEntrySelectedEvent) end
