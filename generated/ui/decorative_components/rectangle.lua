@@ -5,6 +5,7 @@ ui = {}
 
 ---@class ui.Rectangle : ui.Component
 ---@field fill Bool If true, this rectangle will be drawn as a single block, otherwise it will be drawn as an outline. Defaults to false.
+---@field outlineThickness Int The pixel thickness of the outline drawn for this rectangle. Defaults to 1. Positive values will draw inwards, while negative values will draw outwards. Outlines are clipped by parent containers, which will affect negative outlines when a rectangle fills its container space.
 ui.Rectangle = {}
 
 ---@alias Rectangle ui.Rectangle

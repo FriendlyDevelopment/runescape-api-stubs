@@ -126,7 +126,7 @@ GameState = {
 ---@field MiniMenuEntryAdded EventSubscription
 ---@field MiniMenuEntrySelected EventSubscription
 
----Each event provides a table containing data related to the change which occurred.
+---Most events provide a table containing data related to the change which occurred.
 ---@class EventPayload
 EventPayload = {}
 

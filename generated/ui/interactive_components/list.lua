@@ -11,6 +11,9 @@ ui = {}
 ---@field dropdownButtonOffset Uint8 Horizontal offset applied to this list's dropdown button. Only used by dropdown lists.
 ---@field dropdownButtonSize Uint8 Dimensions used for the dropdown button. Only used by dropdown lists.
 ---@field dropdownMaxVisibleEntries Uint8 How many entries can be displayed on the dropdown. Controls whether the list is displayed as a dropdown or not - if it's a non-zero value, the list is displayed as a dropdown.
+---@field isDropdown Bool (Read-only) Whether the list is displayed as a dropdown.
+---@field maxSelected Uint8 Sets the maximum number of selected entries at any one time. Does not affect dropdowns. May deselect entries to ensure the current selection does not exceed the new limit.
+---@field entries ListEntry[] (Read-only) Array containing all entries on this list.
 ---@field contentMargin ui.Margin (Modifiable Contents) Offsets used to determine the inner content area for this component.
 ---@field headerMargin ui.Margin (Modifiable Contents) Offsets used to determine the inner content area for this component's dropdown header. Only used by dropdown lists.
 ---@field scrollbar ui.ScrollBar (Modifiable Contents) Scroll bar proprties used when vertical scrolling is required.
@@ -45,8 +48,8 @@ function ui.List:SetEntries(entries, selectedID) end
 ---Removes all entries from this list.
 function ui.List:Clear() end
 
----Deselects all entries from this list that don't always require at least one selected entry, does nothing otherwise.
-function ui.List:ClearSelection() end
+---Deselects all currently selected entries in a multiple selection list (defined via the maxSelected property). Does nothing for single selection lists.
+function ui.List:UnselectAll() end
 
 ---Sets whether or not the entry associated with the provided ID is enabled and can be selected.
 ---@param id Int Numeric value associated with the entry to modify.
