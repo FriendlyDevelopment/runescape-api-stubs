@@ -52,6 +52,8 @@ function ui.Carousel:GetEntryEnabled(id) end
 ---@class ui.ComboField
 ui.ComboField = {}
 
+---@alias ComboField ui.ComboField
+
 ---Selects the entry associated with the provided ID, and optionally triggers the corresponding ONSELECTIONCHANGED events.
 ---@param id Int Numeric value associated with the entry to select.
 ---@param triggerEvents Bool? Whether or not to emit ONSELECTIONCHANGED events for this change. Defaults to false.

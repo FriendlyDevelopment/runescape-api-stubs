@@ -42,7 +42,7 @@ ui.ComboField = {}
 ---@param parent ui.ComponentCollection Parent component to create this combofield in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return ComboField The newly created combo. The caller must set its layout and visual information afterwards.
+---@return Combo The newly created combo. The caller must set its layout and visual information afterwards.
 function ui.ComboField.new(parent, categoryID, dynamicID) end
 
 ---Adds an entry to this combofield with the provided label and ID.

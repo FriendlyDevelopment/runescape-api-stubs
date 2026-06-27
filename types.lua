@@ -24,8 +24,14 @@
 ---@class ui.LabelData
 
 -- ── Cross-reference aliases (older API names / short forms) ───────────────────
+-- ComboField constructor return type is documented as "Combo" in the HTML.
+---@alias Combo ui.ComboField
 -- Component configs docs reference bare "DragRenderBehaviour" without namespace.
 ---@alias DragRenderBehaviour ui.DragRenderBehaviour
+-- component.html uses "ComponentParamsConfig" but the class is ui.ComponentParams.
+---@alias ui.ComponentParamsConfig ui.ComponentParams
+-- Older plugin code uses ui.AlignMode; current docs use ui.Align.
+---@alias ui.AlignMode ui.Align
 -- Older plugin code uses ui.UIPos; current docs use ui.Pos.
 ---@alias ui.UIPos ui.Pos
 
@@ -40,11 +46,6 @@
 ---@class id: integer
 ---@field [any] id
 id = {}
-
----@class var
----@field VarPlayer any
----@field VarClient any
-var = {}
 
 ---Single event subscription channel — e.g. Event.Logic, Event.EntityDraw.
 ---@class EventSubscription
@@ -69,10 +70,6 @@ EntityType = {}
 ---@class config
 ---@field [any] config
 config = {}
-
----@class utils
----@field CalcTextWidth fun(fontID: Int, text: string) Int
-utils = {}
 
 ---Execute a client console command.
 ---@param command string
