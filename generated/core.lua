@@ -16,8 +16,8 @@ function log(format, ...) end
 ---@param command String
 function ExecuteConsoleCommand(command) end
 
----To achieve the later you just need to call the loadfile function with the path to the file you want to load, omitting its extension. This will then return the result of executing that file, or nil if execution files or the file doesn't exist.
+---To achieve the later you just need to call the require function with the path to the file you want to load, omitting its extension. This will then return the result of executing that file, or nil if execution files or the file doesn't exist.
 ---@param path string
 ---@return any
-function loadfile(path) end
+function require(path) end
 
