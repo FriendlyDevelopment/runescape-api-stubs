@@ -38,4 +38,15 @@
 ---@field backgroundSoundRange Int The maximum tile range, in Grid units , of any background sounds played by an NPCEntity using this config.Distances above this range set volume to 0%.
 ---@field backgroundSoundDropoffRange Int The tile distance, in Grid units , at which background sounds in this config begin to drop off in volume.Distances below this range set volume to 100%.
 ---@field backgroundSoundVolume Int The base volume of any background sounds played by an NPCEntity using this config.
-NPCType = {}
+---@field params any Array of ParamType Returns a list of all the ParamTypes stored in this config.
+NPC = {}
+
+---Returns the corresponding output value for the given input ParamType .
+---@param param ParamType The input param value.
+---@return ? The corresponding output value.Returns param.defaultValue if the param is not found in the data structure.
+function NPC:GetParamValue(param) end
+
+---Returns whether this config contains output data for the given input ParamType .
+---@param param ParamType The input param value.
+---@return Bool Whether a corresponding value exists in this config for ParamType .
+function NPC:HasParam(param) end
