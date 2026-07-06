@@ -32707,6 +32707,10 @@ id.NPC = {
     SANGUINE_CRAWLER_PET_POH = 32800,
 }
 
+---@param id integer
+---@return string
+function id.NPC.FromID(id) end
+
 config.NPC = {
     HANS = 0,
     MAN = 1,

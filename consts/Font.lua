@@ -229,6 +229,10 @@ id.Font = {
     NOTOSANS_SEMIBOLD_50 = 307,
 }
 
+---@param id integer
+---@return string
+function id.Font.FromID(id) end
+
 config.Font = {
     QUILL_OBLIQUE_LARGE = 1,
     QUILL_CAPS_LARGE = 2,

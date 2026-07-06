@@ -7685,6 +7685,10 @@ id.VarClient = {
     BETA_LOGIN_IMPORTED_CLIENT = 8413,
 }
 
+---@param id integer
+---@return string
+function id.VarClient.FromID(id) end
+
 config.VarClient = {
     QUICKCHAT_LISTDIALOG_000 = 0,
     TOOLTIP_TIME = 1,

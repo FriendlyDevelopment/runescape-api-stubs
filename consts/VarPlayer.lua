@@ -10058,6 +10058,10 @@ id.VarPlayer = {
     _12_MONTH_CURRENT_MINUTE = 12863,
 }
 
+---@param id integer
+---@return string
+function id.VarPlayer.FromID(id) end
+
 config.VarPlayer = {
     MAGRE_BASEVAR = 2,
     THAS_TELEPORT_HUBS_VAR1 = 3,

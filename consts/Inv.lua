@@ -938,6 +938,10 @@ id.Inv = {
     RAND_STORAGE = 995,
 }
 
+---@param id integer
+---@return string
+function id.Inv.FromID(id) end
+
 config.Inv = {
     TRAWLER_REWARDINV = 0,
     AXESHOP = 1,

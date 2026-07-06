@@ -61332,6 +61332,10 @@ id.Obj = {
     CERT_PHOENIXKEY1 = 61617,
 }
 
+---@param id integer
+---@return string
+function id.Obj.FromID(id) end
+
 config.Obj = {
     MCANNONREMAINS = 0,
     MCANNONTOOLKIT = 1,
