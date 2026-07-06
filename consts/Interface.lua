@@ -1874,6 +1874,10 @@ id.Interface = {
     TOPLEVEL_V2_COMBAT_BAR_MOBILE_REVO_PARENT = 1946,
 }
 
+---@param id integer
+---@return string
+function id.Interface.FromID(id) end
+
 config.Interface = {
     _100GUIDE_EGGS_OVERLAY = 0,
     _100GUIDE_FLOUR_OVERLAY = 1,

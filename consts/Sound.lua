@@ -59856,6 +59856,10 @@ id.Sound = {
     MTXMAY26_OCCULT_SURGE_01 = 59852,
 }
 
+---@param id integer
+---@return string
+function id.Sound.FromID(id) end
+
 config.Sound = {
     QUEST_BACON_PIG_MACHINE_OPERATE = 1,
     _6AWE1_SARADOMIN_EMOTE_TIER_3_FEMALE = 2,

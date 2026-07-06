@@ -322,6 +322,10 @@ id.StyleSheet = {
     RECT_DIVIDER_MOBILE = 409,
 }
 
+---@param id integer
+---@return string
+function id.StyleSheet.FromID(id) end
+
 config.StyleSheet = {
     BACKGROUND_DEFAULT = 1,
     BACKGROUND_DEFAULT_LEGACY = 5,

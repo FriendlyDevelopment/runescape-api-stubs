@@ -104067,6 +104067,10 @@ id.Component = {
     TOPLEVEL_V2_COMBAT_BAR_MOBILE_REVO_PARENT__BUTTON_HIGHLIGHT_14 = 127533199,
 }
 
+---@param id integer
+---@return string
+function id.Component.FromID(id) end
+
 config.Component = {
     _100GUIDE_EGGS_OVERLAY__100_Q5 = 0,
     _100GUIDE_EGGS_OVERLAY__100_Q_ANIM5 = 1,

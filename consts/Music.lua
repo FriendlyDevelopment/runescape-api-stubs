@@ -2654,6 +2654,10 @@ id.Music = {
     HH_SANGUINE_CAVE_FIGHT_01 = 85521,
 }
 
+---@param id integer
+---@return string
+function id.Music.FromID(id) end
+
 config.Music = {
     DUEL_START = 2,
     OPN_ABBEY_AMBIENCE_03 = 5,

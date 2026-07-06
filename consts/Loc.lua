@@ -137178,6 +137178,10 @@ id.Loc = {
     RAND_SPEEDRUN_BOARD = 137209,
 }
 
+---@param id integer
+---@return string
+function id.Loc.FromID(id) end
+
 config.Loc = {
     MCANNONREMAINS_MULTILOC = 0,
     MCANNONCRATEBOY = 1,

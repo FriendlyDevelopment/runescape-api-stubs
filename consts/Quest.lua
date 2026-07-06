@@ -535,6 +535,10 @@ id.Quest = {
     QUEST_EASTER26 = 530,
 }
 
+---@param id integer
+---@return string
+function id.Quest.FromID(id) end
+
 config.Quest = {
     CABINFEVER = 0,
     TOWER_OF_LIFE = 1,

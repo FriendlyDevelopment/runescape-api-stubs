@@ -189,6 +189,10 @@ id.Cursor = {
     SLIME_PELT_CURSOR = 212,
 }
 
+---@param id integer
+---@return string
+function id.Cursor.FromID(id) end
+
 config.Cursor = {
     CURSOR_MOVE = 0,
     CURSOR_ARCH_SCREENING = 1,
