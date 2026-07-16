@@ -108,6 +108,13 @@ function addHello(chatMessageEvent) end
 ---@param chatMessageEvent any
 function addGoodbye(chatMessageEvent) end
 
+---Called when an optional dependency plugin is enabled or disabled.
+---@class OptionalDependencyChanged
+OptionalDependencyChanged = {}
+
+---@param optionalDependencyChangedEvent any
+function depChanged(optionalDependencyChangedEvent) end
+
 ---Called when a Keyboard key press is first pressed, and when a key-repeat event is sent by the OS.
 ---@class KeyDown
 KeyDown = {}
