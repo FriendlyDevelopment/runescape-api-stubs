@@ -109,6 +109,10 @@ function Component:UnsubscribeAll(hook) end
 ---These events are only triggered when using a touchscreen.
 ---@enum ui.Hook
 ui.Hook = {
+    ONBUTTONPRESSED = "ONBUTTONPRESSED", -- Triggered whenever the user interacts with this button/check. Non-toggle buttons will always receive 1 and 0 for current/previous values respectively.
+    ONCONTENTCHANGED = "ONCONTENTCHANGED", -- Triggered whenever a user interacts with an input field component in a way that may affect its contents.
+    ONSELECTIONCHANGED = "ONSELECTIONCHANGED", -- entryID represents the component's entry that's had its selected status changed, while a selectedStatus of 1 indicates this entry has been selected and 0 indicates it has been deselected.
+    ONCUTSCENEFINISHED = "ONCUTSCENEFINISHED", -- Triggered when a cutscene finishes playing on a cutscene layer component.
     ONCLICK = "ONCLICK", -- Triggered when the user clicks the left mouse button or taps on this component.
     ONCLICKREPEAT = "ONCLICKREPEAT", -- Triggered when the user clicks the left mouse button or taps on this component.
     ONRELEASE = "ONRELEASE", -- Triggered when the user stops clicking on this component or stops a tap gesture.

@@ -964,7 +964,7 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
                 and "value" not in header_set
                 and rows
                 and re.match(
-                    r"^[A-Z][A-Z0-9_]+$", rows[0][0].strip() if rows[0] else ""
+                    r"^[A-Z][A-Z0-9_]+( Supported by.*)?$", rows[0][0].strip() if rows[0] else ""
                 )
             ):
                 # "Name | Parameters | Description" table inside a TypeBlock —
