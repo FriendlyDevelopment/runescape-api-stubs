@@ -19,6 +19,8 @@
 ---@field resize Vector3 A scaling transform applied to the body model(s) of an NPCEntity using this config.
 ---@field gridSize Int The reported tile size of an NPCEntity using this config.Used in various entity logic and priority checks.
 ---@field turnSpeed Int The turning speed of an NPCEntity using this config.Affects facing and movement turn speeds.
+---@field wanderRange Int The maximum tile distance an NPCEntity will wander from its current coordinate when starting a new wander move.
+---@field maxRange Int The maximum tile distance an NPCEntity can move from its spawning coordinate.Also the maximum tile distance from its spawning coordinate at which it will pay attention to a PlayerEntity .
 ---@field isActive Bool Whether an NPCEntity using this config is considered active.An inactive entity is not shown on the minimap and will not show in the minimenu.
 ---@field isFamiliar Bool Whether an NPCEntity using this config is considered a familiar.Familiar-type NPCs have a lower draw order priority.
 ---@field isAlwaysOnTop Bool Greatly advances the draw order priority of an NPCEntity using this config.Not guaranteed to be on top.
