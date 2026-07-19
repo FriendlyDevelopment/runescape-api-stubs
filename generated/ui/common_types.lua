@@ -51,6 +51,9 @@ ui.TextDataConfig = {}
 
 ---@alias TextDataConfig ui.TextDataConfig
 
+---@return ui.TextDataConfig
+function ui.TextDataConfig.new() end
+
 ---@class ui.SpriteDataConfig
 ui.SpriteDataConfig = {}
 

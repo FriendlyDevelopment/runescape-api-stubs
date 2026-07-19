@@ -98,3 +98,6 @@ function ui.ModelCamera:SetYawPitchRoll(yawPitchRoll, durationMs) end
 ---@param near Float Minimum distance in world units from the camera before objects are visible.
 ---@param far Float Maximum distance in world units from the camera before objects are visible.
 function ui.ModelCamera:SetClipPlanes(near, far) end
+
+---@return ui.ModelCamera
+function ui.ModelCamera.new() end

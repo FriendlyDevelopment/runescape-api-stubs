@@ -103,3 +103,6 @@ function audio.SoundInstance:Resume() end
 audio.SoundPlaybackParams = {}
 
 ---@alias SoundPlaybackParams audio.SoundPlaybackParams
+
+---@return audio.SoundPlaybackParams
+function audio.SoundPlaybackParams.new() end
