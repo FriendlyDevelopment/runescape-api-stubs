@@ -203,6 +203,13 @@ class PageModel:
     bare_classes: list[str] = field(default_factory=list)
     # Immediate parent class for the main class (from inheritance chain paragraph).
     parent_class: str = ""
+    # Fully-qualified class names seen as `Qualified.Name.new()` inside example
+    # code blocks (e.g. Usage/Example sections, which are otherwise skipped).
+    # Some docs pages only show a value type's constructor in prose examples
+    # rather than a formal Functions/Constructor section (e.g.
+    # audio.SoundPlaybackParams, ui.TextDataConfig); this lets us still emit a
+    # `.new()` stub for those classes.
+    example_constructors: set[str] = field(default_factory=set)
 
 
 # HTML to PageModel
@@ -289,6 +296,23 @@ def _extract_code_text(code_div: Node) -> str:
     # raw_text preserves spaces from <span class="w"> elements
     raw = target.raw_text()
     return raw.replace("\r\n", "\n").replace("\r", "\n")
+
+
+_EXAMPLE_CTOR_RE = re.compile(r"\b((?:[A-Za-z_]\w*\.)+[A-Za-z_]\w*)\.new\(\s*\)")
+
+
+def _find_example_constructors(article: Node) -> set[str]:
+    """Scan every code block in the article for zero-arg `Qualified.Name.new()` calls.
+
+    This runs independently of the section state machine so it also picks up
+    constructors that only ever appear inside skipped sections (Overview,
+    Example, Usage, ...).
+    """
+    names: set[str] = set()
+    for code_div in article.find_all("div", "language-lua"):
+        text = _extract_code_text(code_div)
+        names.update(m.group(1) for m in _EXAMPLE_CTOR_RE.finditer(text))
+    return names
 
 
 def _normalise_table_call_sig(sig: str) -> str:
@@ -636,6 +660,7 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
         return PageModel(file_path=file_path)
 
     model = PageModel(file_path=file_path)
+    model.example_constructors = _find_example_constructors(article)
     children = _flatten_article_nodes(article)
 
     # pass 1: title and inheritance
@@ -1280,6 +1305,19 @@ def _render_method(method: Method) -> list[str]:
     return out
 
 
+def _synth_new_method(safe_class_name: str) -> Method:
+    """Build a synthetic zero-arg `.new()` constructor Method for a class only
+    ever seen constructed inside example code (see `example_constructors`)."""
+    sig = Signature(
+        raw="",
+        class_name=safe_class_name,
+        method_name="new",
+        separator=".",
+        returns=[ReturnVal(type=safe_class_name)],
+    )
+    return Method(name="new", signatures=[sig])
+
+
 def _render_class(
     name: str,
     overview: str,
@@ -1454,10 +1492,18 @@ def generate_lua(model: PageModel) -> str:
         if bare != safe:
             out.append(f"---@alias {bare} {safe}")
             out.append("")
+        if safe in model.example_constructors:
+            out.extend(_render_method(_synth_new_method(safe)))
 
     for tb in model.extra_types:
         for enum in tb.enums:
             out.extend(_render_enum(enum))
+        safe_tb = _sanitise_type_name(tb.name)
+        has_new = any(
+            sig.method_name == "new" for m in tb.methods for sig in m.signatures
+        )
+        if not has_new and safe_tb in model.example_constructors:
+            tb.methods.append(_synth_new_method(safe_tb))
         if tb.properties or tb.methods:
             out.extend(
                 _render_class(
