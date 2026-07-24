@@ -223,6 +223,7 @@ SKIP_SECTIONS = {
     "usage",
     "notes",
     "note",
+    "dependencies",
 }
 
 # Lua reserved keywords — these cannot be used as bare identifiers in table constructors.
@@ -411,8 +412,9 @@ def _parse_signature(raw: str) -> Optional[Signature]:
 def _parse_return_types(returns_str: str) -> list[ReturnVal]:
     """Parse return type string, handling [ Type, ... ] RS array notation."""
     returns_str = returns_str.strip()
-    # RS array notation: [ Type, ... ] becomes Type[]
-    m = re.match(r"^\[\s*([\w.]+(?:<[^>]*>)?)\s*,\s*\.\.\.\s*\]$", returns_str)
+    # RS array notation: [ Type, ... ] becomes Type[] ("?" for a genuinely
+    # varying/dynamic element type, e.g. Enum:GetInputValues, is also accepted).
+    m = re.match(r"^\[\s*(\?|[\w.]+(?:<[^>]*>)?)\s*,\s*\.\.\.\s*\]$", returns_str)
     if m:
         return [ReturnVal(type=f"{m.group(1)}[]")]
     # Comma-separate, but respect [...] brackets
@@ -663,6 +665,16 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
     model.example_constructors = _find_example_constructors(article)
     children = _flatten_article_nodes(article)
 
+    # Heading ids that are actually cross-referenced elsewhere in the page
+    # body (e.g. a field's description linking to "#minimenuentry-properties").
+    # Excludes each heading's own auto-generated "headerlink" permalink icon,
+    # which would otherwise make every heading trivially "self-referenced".
+    referenced_heading_ids = {
+        a.attrs.get("href", "")[1:]
+        for a in article.find_all("a")
+        if a.attrs.get("href", "").startswith("#") and "headerlink" not in a.cls
+    }
+
     # pass 1: title and inheritance
     _ARROW_RE = re.compile(r"->")
     for node in children:
@@ -670,14 +682,16 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
             model.title = node.text().replace("¶", "").strip()
         elif node.tag == "p" and not model.parent_class:
             # Detect inheritance paragraph: "ui.Component -> ui.Sprite"
-            # Strip HTML markup to get plain text of each segment.
+            # This must be a bare breadcrumb of dotted identifiers - a normal
+            # sentence that happens to contain "->" (e.g. "The Fine -> Grid
+            # unit conversion is as follows") is NOT inheritance and must be
+            # rejected, rather than stripped down into a garbled "identifier".
             raw_text = node.text()
             if _ARROW_RE.search(raw_text):
                 parts = [p.strip() for p in _ARROW_RE.split(raw_text)]
-                # Clean up any leftover punctuation / link text
-                parts = [re.sub(r"[^\w.]", "", p) for p in parts]
-                parts = [p for p in parts if p and "." in p]
-                if len(parts) >= 2:
+                if len(parts) >= 2 and all(
+                    re.fullmatch(r"\w+(?:\.\w+)*", p) for p in parts
+                ):
                     # The page describes the last class; its parent is second-to-last.
                     model.parent_class = parts[-2]
 
@@ -756,6 +770,14 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
         "methods and properties",
     }
 
+    # Root class name (from the page's own H1) - used to tell a "<Name>
+    # Properties" section that enriches the page's own main class (the
+    # common case) apart from one that names a second, distinct class (e.g.
+    # minimenu.html has both "MiniMenu Properties" and "MiniMenuEntry
+    # Properties" - only the latter should become its own TypeBlock).
+    root_class_name = _title_to_type_name(model.title) if model.title else ""
+    _PROPERTIES_HEADING_RE = re.compile(r"^(.+?)\s+propert(?:y|ies)$", re.IGNORECASE)
+
     i = 0
     while i < len(children):
         node = children[i]
@@ -768,6 +790,23 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
             section_h2 = h2_raw.lower()
             h2_context = section_h2  # H2 always resets both
             section_h3 = ""
+
+            prop_match = _PROPERTIES_HEADING_RE.match(h2_raw)
+            if (
+                prop_match
+                and _title_to_type_name(prop_match.group(1)) != root_class_name
+                and node.attrs.get("id", "") in referenced_heading_ids
+            ):
+                # Names a distinct class's properties, not the page's own main
+                # class (e.g. "MiniMenuEntry Properties" on minimenu.html).
+                # The heading-id check rejects purely cosmetic category
+                # groupings of the SAME class's properties (e.g. component.html's
+                # "Visual/State/Interface Properties"), which nothing links to.
+                current_typeblock = TypeBlock(
+                    name=_title_to_type_name(prop_match.group(1))
+                )
+                i += 1
+                continue
 
             # Unknown h2 sections become TypeBlocks (e.g. "Plugin Resources" -> PluginResource),
             # except "propert"/"field" sections which stay on the main class.
@@ -814,8 +853,19 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
             elif _is_method_section(section_h2):
                 current_method = Method(name=section_h3)
             elif _is_prop_section(section_h2):
-                # h3 under Properties is unusual but just continue
-                pass
+                # Usually an h3 under a Properties section is just a cosmetic
+                # subgroup label for the SAME class (e.g. vector.html's
+                # trailing "Properties" marker). But when the heading itself
+                # names a distinct nested type - matching the same "<Name>
+                # Properties" shape as the parent section (e.g. "NPCData
+                # Properties" under "MiniMenuEntry Properties") - it
+                # introduces a separate class, not a subgroup of this one.
+                nested_match = _PROPERTIES_HEADING_RE.match(section_h3)
+                if nested_match and node.attrs.get("id", "") in referenced_heading_ids:
+                    flush_typeblock()
+                    current_typeblock = TypeBlock(
+                        name=_title_to_type_name(nested_match.group(1))
+                    )
             elif "." in h2_context and current_typeblock is not None:
                 # h3 under a dotted h2 class name (e.g. h3 "GetInterface" under
                 # h2 "ui.Interfaces") — treat as a method on the current TypeBlock
@@ -1097,9 +1147,32 @@ def _lua_type(t: str) -> str:
         return "any"
     t = t.strip()
 
+    # Docs use a bare "?" for genuinely dynamic/varies-per-instance types
+    # (e.g. Enum/DBRow/DBTable generic value accessors) - not valid LuaLS syntax.
+    if t == "?":
+        return "any"
+    if t == "?[]":
+        return "any[]"
+
+    # A trailing "?" marks a nullable/optional type; normalise the base type
+    # first, then re-attach the "?" (e.g. "Boolean?" -> "Bool" -> "Bool?").
+    # Skip this when a top-level "/" is present - the union-splitting branch
+    # below handles trailing "?" on unions itself (emitting an explicit "nil"
+    # member instead of a trailing "?").
+    if t.endswith("?") and t != "?" and "/" not in t:
+        return _lua_type(t[:-1]) + "?"
+
     # Filter clearly invalid type names (e.g. stray code-fence markers)
     if t.startswith("`"):
         return "any"
+
+    # "function (...) -> Type" prose notation (used for callback params)
+    # becomes proper LuaLS fun(...):Type syntax.
+    m = re.match(r"^function\s*\((.*)\)\s*->\s*(.+)$", t, re.DOTALL)
+    if m:
+        params_part = m.group(1).strip()
+        ret_part = _lua_type(m.group(2).strip())
+        return f"fun({params_part}):{ret_part}"
 
     # Strip generic type parameters like <T>, <T?>, <Type> etc.
     # (LuaLS doesn't support Lua-level generics; stripping avoids undefined-type warnings.)
@@ -1170,11 +1243,25 @@ def _coerce_prop_type(raw_type: str, raw_desc: str) -> tuple[str, str]:
     (e.g. "True if this sound is currently paused.").  When that happens,
     move the text to the description and infer a sensible type.
     """
-    if not raw_type or " " not in raw_type:
+    if not raw_type:
         return raw_type, raw_desc
-    # Legitimate multi-word type notations contain these characters
-    if any(c in raw_type for c in "/{[(<->"):
+    # Some rows have no real type at all - just a "(Read-only)"/"(Writable)"
+    # marker (a data gap in the source docs). There's no type to preserve;
+    # fall through to the sentence-inference logic below, which emits "any"
+    # and keeps the marker text in the description (where read_only detection
+    # already looks for it).
+    is_bare_marker = bool(
+        re.fullmatch(r"\(?\s*(read-only|writable)\s*\)?", raw_type.strip(), re.IGNORECASE)
+    )
+    if not is_bare_marker and " " not in raw_type:
         return raw_type, raw_desc
+    # "X of Y" is always prose (e.g. "Array of Integer", "Array of [ ?, ? ]")
+    # even when Y itself contains bracket/generic characters - move to
+    # description and fall through to the sentence-inference logic below.
+    if not is_bare_marker and not re.search(r"\bof\b", raw_type, re.IGNORECASE):
+        # Legitimate multi-word type notations contain these characters
+        if any(c in raw_type for c in "/{[(<->"):
+            return raw_type, raw_desc
     # Type looks like a sentence – move to description
     combined = (raw_type + " " + raw_desc).strip() if raw_desc else raw_type
     low = raw_type.lower()
@@ -1393,12 +1480,27 @@ def generate_lua(model: PageModel) -> str:
     if not has_content:
         return ""
 
+    # A page's own "Enumerations" section can name an enum the same as the
+    # page's root class (e.g. questtype.html's root class QuestType also has
+    # an enum literally titled "QuestType" listing quest categories). The
+    # enum is a real global table plugin code executes against directly
+    # (e.g. QuestType.NORMAL), so it must keep that exact name. The class
+    # annotation, in contrast, only ever appears inside `---@` doc comments -
+    # it's never typed as a runtime identifier itself (code uses the shorter
+    # bound global, e.g. Quest) - so it's the safe one to disambiguate.
+    root_name = _sanitise_type_name(model.title) if model.title else ""
+    class_name_override = ""
+    if root_name and any(e.name == root_name for e in model.enums):
+        class_name_override = f"{root_name}Config"
+
     for enum in model.enums:
         out.extend(_render_enum(enum))
 
     # annotation_class: fully-qualified name for ---@class (from page title)
     # var_class: name in function signatures / Lua variable (dominant sig class)
-    annotation_class = _sanitise_type_name(model.title) if model.title else ""
+    annotation_class = class_name_override or (
+        _sanitise_type_name(model.title) if model.title else ""
+    )
     if not re.match(r"^[A-Za-z_][A-Za-z0-9_.]*$", annotation_class):
         annotation_class = ""
 
@@ -1530,14 +1632,24 @@ ROOT_SKIP_FILES = {
 }
 
 
-def _detect_skipped_globals(html: str, known_names: set[str]) -> list[Method]:
+def _detect_skipped_globals(
+    html: str, known_names: set[str], full_page: bool = False
+) -> list[Method]:
     """
-    Detect global functions described in prose pages (not formal API reference pages).
+    Detect global functions described in prose (not formal API reference markup).
 
     Pass 1: find <p> elements containing a bare <code>name</code> element (no
     class attribute) where the paragraph also contains the word "function".
     Pass 2: infer param types from any Lua code block (inline <code> or hoisted
     <div class="language-lua">) that calls one of the detected candidates.
+
+    When `full_page` is True (whole-page narrative docs, e.g. an old-style
+    quickstart/cheats page that is skipped from formal generation entirely),
+    the whole article is scanned. Otherwise this only looks inside h2 sections
+    that the formal extractor itself treats as non-API prose (SKIP_SECTIONS,
+    e.g. "Dependencies"/"Notes") - narrative walkthroughs (tutorial pages) have
+    real h2 sections full of example code/variable names that would otherwise
+    be mistaken for engine globals.
     """
     root = parse_dom(html)
     article = _article(root)
@@ -1548,8 +1660,14 @@ def _detect_skipped_globals(html: str, known_names: set[str]) -> list[Method]:
     candidates: dict[str, dict] = {}  # name: {description, params}
 
     # Pass 1: prose mention detection
+    section_h2 = ""
     for node in children:
+        if node.tag == "h2":
+            section_h2 = node.text().replace("¶", "").strip().lower()
+            continue
         if node.tag != "p":
+            continue
+        if not full_page and not _is_skip_section(section_h2):
             continue
         p_text = node.text()
         if not p_text or "function" not in p_text:
@@ -1615,9 +1733,8 @@ def should_process(path: Path, site_dir: Path) -> bool:
 
 
 def process_site(site_dir: Path, out_dir: Path, verbose: bool = False):
-    html_files = sorted(
-        p for p in site_dir.rglob("*.html") if should_process(p, site_dir)
-    )
+    all_html_files = sorted(p for p in site_dir.rglob("*.html"))
+    html_files = [p for p in all_html_files if should_process(p, site_dir)]
     generated = skipped = 0
     known_names: set[str] = set()
 
@@ -1648,22 +1765,30 @@ def process_site(site_dir: Path, out_dir: Path, verbose: bool = False):
             print(f"  wrote: {lua_path.relative_to(out_dir.parent)}")
         generated += 1
 
-    # Detect globals from skipped root pages and append to core.lua
-    for skip_name in sorted(ROOT_SKIP_FILES):
-        skip_path = site_dir / skip_name
-        if not skip_path.exists():
-            continue
-        skip_html = skip_path.read_text(encoding="utf-8")
-        extra = _detect_skipped_globals(skip_html, known_names)
+    # Detect global functions described only in prose (e.g. "call the require
+    # function...") rather than formal API reference markup, and append them
+    # to core.lua. This scans every page, not just root-level narrative pages
+    # (quickstart/cheats-style) - doc reshuffles can also drop this kind of
+    # prose into an otherwise-formal reference page (e.g. a "Dependencies"
+    # section on an API page), so relying on a fixed page list is fragile.
+    core_lua = out_dir / "core.lua"
+    extra_lines: list[str] = []
+    for html_path in all_html_files:
+        rel = html_path.relative_to(site_dir)
+        html_text = html_path.read_text(encoding="utf-8")
+        full_page = not should_process(html_path, site_dir)
+        extra = _detect_skipped_globals(html_text, known_names, full_page=full_page)
         if not extra:
             continue
-        core_lua = out_dir / "core.lua"
-        if not core_lua.exists():
-            continue
-        extra_lines: list[str] = []
         for m in extra:
             extra_lines.append("")
             extra_lines.extend(_render_method(m))
+        known_names.update(m.name for m in extra)
+        if verbose:
+            names = ", ".join(m.name for m in extra)
+            print(f"  appended to core.lua from {rel}: {names}")
+
+    if extra_lines and core_lua.exists():
         core_lua.write_text(
             core_lua.read_text(encoding="utf-8").rstrip()
             + "\n"
@@ -1671,10 +1796,6 @@ def process_site(site_dir: Path, out_dir: Path, verbose: bool = False):
             + "\n",
             encoding="utf-8",
         )
-        known_names.update(m.name for m in extra)
-        if verbose:
-            names = ", ".join(m.name for m in extra)
-            print(f"  appended to core.lua from {skip_name}: {names}")
 
     print(f"Generated {generated} stub file(s), skipped {skipped}.")
 

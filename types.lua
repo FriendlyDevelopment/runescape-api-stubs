@@ -13,6 +13,8 @@
 ---@alias String string
 ---@alias Bool boolean
 ---@alias bool boolean
+---@alias Boolean boolean
+---@alias Integer integer
 ---@alias Table table
 ---@alias StructuredData table
 ---@alias PluginURL string
@@ -28,6 +30,17 @@
 ---@alias DragRenderBehaviour ui.DragRenderBehaviour
 -- Older plugin code uses ui.UIPos; current docs use ui.Pos.
 ---@alias ui.UIPos ui.Pos
+-- ui/combo_field.html references bare "Component"/"Combo" without namespace.
+---@alias Component ui.Component
+---@alias Combo ui.ComboField
+-- Config typeName pattern binds the "...Type" class to a shorter global
+-- (e.g. DBRowType -> DBRow = {}), but other pages cross-reference it by that
+-- shorter typeName string rather than the class name.
+---@alias DBRow DBRowType
+---@alias DBTable DBTableType
+-- VarPlayer/VarClient/etc. are typeName values of the generic VarType config
+-- class, not their own classes.
+---@alias VarPlayer VarType
 
 -- ── Game runtime globals (not covered by any HTML docs page) ──────────────────
 -- These are injected by the RS client and have no documentation in site/.
@@ -58,11 +71,6 @@ EventSubscription = {}
 ---@class Event
 ---@field [any] EventSubscription
 Event = {}
-
----Entity type enumeration used in EntityDraw events (e.g. EntityType.NPC).
----@class EntityType
----@field [any] integer
-EntityType = {}
 
 ---Game config lookup tables (e.g. config.Obj.BRONZE_DAGGER).
 ---Sub-tables are also config instances for nested access.

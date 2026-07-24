@@ -1,6 +1,6 @@
 ---@meta
 
----@class CoordFine : Thevalueofleveliscopieddirectly.Thevaluesofposition.xandposition.zareconvertedtoGridUnits.Thevalueofposition.yisdiscarded.TheFine
+---@class CoordFine
 ---@field level Int
 ---@field x Float
 ---@field y Float

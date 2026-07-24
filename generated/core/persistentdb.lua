@@ -81,7 +81,7 @@ function PersistentDB:CheckExists(key) end
 function PersistentDB:CheckExistsTyped(key, type) end
 
 ---Calls the provided callback once per persistent DB entry associated with this plugin.
----@param callback function (key : String, value : Bool/Int/Float/String/Table) -> Bool Function called once for each persistent DB entry for this plugin. Iteration is stopped if it returns true, and continues otherwise.
+---@param callback fun(key : String, value : Bool/Int/Float/String/Table):Bool Function called once for each persistent DB entry for this plugin. Iteration is stopped if it returns true, and continues otherwise.
 ---@return Int The number of entries iterated on
 function PersistentDB:IterateEntries(callback) end
 

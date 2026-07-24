@@ -57,7 +57,7 @@ function ui.ModelGroup:GetCamera() end
 ---@field useLookAt Bool Determines whether the direction between position and lookAt is used for the camera, otherwise the camera defaults to looking straight ahead. Note this direction will be modified by yawPitchRoll .
 ---@field transitionRatio Float (Read-only) Indicates how far along the current transition is, ranging from 0 (just started) to 1 (finished).
 ---@field transitionType ui.ModelCameraTransition (Read-only) Type of the current transition, used to determine how the visibility for this camera should be calculated.
----@field transitionMaskSprite {[1]: Read-only} Numeric ID identifying the sprite to use as a mask for the current transition.
+---@field transitionMaskSprite any (Read-only) Numeric ID identifying the sprite to use as a mask for the current transition.
 ---@field isTransitionInProgress Bool (Read-only) True if there's a transition happening currently.
 ---@field isTransitionComplete Bool (Read-only) True if there's no transition currently in progress.
 ---@field sortModelsUsingComponentOrder Bool Controls whether each model contained in this group is rendered separately in the order their components are set to draw, or all together in a single batch. This may be required for cases where there are multiple models with transparency effects present in the same group.

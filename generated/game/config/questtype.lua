@@ -17,7 +17,7 @@ QuestDifficulty = {
     MULTIDIFFICULTY = 5,
 }
 
----@class QuestType
+---@class QuestTypeConfig
 ---@field id Int The ID of this config type.
 ---@field configName String The name of this config, i.e. "QUEST_200" .
 ---@field typeName String The type of this config. Will always be "Quest" .
@@ -46,7 +46,7 @@ Quest = {}
 
 ---Returns the corresponding output value for the given input ParamType .
 ---@param param ParamType The input param value.
----@return ? The corresponding output value.Returns param.defaultValue if the param is not found in the data structure.
+---@return any The corresponding output value.Returns param.defaultValue if the param is not found in the data structure.
 function Quest:GetParamValue(param) end
 
 ---Returns whether this config contains output data for the given input ParamType .

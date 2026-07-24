@@ -13,25 +13,25 @@ Font = {}
 
 ---Returns the pixel width of a string drawn with this font.
 ---@param text String The text to calculate the total pixel width for.
----@param ignoreTags Boolean? See Common Modifiers .
+---@param ignoreTags Bool? See Common Modifiers .
 ---@return Int The total pixel width of the given string when drawn with this font.
 function Font:GetStringWidth(text, ignoreTags) end
 
 ---Returns the pixel width of a wrapped multiline string drawn with this font.
 ---@param text String The text to calculate the pixel width for.
 ---@param wrapWidth Int The pixel width limit at which the string should wrap.
----@param ignoreTags Boolean? See Common Modifiers .
----@param noWordWrapping Boolean? See Common Modifiers .
----@param noTrimEdges Boolean? See Common Modifiers .
+---@param ignoreTags Bool? See Common Modifiers .
+---@param noWordWrapping Bool? See Common Modifiers .
+---@param noTrimEdges Bool? See Common Modifiers .
 ---@return Int The total pixel width of the longest line after wrapping this given string into multiple lines.
 function Font:GetStringWidthMultiline(text, wrapWidth, ignoreTags, noWordWrapping, noTrimEdges) end
 
 ---Returns how many lines the given string will be become when wrapped using this font.
 ---@param text String The text to calculate the line count for.
 ---@param wrapWidth Int The pixel width limit at which the string should wrap.
----@param ignoreTags Boolean? See Common Modifiers .
----@param noWordWrapping Boolean? See Common Modifiers .
----@param noTrimEdges Boolean? See Common Modifiers .
+---@param ignoreTags Bool? See Common Modifiers .
+---@param noWordWrapping Bool? See Common Modifiers .
+---@param noTrimEdges Bool? See Common Modifiers .
 ---@return Int The total number of lines resulting after wrapping the given string using this font.
 function Font:GetStringLineCount(text, wrapWidth, ignoreTags, noWordWrapping, noTrimEdges) end
 
@@ -39,9 +39,9 @@ function Font:GetStringLineCount(text, wrapWidth, ignoreTags, noWordWrapping, no
 ---@param text String The text to calculate the height and line count for.
 ---@param wrapWidth Int The pixel width limit at which the string should wrap.
 ---@param lineSpacing Int The pixel spacing between each line.This is the distance between the baselines of each line.
----@param ignoreTags Boolean? See Common Modifiers .
----@param noWordWrapping Boolean? See Common Modifiers .
----@param noTrimEdges Boolean? See Common Modifiers .
+---@param ignoreTags Bool? See Common Modifiers .
+---@param noWordWrapping Bool? See Common Modifiers .
+---@param noTrimEdges Bool? See Common Modifiers .
 ---@return Int The total pixel height after wrapping this given string into multiple lines.
 ---@return Int The total number of lines resulting after wrapping the given string using this font.
 function Font:GetStringHeightAndLineCount(text, wrapWidth, lineSpacing, ignoreTags, noWordWrapping, noTrimEdges) end
@@ -49,9 +49,9 @@ function Font:GetStringHeightAndLineCount(text, wrapWidth, lineSpacing, ignoreTa
 ---Splits the given string using the given pixel wrap distance and returns the resulting strings.
 ---@param text String The text to split.
 ---@param wrapWidth Int The pixel width limit at which the string should split.
----@param ignoreTags Boolean? See Common Modifiers .
----@param noWordWrapping Boolean? See Common Modifiers .
----@param noTrimEdges Boolean? See Common Modifiers .
+---@param ignoreTags Bool? See Common Modifiers .
+---@param noWordWrapping Bool? See Common Modifiers .
+---@param noTrimEdges Bool? See Common Modifiers .
 ---@return String[] The resulting strings after spliting the given string.
 function Font:SplitString(text, wrapWidth, ignoreTags, noWordWrapping, noTrimEdges) end
 
@@ -59,8 +59,8 @@ function Font:SplitString(text, wrapWidth, ignoreTags, noWordWrapping, noTrimEdg
 ---@param text String The text to split.
 ---@param lineIndex Int The index of the requested line.Line numbers are 1-indexed.Requesting a line index greater than available will return an empty string.
 ---@param wrapWidth Int The pixel width limit at which the string should split.
----@param ignoreTags Boolean? See Common Modifiers .
----@param noWordWrapping Boolean? See Common Modifiers .
----@param noTrimEdges Boolean? See Common Modifiers .
+---@param ignoreTags Bool? See Common Modifiers .
+---@param noWordWrapping Bool? See Common Modifiers .
+---@param noTrimEdges Bool? See Common Modifiers .
 ---@return String The requested line after spliting the given string.
 function Font:GetSplitStringLine(text, lineIndex, wrapWidth, ignoreTags, noWordWrapping, noTrimEdges) end

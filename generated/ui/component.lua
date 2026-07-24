@@ -92,9 +92,9 @@ function Component:MoveToBack() end
 function Component:UpdateLayout() end
 
 ---Subscribes a listener for an event hook, setting a callback to be triggered whenever this event occurs, and optionally assigning it an ID allowing it to be referenced to in the future.
----@overload fun(self: Component, hook: ui.Hook, id: String, callback: function (...) -> Bool?)
+---@overload fun(self: Component, hook: ui.Hook, id: String, callback: fun(...):Bool?)
 ---@param hook ui.Hook The event hook to listen for.
----@param callback function (...) -> Bool? The callback to trigger on this event, with parameters varying based on the event hook type. Can return a boolean indicating whether or not to continue processing listeners afterwards. If omitted, the callback is treated as if it returned true, resulting in other listeners still getting triggered.
+---@param callback fun(...):Bool? The callback to trigger on this event, with parameters varying based on the event hook type. Can return a boolean indicating whether or not to continue processing listeners afterwards. If omitted, the callback is treated as if it returned true, resulting in other listeners still getting triggered.
 function Component:Subscribe(hook, callback) end
 
 ---Removes the listener set for the specified hook with the provided ID, or the default listener for that hook if omitted, from that component.

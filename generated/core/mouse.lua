@@ -12,9 +12,9 @@ function Mouse.IsAvailable() end
 function Mouse.GetPosition() end
 
 ---Returns the current mouse X position, if available.
----@return Integer? The current X position of the mouse.Returns nil on Mobile devices.
+---@return Int? The current X position of the mouse.Returns nil on Mobile devices.
 function Mouse.GetX() end
 
 ---Returns the current mouse Y position, if available.
----@return Integer? The current Y position of the mouse.Returns nil on Mobile devices.
+---@return Int? The current Y position of the mouse.Returns nil on Mobile devices.
 function Mouse.GetY() end

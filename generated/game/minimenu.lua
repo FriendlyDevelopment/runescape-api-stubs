@@ -98,6 +98,21 @@ MiniMenuActionType = {
 ---@field isOpen Bool
 ---@field entryCount Int
 ---@field entries any Array of MiniMenuEntry
+MiniMenu = {}
+
+---Returns whether the MiniMenu is currently open. This static method be called at any time.
+---@return Bool Whether the MiniMenu is currently open.
+function MiniMenu.IsOpen() end
+
+---Swaps MiniMenuEntries found at the two provided indices of MiniMenu.entries .
+---@param indexA Int The index of the first MiniMenuEntry in MiniMenu.entries .
+---@param indexB Int The index of the second MiniMenuEntry in MiniMenu.entries .
+function MiniMenu:Swap(indexA, indexB) end
+
+---@param miniMenuEvent any
+function onMiniMenuReady(miniMenuEvent) end
+
+---@class MiniMenuEntry
 ---@field actionType MiniMenuActionType
 ---@field actionEntryType MiniMenuEntryType
 ---@field actionVerbType MiniMenuActionVerbType
@@ -116,32 +131,41 @@ MiniMenuActionType = {
 ---@field groundData? GroundData
 ---@field mapElementData? MapElementData
 ---@field componentData? ComponentData
+MiniMenuEntry = {}
+
+---@class NPCData
 ---@field entity NPCEntity
+NPCData = {}
+
+---@class LocData
 ---@field coordGridX Int
 ---@field coordGridZ Int
 ---@field config LocType
+LocData = {}
+
+---@class ObjData
 ---@field entity ObjStackEntity
 ---@field stackIndex Int
 ---@field config ObjType
+ObjData = {}
+
+---@class PlayerData
 ---@field entity PlayerEntity
+PlayerData = {}
+
+---@class GroundData
 ---@field coordGridX Int
 ---@field coordGridZ Int
 ---@field fromMiniMap Bool
+GroundData = {}
+
+---@class MapElementData
 ---@field mapElementID Int
 ---@field categoryID Int
+MapElementData = {}
+
+---@class ComponentData
 ---@field opIndex Int
 ---@field objConfig? ObjType
 ---@field component Component
-MiniMenu = {}
-
----Returns whether the MiniMenu is currently open. This static method be called at any time.
----@return Bool Whether the MiniMenu is currently open.
-function MiniMenu.IsOpen() end
-
----Swaps MiniMenuEntries found at the two provided indices of MiniMenu.entries .
----@param indexA Int The index of the first MiniMenuEntry in MiniMenu.entries .
----@param indexB Int The index of the second MiniMenuEntry in MiniMenu.entries .
-function MiniMenu:Swap(indexA, indexB) end
-
----@param miniMenuEvent any
-function onMiniMenuReady(miniMenuEvent) end
+ComponentData = {}

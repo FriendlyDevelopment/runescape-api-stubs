@@ -50,7 +50,7 @@ ValueType = {
 ---@field id Int The ID of this config type.
 ---@field configName String The name of this config, i.e. "FRIEND_SORT_MODE" .
 ---@field typeName String The type of this config. Will one of "VarClient" , "VarPlayer" , "VarPlayerGroup" , "VarClan" , "VarClanSettings" , "VarNPC" or "VarObj" .
----@field value ? Returns the current value of this variable config.The value data type ValueType is provided by valueType .
+---@field value any Returns the current value of this variable config.The value data type ValueType is provided by valueType .
 ---@field valueType ValueType The expected type of data this variable will return.
 ---@field isVarBit Bool Whether this config type is a VarBit .
 ---@field baseVar VarType Returns the base VarType , if this config is a VarBit .Otherwise returns nil .

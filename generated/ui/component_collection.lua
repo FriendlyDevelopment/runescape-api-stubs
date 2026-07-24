@@ -12,10 +12,10 @@ ui = {}
 ComponentCollection = {}
 
 ---Iterates over statically defined components contained in this collection, executing the provided callback once for each component, optionally stopping based on the callback's return value.
----@param callback function (component : ui.Component, visible : Bool) -> Bool Callback to execute for each component, receiving the component and its visibility status. If it returns true, iteration will stop
+---@param callback fun(component : ui.Component, visible : Bool):Bool Callback to execute for each component, receiving the component and its visibility status. If it returns true, iteration will stop
 function ComponentCollection:IterateStaticComponents(callback) end
 
----@param callback function (component : ui.Component, visible : Bool) -> Bool Callback to execute for each component, receiving the component and its visibility status. If it returns true, iteration will stop
+---@param callback fun(component : ui.Component, visible : Bool):Bool Callback to execute for each component, receiving the component and its visibility status. If it returns true, iteration will stop
 function ComponentCollection:IterateDynamicComponents(callback) end
 
 ---Attempts to retrieve the static or dynamic child component corresponding to the provided IDs, returning nil if missing.

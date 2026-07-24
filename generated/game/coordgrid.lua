@@ -1,6 +1,6 @@
 ---@meta
 
----@class CoordGrid : Thevaluesofposition.xandposition.zshouldbeinFineunitsandwillbeconvertedtoGridunitsbytheconstructor.Thevalueofposition.yisdiscarded.TheFine
+---@class CoordGrid
 ---@field level Int
 ---@field x Int
 ---@field z Int

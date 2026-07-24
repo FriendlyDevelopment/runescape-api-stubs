@@ -24,5 +24,5 @@ function DBTable:GetColumnHasDefaultValues(columnIndex) end
 
 ---Returns all default values in the given column.
 ---@param columnIndex Int The column index to check.Column index values are 1-indexed.
----@return ?,...[] An array containing each default value in the given column index.This array may be empty, or contain nil values.Use GetColumnValueTypes to determine the types of the values returned by this method.
+---@return any[] An array containing each default value in the given column index.This array may be empty, or contain nil values.Use GetColumnValueTypes to determine the types of the values returned by this method.
 function DBTable:GetColumnDefaultValues(columnIndex) end
