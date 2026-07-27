@@ -37,7 +37,7 @@ SkillType = {
 ---@class Player
 Player = {}
 
----Returns whether a player character is logged in and exists in a game world.
+---Returns whether a Player Character is logged in and exists in a game world.
 ---@return Bool Whether Player data is available to access.
 function Player.IsAvailable() end
 
@@ -66,14 +66,18 @@ function Player.GetXPCapped(skill) end
 ---@return Int The current XP of the given skill.
 function Player.GetXPUncapped(skill) end
 
----Returns the current run energy for the player character. This value is a percentage.
+---Returns the current run energy for the Player Character. This value is a percentage.
 ---@return Int The current run energy.
 function Player.GetRunEnergy() end
 
----Returns the current weight of the player character. This value is in kilograms.
+---Returns the current weight of the Player Character. This value is in kilograms.
 ---@return Int The current weight.
 function Player.GetWeight() end
 
----Returns the PlayerEntity belonging to the currently logged in player character.
+---Returns the current combat level of the Player Character.
+---@return Int The current combat level.
+function Player.GetCombatLevel() end
+
+---Returns the PlayerEntity belonging to the currently logged in Player Character.
 ---@return PlayerEntity A PlayerEntity .
 function Player.GetEntity() end
