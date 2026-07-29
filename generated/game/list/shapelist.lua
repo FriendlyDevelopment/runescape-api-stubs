@@ -24,12 +24,12 @@ function addPlayerCoord(coord) end
 
 ---Creates a new ShapeInstance with the given name. Returns nil if an instance already exists with that name.
 ---@param name String The name of the instance.
----@return ShapeInstance? The created ShapeInstance .Returns nil if the instance could not be created.
+---@return ShapeInstance? The created ShapeInstance . Returns nil if the instance could not be created.
 function ShapeList.CreateInstance(name) end
 
 ---Returns an existing ShapeInstance with the given name. Returns nil if no instance exists with that name.
 ---@param name String The name of the instance.
----@return ShapeInstance? The ShapeInstance which was found.Returns nil if no instance was found.
+---@return ShapeInstance? The ShapeInstance which was found. Returns nil if no instance was found.
 function ShapeList.GetInstance(name) end
 
 ---Returns a list of all existing ShapeInstances created by the plugin.
@@ -48,12 +48,12 @@ function ShapeList.DestroyInstance(name) end
 
 ---Creates a new ShapeEntity with the given name. Returns nil if an entity already exists with that name.
 ---@param name String The name of the entity.
----@return ShapeEntity? The created ShapeEntity .Returns nil if the entity could not be created.
+---@return ShapeEntity? The created ShapeEntity . Returns nil if the entity could not be created.
 function ShapeList.CreateEntity(name) end
 
 ---Returns an existing ShapeEntity with the given name. Returns nil if no entity exists with that name.
 ---@param name String The name of the entity.
----@return ShapeInstance? The ShapeEntity which was found.Returns nil if no entity was found.
+---@return ShapeInstance? The ShapeEntity which was found. Returns nil if no entity was found.
 function ShapeList.GetEntity(name) end
 
 ---Returns a list of all existing ShapeEntities created by the plugin.
@@ -70,24 +70,10 @@ function ShapeList.DestroyEntity(entity) end
 ---@return Bool Whether the ShapeEntity was successfully destroyed.
 function ShapeList.DestroyEntity(name) end
 
----The ShapeData table provides a way to store 3D shapes for re-use in drawing.
----@class Registering Shapes
-Registering Shapes = {}
-
----@param coordGrid any
-function drawExportShape(coordGrid) end
-
----The next approach involves creating a ShapeInstance . These reduce the scripting performance cost of using draw events by creating a persistent object that automatically draws itself .
----@class Shape Instance
-Shape Instance = {}
-
----@param logicEvent any
-function OnLogicEvent(logicEvent) end
-
 ---The ShapeData table provides a way to store data like positions, colours and triangle and line indices in one object.
 ---@class ShapeData
 ---@field positions any Array of Vector3 A list of 3D positions.
----@field rgba any Array of Integer A list of 32-bit colours. The number of colours in this array must match the number of positions, or be empty.If empty, the default colour value is 0xFFFFFFFF .
+---@field rgba any Array of Integer A list of 32-bit colours. The number of colours in this array must match the number of positions, or be empty. If empty, the default colour value is 0xFFFFFFFF .
 ---@field tris any Array of Integer A list of position index triplets which represent a single triangle. Indices are 0-indexed.
 ---@field lines any Array of Integer A list of position index pairs which represent a single line. Indices are 0-indexed.
 ShapeData = {}
@@ -138,7 +124,7 @@ function ShapeInstance:SetShapeData(shapeData) end
 ---Assigns the name of a registered ShapeData to the instance and returns whether the registered name exists and was successfully set.
 ---@param shapeName String The name of a registered shape data ShapeData .
 ---@return Bool Whether the shape name was successfully set on the instance.
-function ShapeInstance:SetShapeName(shapeName) end
+function ShapeInstance:SetShapeDataName(shapeName) end
 
 ---Attempts to destroy the instance. Returns false if the entity does not exist, otherwise true .
 ---@return Bool Whether the instance was successfully destroyed.
@@ -170,7 +156,7 @@ function ShapeEntity:SetShapeData(shapeData) end
 ---Assigns the name of a registered ShapeData to the entity and returns whether the registered name exists and was successfully set.
 ---@param shapeName String The name of a registered shape data ShapeData .
 ---@return Bool Whether the shape name was successfully set on the entity.
-function ShapeEntity:SetShapeName(shapeName) end
+function ShapeEntity:SetShapeDataName(shapeName) end
 
 ---Sets the draw distance, in fine units, for the ShapeEntity .
 ---@param distance Float The distance, in fine units, from the Player Character at which the entity will stop drawing.

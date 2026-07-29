@@ -4,7 +4,7 @@
 ---@field id Int The ID of this config type.
 ---@field configName String The name of this config, i.e. "MUSEO_SANS_15PT_REGULAR" .
 ---@field typeName String The type of this config. Will always be "Font" .
----@field baseline Int The baseline distance of the font.This is also the vertical spacing between lines.
+---@field baseline Int The baseline distance of the font. This is also the vertical spacing between lines.
 ---@field upperCaseAscent Int The distance above the baseline for the uppercase 'X' glyph in the font.
 ---@field lowerCaseAscent Int The distance above the baseline for the lowercase 'x' glyph in the font.
 ---@field maxAscent Int The maximum distance above the baseline for the tallest glyph in the font.
@@ -38,7 +38,7 @@ function Font:GetStringLineCount(text, wrapWidth, ignoreTags, noWordWrapping, no
 ---Returns the total pixel height of a string wrapped using this font and how many lines the text was wrapped into.
 ---@param text String The text to calculate the height and line count for.
 ---@param wrapWidth Int The pixel width limit at which the string should wrap.
----@param lineSpacing Int The pixel spacing between each line.This is the distance between the baselines of each line.
+---@param lineSpacing Int The pixel spacing between each line. This is the distance between the baselines of each line.
 ---@param ignoreTags Bool? See Common Modifiers .
 ---@param noWordWrapping Bool? See Common Modifiers .
 ---@param noTrimEdges Bool? See Common Modifiers .
@@ -57,7 +57,7 @@ function Font:SplitString(text, wrapWidth, ignoreTags, noWordWrapping, noTrimEdg
 
 ---Splits the given string using the given pixel wrap distance and returns the specific line requested.
 ---@param text String The text to split.
----@param lineIndex Int The index of the requested line.Line numbers are 1-indexed.Requesting a line index greater than available will return an empty string.
+---@param lineIndex Int The index of the requested line. Line numbers are 1-indexed. Requesting a line index greater than available will return an empty string.
 ---@param wrapWidth Int The pixel width limit at which the string should split.
 ---@param ignoreTags Bool? See Common Modifiers .
 ---@param noWordWrapping Bool? See Common Modifiers .

@@ -9,16 +9,16 @@
 DBRow = {}
 
 ---Returns the number of values in the given column.
----@param columnIndex Int The column index to check.Column index values are 1-indexed.
+---@param columnIndex Int The column index to check. Column index values are 1-indexed.
 ---@return Int How many values are available for the given column index.
 function DBRow:GetColumnValueCount(columnIndex) end
 
 ---Returns all ValueTypes for each value in the given column.
----@param columnIndex Int The column index to check.Column index values are 1-indexed.
+---@param columnIndex Int The column index to check. Column index values are 1-indexed.
 ---@return ValueType[] An array containing a ValueType for each value in the given column index.
 function DBRow:GetColumnValueTypes(columnIndex) end
 
 ---Returns all values in the given column.
----@param columnIndex Int The column index to check.Column index values are 1-indexed.
----@return any[] An array containing each value in the given column index.This array may be empty, or contain nil values.Use GetColumnValueTypes to determine the types of the values returned by this method.
+---@param columnIndex Int The column index to check. Column index values are 1-indexed.
+---@return any[] An array containing each value in the given column index. This array may be empty, or contain nil values. Use GetColumnValueTypes to determine the types of the values returned by this method.
 function DBRow:GetColumnValues(columnIndex) end

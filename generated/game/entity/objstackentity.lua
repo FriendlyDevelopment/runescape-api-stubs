@@ -8,7 +8,7 @@
 ObjStackEntity = {}
 
 ---Returns the ObjEntry at the given index .
----@param index Int The index of the ObjEntry to return.The value of index starts at 1 .Returns nil if no entry is found at the given index.
+---@param index Int The index of the ObjEntry to return. The value of index starts at 1 . Returns nil if no entry is found at the given index.
 ---@return ObjEntry An ObjEntry within an ObjStackEntity .
 function ObjStackEntity:GetEntry(index) end
 
@@ -26,5 +26,5 @@ function ObjStackEntity:HasObjID(objTypeID) end
 ---@class ObjEntry
 ---@field config ObjType The config that describes this entry.
 ---@field configID Int The config ID that describes this entry.
----@field count Int How many of this object are in this specific entry.This will always be 1 for ObjTypes that cannot stack.
+---@field count Int How many of this object are in this specific entry. This will always be 1 for ObjTypes that cannot stack.
 ObjEntry = {}

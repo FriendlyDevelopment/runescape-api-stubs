@@ -12,7 +12,7 @@
 ---@field position Vector3 The world position of this NPCEntity .
 ---@field coordGrid CoordGrid Returns the CoordGrid tile this NPCEntity is currently on.
 ---@field facing Int The current facing angle, in degrees, of this NPCEntity .
----@field facingTarget Int The target facing angle, in degrees, of this NPCEntity .The NPCEntity will be turning towards this angle, if different from NPCEntity.facing .
----@field route any Array of CoordGrid Returns a list of the current coordinates in the NPCEntity 's movement route.The list will be empty if the NPCEntity is not moving.
----@field routeEnd any CoordGrid ? Returns the final coordinate in the NPCEntity 's movement route.Returns nil if the NPCEntity is not moving.
+---@field facingTarget Int The target facing angle, in degrees, of this NPCEntity . The NPCEntity will be turning towards this angle, if different from NPCEntity.facing .
+---@field route any Array of CoordGrid Returns a list of the current coordinates in the NPCEntity 's movement route. The list will be empty if the NPCEntity is not moving.
+---@field routeEnd any CoordGrid ? Returns the final coordinate in the NPCEntity 's movement route. Returns nil if the NPCEntity is not moving.
 NPCEntity = {}

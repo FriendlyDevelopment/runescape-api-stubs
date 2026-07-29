@@ -105,6 +105,13 @@ class DOMBuilder(HTMLParser):
 
     def handle_endtag(self, tag):
         if tag in Node.VOID:
+            # Malformed-but-common stray end tags for void elements (e.g.
+            # `</br>` instead of `<br>`) still represent the element itself -
+            # insert it rather than silently dropping it, matching browser
+            # behaviour. Without this, text on either side of a `</br>` gets
+            # merged into one run with no separator (e.g. table cells split
+            # across lines collapse into "IntegerString").
+            self._cur.children.append(Node(tag, {}, self._cur))
             return
         n = self._cur
         while n.parent and n.tag != tag:
@@ -1473,6 +1480,215 @@ def _render_class(
     return out
 
 
+# core/events.html special-case
+#
+# The Event global is a bus of named channels (Event.ChatMessage, Event.Logic,
+# ...), each carrying its own payload type and - for EntityDraw only - a
+# meaningful callback return value. That shape (a generic EventSubscription<T,
+# RetT> wrapper) has no analogue anywhere else in the docs, and each event's
+# payload is documented with a "Payload variable / Type / Writeable /
+# Description" table that no other page uses. Rather than bending the shared
+# TypeBlock state machine (used by ~50 other pages) to fit this one page,
+# events.html is walked and rendered by hand below.
+
+
+def _split_br_cell(td: Node) -> list[str]:
+    """Split a table cell into segments separated by <br> tags.
+
+    A payload table row occasionally documents several fields at once (e.g.
+    EntityDraw's npcEntity/playerEntity/objStackEntity row) or a multi-line
+    union type (e.g. VarTransmit's Integer/String value columns).
+    """
+    segments: list[str] = []
+    current: list[str] = []
+
+    def flush():
+        joined = "".join(current).strip()
+        if joined:
+            segments.append(joined)
+        current.clear()
+
+    for c in td.children:
+        if isinstance(c, str):
+            current.append(c)
+        elif c.tag == "br":
+            flush()
+        else:
+            current.append(c.text())
+    flush()
+    return segments or [td.text()]
+
+
+def _events_writeable(td: Node) -> tuple[bool, str]:
+    """Read the Events page's icon-based Writeable column.
+
+    A check-mark icon means the field can be written to from a callback; an
+    X means it can't. A couple of rows hold prose instead of an icon (e.g.
+    "Using Swap()"), which is kept as a note rather than force-fit into a
+    plain boolean.
+    """
+    svg = td.find("svg")
+    if svg is not None:
+        return ("lucide-check" not in svg.cls, "")
+    text = td.text()
+    return (True, text) if text else (True, "")
+
+
+def _admonition_text(node: Node) -> str:
+    """Body text of an admonition div, skipping its title paragraph."""
+    parts = [p.text() for p in node.find_all("p") if "admonition-title" not in p.cls]
+    return " ".join(p for p in parts if p)
+
+
+def _h2_section_paragraphs(article: Node, heading_text: str) -> list[str]:
+    """Top-level <p> text under the given H2 heading (until the next H2)."""
+    texts: list[str] = []
+    capture = False
+    for n in _child_nodes(article):
+        if n.tag == "h2":
+            capture = n.text().replace("¶", "").strip().lower() == heading_text
+            continue
+        if capture and n.tag == "p":
+            t = n.text()
+            if t:
+                texts.append(t)
+    return texts
+
+
+def _parse_supported_events(article: Node) -> list[dict]:
+    """Parse the 'Supported events' H2 section of core/events.html.
+
+    Returns an ordered list of {name, description, properties} dicts, one
+    per H3 event (e.g. ChatMessage, EntityDraw, ...).
+    """
+    children = _child_nodes(article)
+    start = None
+    for idx, n in enumerate(children):
+        if n.tag == "h2" and n.text().replace("¶", "").strip().lower() == "supported events":
+            start = idx + 1
+            break
+    if start is None:
+        return []
+
+    events: list[dict] = []
+    current: Optional[dict] = None
+    for n in children[start:]:
+        if n.tag == "h2":
+            break
+        if n.tag == "h3":
+            current = {
+                "name": n.text().replace("¶", "").strip(),
+                "description": "",
+                "properties": [],
+            }
+            events.append(current)
+            continue
+        if current is None:
+            continue
+        if n.tag == "p":
+            text = n.text()
+            if text:
+                current["description"] = f"{current['description']} {text}".strip()
+        elif n.tag == "div" and "admonition" in n.cls:
+            text = _admonition_text(n)
+            if text:
+                if "warning" in n.cls:
+                    text = f"Warning: {text}"
+                current["description"] = f"{current['description']} {text}".strip()
+        elif n.tag == "table":
+            headers = [h.lower() for h in _table_headers(n)]
+            if "payload variable" not in headers:
+                continue
+            tbody = n.find("tbody")
+            if tbody is None:
+                continue
+            for tr in tbody.find_all("tr"):
+                tds = tr.find_all("td")
+                if len(tds) < 4:
+                    continue
+                names = _split_br_cell(tds[0])
+                types = _split_br_cell(tds[1])
+                read_only, note = _events_writeable(tds[2])
+                desc = tds[3].text()
+                if note:
+                    desc = f"{desc} ({note})".strip()
+                if len(names) > 1 and len(names) == len(types):
+                    for nm, ty in zip(names, types):
+                        current["properties"].append(
+                            Property(name=nm, type=ty, description=desc, read_only=read_only)
+                        )
+                else:
+                    current["properties"].append(
+                        Property(
+                            name=names[0],
+                            type="/".join(types),
+                            description=desc,
+                            read_only=read_only,
+                        )
+                    )
+    return events
+
+
+def generate_events_lua(html: str) -> str:
+    """Generate generated/core/events.lua from site/core/events.html.
+
+    Reuses the generic ``extract_page`` pass for the page's enums (EntityType,
+    ChatType, GameState) and overview text, which already parse correctly
+    through the shared pipeline, then hand-renders the Event bus, the generic
+    EventSubscription<T, RetT> wrapper, and each event's payload class.
+    """
+    model = extract_page(html, "core/events.html")
+    root = parse_dom(html)
+    article = _article(root)
+    if article is None:
+        return ""
+    events = _parse_supported_events(article)
+
+    out: list[str] = ["---@meta", ""]
+    for enum in model.enums:
+        out.extend(_render_enum(enum))
+
+    payload_intro = _h2_section_paragraphs(article, "event payloads")
+    out.extend(_desc_lines("\n".join(payload_intro)))
+    out.append("---@class EventSubscription<T, RetT>")
+    out.append("---@field Subscribe fun(name: string, callback: fun(event: T): RetT)")
+    out.append("---@field Unsubscribe fun(name: string)")
+    out.append("EventSubscription = {}")
+    out.append("")
+
+    seen_namespaces: set = set()
+    field_lines: list[str] = []
+    for ev in events:
+        payload_type = "nil"
+        if ev["properties"]:
+            payload_type = ev["name"]
+            out.extend(
+                _render_class(
+                    ev["name"], ev["description"], ev["properties"], [], seen_namespaces
+                )
+            )
+        # EntityDraw is the only documented event whose callback return value
+        # is meaningful (it decides whether the entity continues drawing);
+        # every other event's callback return is unused.
+        ret_type = "boolean" if ev["name"] == "EntityDraw" else "nil"
+        first_sentence = ev["description"].split(". ")[0].strip()
+        if first_sentence and not first_sentence.endswith("."):
+            first_sentence += "."
+        desc_part = f" {first_sentence}" if first_sentence else ""
+        field_lines.append(
+            f"---@field {ev['name']} EventSubscription<{payload_type}, {ret_type}>{desc_part}"
+        )
+
+    if model.overview:
+        out.extend(_desc_lines(model.overview))
+    out.append("---@class Event")
+    out.extend(field_lines)
+    out.append("Event = {}")
+    out.append("")
+
+    return "\n".join(out).rstrip() + "\n"
+
+
 def generate_lua(model: PageModel) -> str:
     out: list[str] = ["---@meta", ""]
 
@@ -1631,6 +1847,16 @@ ROOT_SKIP_FILES = {
     "coord_system.html",
 }
 
+# Narrative/guide pages to skip regardless of directory (by path relative to
+# site_dir, POSIX-style). These are prose walkthroughs, not formal API
+# reference pages, so the state-machine extractor has nothing real to find
+# and only mistakes heading text (e.g. "Registering Shapes") for class/type
+# names. The actual API they describe lives on a separate reference page
+# (e.g. game/shapes.html points readers at game/list/shapelist.html).
+SKIP_FILES = {
+    "game/shapes.html",
+}
+
 
 def _detect_skipped_globals(
     html: str, known_names: set[str], full_page: bool = False
@@ -1729,6 +1955,8 @@ def should_process(path: Path, site_dir: Path) -> bool:
     # Only skip root-level files, not subdirectory index.html pages
     if path.parent == site_dir and path.name in ROOT_SKIP_FILES:
         return False
+    if path.relative_to(site_dir).as_posix() in SKIP_FILES:
+        return False
     return True
 
 
@@ -1747,11 +1975,15 @@ def process_site(site_dir: Path, out_dir: Path, verbose: bool = False):
             lua_path = out_dir / rel.with_suffix(".lua")
 
         html = html_path.read_text(encoding="utf-8")
-        model = extract_page(html, str(rel))
-        for m in model.methods:
-            known_names.add(m.name)
 
-        lua_code = generate_lua(model)
+        if rel == Path("core/events.html"):
+            lua_code = generate_events_lua(html)
+        else:
+            model = extract_page(html, str(rel))
+            for m in model.methods:
+                known_names.add(m.name)
+            lua_code = generate_lua(model)
+
         if not lua_code.strip() or lua_code.strip() == "---@meta":
             if verbose:
                 print(f"  skip (empty): {rel}")

@@ -1,6 +1,6 @@
 ---@meta
 
----Identifies the type of sound associated with a SoundInstance 's playback.Unless otherwise stated, these are just used to categorise sounds and don't affect playback.
+---Identifies the type of sound associated with a SoundInstance 's playback. Unless otherwise stated, these are just used to categorise sounds and don't affect playback.
 ---@enum audio.SoundType
 audio.SoundType = {
     INVALID = "INVALID", -- 255
@@ -19,7 +19,7 @@ audio.SoundType = {
     INTERFACE_ANIMATION = "INTERFACE_ANIMATION", -- 12
 }
 
----Identifies the audio bus a sound instance is playing into, used by the audio mixer system.These are used to identify certain elements used during audio playback, such as the desired volume based on game settings.
+---Identifies the audio bus a sound instance is playing into, used by the audio mixer system. These are used to identify certain elements used during audio playback, such as the desired volume based on game settings.
 ---@enum audio.AudioBus
 audio.AudioBus = {
     MASTER = 0,

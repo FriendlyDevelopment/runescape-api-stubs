@@ -11,7 +11,7 @@ Loc = {}
 
 ---Returns the corresponding output value for the given input ParamType .
 ---@param param ParamType The input param value.
----@return any The corresponding output value.Returns param.defaultValue if the param is not found in the data structure.
+---@return any The corresponding output value. Returns param.defaultValue if the param is not found in the data structure.
 function Loc:GetParamValue(param) end
 
 ---Returns whether this config contains output data for the given input ParamType .

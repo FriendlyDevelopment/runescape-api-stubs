@@ -55,7 +55,7 @@ function Rect:Intersects(rect) end
 
 ---Returns a rectangle which covers where the given rectangle and this rectangle intersect.
 ---@param rect Rect The rectangle to intersect with.
----@return Rect? The intersection rectangle.Returns nil if there is no intersection.
+---@return Rect? The intersection rectangle. Returns nil if there is no intersection.
 function Rect:GetIntersection(rect) end
 
 ---Returns a rectangle which encompasses both the given rectangle and this rectangle.
