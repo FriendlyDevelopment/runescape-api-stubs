@@ -21,7 +21,6 @@
 
 -- ── Bare class stubs (referenced in HTML docs but not defined inline) ──────────
 ---@class RuntimeSprite
----@class Rect
 ---@class PluginAudioResource
 ---@class ui.LabelData
 
@@ -58,19 +57,6 @@ id = {}
 ---@field VarPlayer any
 ---@field VarClient any
 var = {}
-
----Single event subscription channel — e.g. Event.Logic, Event.EntityDraw.
----@class EventSubscription
----@field Subscribe fun(name: string, callback: function)
----@field Unsubscribe fun(name: string)
----@field Add fun(name: string, callback: function)
----@field Remove fun(name: string)
-EventSubscription = {}
-
----Event subscription bus. Usage: Event.<Type>.Add(name, callback).
----@class Event
----@field [any] EventSubscription
-Event = {}
 
 ---Game config lookup tables (e.g. config.Obj.BRONZE_DAGGER).
 ---Sub-tables are also config instances for nested access.
