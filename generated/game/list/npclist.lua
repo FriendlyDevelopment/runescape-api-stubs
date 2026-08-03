@@ -34,9 +34,19 @@ function NPCList.ByConfig(npcType) end
 function NPCList.ByConfigID(npcTypeID) end
 
 ---Returns any NPCEntity that matches all tests in the filterSet table.
----@param filterSet Table A table of key-value pairs which describe individual tests to perform.
+---@param filterSet NPCListFilterSettings A table of key-value pairs which describe individual tests to perform.
 ---@return NPCEntity[] An array of NPCEntities .
 function NPCList.Filter(filterSet) end
 
 ---@param npc any
 function filterRatNPC(npc) end
+
+---@class NPCListFilterSettings
+---@field uid Int A valid entity UID. { uid = npcEntity.uid } See NPCList.ByUID()
+---@field name String A name to match against NPCEntity.displayName . { name = "*lumbridge*" } See NPCList.ByName()
+---@field coordGrid CoordGrid A coord to test entity distance from. If range is not provided, the default value of range will be 0 . { coordGrid = CoordGrid._0_50_50_32_32 } See NPCList.ByDistance()
+---@field range Int Ignored if coordGrid key is not provided. { range = 4 } See NPCList.ByDistance()
+---@field config NPCType The config to match against NPCEntity.config . { config = config.NPC.HANS } See NPCList.ByConfig()
+---@field configID Int The config ID to match against NPCEntity.configID . { configID = id.NPC.HANS } See NPCList.ByConfigID()
+---@field func Function A function which returns a boolean, and which takes an NPCEntity as its only parameter. This function is called for every entity, and any call that returns true will include that NPCEntity in the return array. function ratFinder(npcEntity) { return npcEntity.config == config.NPC.RAT } { func = ratFinder }
+NPCListFilterSettings = {}

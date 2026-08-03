@@ -12,11 +12,11 @@ ShapeEntityAlignType = {
 ShapeList = {}
 
 ---Draws a shape in the game world using the provided settings table of values.
----@param settings Table A table of key-value pairs which describe the settings for the draw operation.
+---@param settings ShapeListDrawSettings A table of key-value pairs which describe the settings for the draw operation.
 function ShapeList.Draw(settings) end
 
 ---Draws a segmented line in the game world using the provided settings table of values.
----@param settings Table A table of key-value pairs which describe the settings for the draw operation.
+---@param settings ShapeListDrawLineSettings A table of key-value pairs which describe the settings for the draw operation.
 function ShapeList.DrawLine(settings) end
 
 ---@param coord any
@@ -102,18 +102,43 @@ function ShapeData.Register(name, shapeData) end
 ---@return Bool Whether the ShapeData was successfully unregistered.
 function ShapeData.Unregister(name) end
 
+---@class ShapeListDrawSettings
+---@field shapeDataName String The name of a registered ShapeData to draw.
+---@field shapeData ShapeData The ShapeData to draw directly.
+---@field shapePositions any Array of Vector3 The raw shape data positions to draw.
+---@field shapeRGBA any Array of Integer The raw shape data colours to draw.
+---@field shapeTris any Array of Integer The raw shape data triangle indices to draw.
+---@field shapeLines any Array of Integer The raw shape data line indices to draw.
+---@field translation Vector3 A positional offset transform applied to the shape when it is drawn. Allows shape data constructed in local-space to be drawn in world-space.
+---@field rotation Vector3 A rotational transform applied to the shape when it is drawn. X = Yaw, Y = Pitch, Z = Roll
+---@field scale Vector3 A scaling transform applied to the shape when it is drawn.
+---@field ignoreDepth Bool Controls how the shape handles depth testing when drawing: true - Always draws on top of world geometry false - Draws behind occluding world geometry.
+---@field colour Int A 32-bit colour which is multiplied against the RGBA data of the shape being drawn.
+---@field lineWidth Float The drawn thickness of any lines defined by the shape data. Maximum value is 10.0 .
+ShapeListDrawSettings = {}
+
+---@class ShapeListDrawLineSettings
+---@field positions any Array of Vector3 The list of positions to draw lines between.
+---@field translation Vector3 A positional offset transform applied to the lines when they are drawn. Allows positions constructed in local-space to be drawn in world-space.
+---@field rotation Vector3 A rotational transform applied to the lines when they are drawn. X = Yaw, Y = Pitch, Z = Roll
+---@field scale Vector3 A scaling transform applied to the lines when they are drawn.
+---@field ignoreDepth Bool Controls how the lines handle depth testing when drawing: true - Always draws on top of world geometry false - Draws behind occluding world geometry.
+---@field colour Int The 32-bit colour to use as the line colour.
+---@field lineWidth Float The drawn thickness of the lines. Maximum value is 10.0 .
+ShapeListDrawLineSettings = {}
+
 ---A ShapeInstance is a dynamic object which contains some ShapeData and automatically handles drawing itself in the game world.
 ---@class ShapeInstance
----@field isValid Bool -
----@field name String -
----@field hasData Bool -
----@field translation Vector3 0,0,0
----@field rotation Vector3 0,0,0
----@field scale Vector3 1,1,1
----@field visible Bool true
----@field ignoreDepth Bool false
----@field colour Int 0xFFFFFFFF
----@field lineWidth Float 2.0
+---@field isValid Bool Whether this instance still exists. Dispose of this usertype object when invalid.
+---@field name String The name the instance was created with.
+---@field hasData Bool Whether this instance has valid ShapeData or a registered shape name assigned to it.
+---@field translation Vector3 A positional offset transform applied to the shape when it is drawn. Allows shape data constructed in local-space to be drawn in world-space.
+---@field rotation Vector3 A rotational transform applied to the shape when it is drawn. X = Yaw, Y = Pitch, Z = Roll
+---@field scale Vector3 A scaling transform applied to the shape when it is drawn.
+---@field visible Bool Whether the instance should be drawn.
+---@field ignoreDepth Bool Controls how the instance handles depth testing when drawing: true - Always draws on top of world geometry false - Draws behind occluding world geometry.
+---@field colour Int A 32-bit colour which is multiplied against the RGBA data of the ShapeData being drawn.
+---@field lineWidth Float The drawn thickness of any lines defined by the instance's ShapeData . Maximum value is 10.0 .
 ShapeInstance = {}
 
 ---Assigns a copy of the given shape data to the instance and returns whether the data was valid and successfully set.
@@ -132,20 +157,20 @@ function ShapeInstance:Destroy() end
 
 ---A ShapeEntity is an object which contains some ShapeData , is often placed at a fixed coordinate, and automatically handles drawing itself in the game world.
 ---@class ShapeEntity
----@field isValid Bool -
----@field name String -
----@field hasData Bool -
----@field drawDistances Integer,Integer 10240 , 12288
----@field coordGrid CoordGrid -
----@field coordFine CoordFine -
----@field visible Bool true
----@field ignoreDepth Bool false
----@field colour Int 0xFFFFFFFF
----@field lineWidth Float 2.0
----@field alignType ShapeEntityAlignType NONE
----@field heightOffset Float 0.0
----@field rotation Float 0.0
----@field rotationSpeed Float 0.0
+---@field isValid Bool Whether this entity still exists. Dispose of this usertype object when invalid.
+---@field name String The name the entity was created with.
+---@field hasData Bool Whether this entity has valid ShapeData or a registered shape name assigned to it.
+---@field drawDistances Integer,Integer Returns the near and far draw distances for the entity as a value pair. Use SetDrawDistance() to set these value(s).
+---@field coordGrid CoordGrid The coordinate at which the entity is placed. The entity will be placed at the centre of the coordinate, and automatically sets its height to align with the ground. Replaces any value set for coordFine .
+---@field coordFine CoordFine The coordinate at which the entity is placed. Automatically sets its height to align with the ground. Replaces any value set for coordGrid .
+---@field visible Bool Whether the entity should be drawn.
+---@field ignoreDepth Bool Controls how the entity handles depth testing when drawing: true - Always draws on top of world geometry false - Draws behind occluding world geometry.
+---@field colour Int A 32-bit colour which is multiplied against the RGBA data of the ShapeData being drawn.
+---@field lineWidth Float The drawn thickness of any lines defined by the entity's ShapeData . Maximum value is 10.0 .
+---@field alignType ShapeEntityAlignType How the entity's shape data should align with the ground. See ShapeEntityAlignType .
+---@field heightOffset Float How high above the ground level the entity should be drawn.
+---@field rotation Float The starting rotation of the entity. Rotation occurs around the vertical Y axis. Units are in degrees.
+---@field rotationSpeed Float How far the entity rotates in a clockwise direction in one second. Rotation occurs around the vertical Y axis. Units are in degrees.
 ShapeEntity = {}
 
 ---Assigns a copy of the given shape data to the entity and returns whether the data was valid and successfully set.

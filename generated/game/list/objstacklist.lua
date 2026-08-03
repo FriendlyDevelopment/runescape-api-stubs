@@ -29,9 +29,18 @@ function ObjStackList.ByConfig(objType) end
 function ObjStackList.ByConfigID(objTypeID) end
 
 ---Returns any ObjStackEntity that matches all tests in the filterSet table.
----@param filterSet Table A table of key-value pairs which describe individual tests to perform.
+---@param filterSet ObjStackListFilterSettings A table of key-value pairs which describe individual tests to perform.
 ---@return ObjStackEntity[] An array of ObjStackEntities .
 function ObjStackList.Filter(filterSet) end
 
 ---@param objStack any
 function filterLogsObj(objStack) end
+
+---@class ObjStackListFilterSettings
+---@field name String A name to match against ObjType.name . { name = "*logs*" } See ObjStackList.ByName()
+---@field coordGrid CoordGrid A coord to test entity distance from. If range is not provided, the default value of range will be 0 . { coordGrid = CoordGrid._0_50_50_32_32 } See ObjStackList.ByDistance()
+---@field range Int Ignored if coordGrid key is not provided. { range = 4 } See ObjStackList.ByDistance()
+---@field config ObjType The config to match against entries of ObjEntry.config . { config = config.Obj.LOGS } See ObjStackList.ByConfig()
+---@field configID Int The config ID to match against entries of ObjEntry.configID . { configID = id.Obj.LOGS } See ObjStackList.ByConfigID()
+---@field func Function A function which returns a boolean, and which takes an ObjStackEntity as its only parameter. This function is called for every entity, and any call that returns true will include that ObjStackEntity in the return array. function logFinder(objStackEntity) { return objStackEntity:HasObj(config.Obj.LOGS) } { func = logFinder }
+ObjStackListFilterSettings = {}

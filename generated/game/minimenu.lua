@@ -95,9 +95,9 @@ MiniMenuActionType = {
 }
 
 ---@class MiniMenu
----@field isOpen Bool
----@field entryCount Int
----@field entries any Array of MiniMenuEntry
+---@field isOpen Bool Whether the MiniMenu is currently open.
+---@field entryCount Int How many entries are in the MiniMenu.
+---@field entries any Array of MiniMenuEntry A list of current entries available in the MiniMenu.
 MiniMenu = {}
 
 ---Returns whether the MiniMenu is currently open. This static method be called at any time.
@@ -113,59 +113,59 @@ function MiniMenu:Swap(indexA, indexB) end
 function onMiniMenuReady(miniMenuEvent) end
 
 ---@class MiniMenuEntry
----@field actionType MiniMenuActionType
----@field actionEntryType MiniMenuEntryType
----@field actionVerbType MiniMenuActionVerbType
----@field verbText String
----@field subjectText String
----@field extraText String
----@field fullText String
----@field cursorID Int
----@field iconSpriteIDs any Array of Integer
----@field subjectOnOtherLevel Bool
----@field subjectHash Int
----@field npcData? NPCData
----@field locData? LocData
----@field objData? ObjData
----@field playerData? PlayerData
----@field groundData? GroundData
----@field mapElementData? MapElementData
----@field componentData? ComponentData
+---@field actionType MiniMenuActionType The action type of this entry.
+---@field actionEntryType MiniMenuEntryType The entry source type of this entry.
+---@field actionVerbType MiniMenuActionVerbType The verb type of this entry.
+---@field verbText String The verb name of the entry.
+---@field subjectText String The subject name of the entry.
+---@field extraText String An additional string appended to the entry.
+---@field fullText String The full text displayed when the entry is shown in the MiniMenu. Combines verbText , subjectText and extraText in that order.
+---@field cursorID Int The Cursor config ID shown when this entry is active. Use config.Cursor.FromID(cursorID) to obtain the config.
+---@field iconSpriteIDs any Array of Integer An array of sprite IDs which are drawn next to the entry text. Empty if none are drawn.
+---@field subjectOnOtherLevel Bool Whether the source entity is on a different level from the Player Character. NOTE: Not always correct.
+---@field subjectHash Int A (sort of) unique identifier for the entry. This identifier is only unique for entries that share the same actionEntryType .
+---@field npcData? NPCData A collection of data related to this entry. Will be nil if unavailable.
+---@field locData? LocData A collection of data related to this entry. Will be nil if unavailable.
+---@field objData? ObjData A collection of data related to this entry. Will be nil if unavailable.
+---@field playerData? PlayerData A collection of data related to this entry. Will be nil if unavailable.
+---@field groundData? GroundData A collection of data related to this entry. Will be nil if unavailable.
+---@field mapElementData? MapElementData A collection of data related to this entry. Will be nil if unavailable.
+---@field componentData? ComponentData A collection of data related to this entry. Will be nil if unavailable.
 MiniMenuEntry = {}
 
 ---@class NPCData
----@field entity NPCEntity
+---@field entity NPCEntity The NPC entity source for this entry.
 NPCData = {}
 
 ---@class LocData
----@field coordGridX Int
----@field coordGridZ Int
----@field config LocType
+---@field coordGridX Int The south-west tile X coordinate the Loc entity is positioned at.
+---@field coordGridZ Int The south-west tile Z coordinate the Loc entity is positioned at.
+---@field config LocType The config for the Loc entity.
 LocData = {}
 
 ---@class ObjData
----@field entity ObjStackEntity
----@field stackIndex Int
----@field config ObjType
+---@field entity ObjStackEntity The ObjStack entity source for this entry.
+---@field stackIndex Int The specific object within the source ObjStackEntity that this MiniMenuEntry relates to. Use this with ObjStackEntity:GetEntry() .
+---@field config ObjType The config for the specific object that this MiniMenuEntry relates to.
 ObjData = {}
 
 ---@class PlayerData
----@field entity PlayerEntity
+---@field entity PlayerEntity The Player entity source for this entry.
 PlayerData = {}
 
 ---@class GroundData
----@field coordGridX Int
----@field coordGridZ Int
----@field fromMiniMap Bool
+---@field coordGridX Int The tile X coordinate this entry is focused at.
+---@field coordGridZ Int The tile Z coordinate this entry is focused at.
+---@field fromMiniMap Bool true if this entry was created from the MiniMap. false if this entry was created from the 3D world view.
 GroundData = {}
 
 ---@class MapElementData
----@field mapElementID Int
----@field categoryID Int
+---@field mapElementID Int The MapElement config ID shown when this entry is active. Use config.MapElement.FromID(mapElementID) to obtain the config. TODO: MapElement configs are not available yet.
+---@field categoryID Int The Category ID belonging to this map element.
 MapElementData = {}
 
 ---@class ComponentData
----@field opIndex Int
----@field objConfig? ObjType
----@field component Component
+---@field opIndex Int The Op index for this entry. Valid values are 1 -> 10 .
+---@field objConfig? ObjType Some Components allow ObjType IDs to be assigned to them, such as Sprites and Models . This property provides the config, if set on the source Component. Will be nil if unavailable.
+---@field component Component The Component source for this entry.
 ComponentData = {}

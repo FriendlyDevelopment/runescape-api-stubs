@@ -1,16 +1,16 @@
 ---@meta
 
 ---@class Rect
----@field x Float
----@field y Float
----@field width Float
----@field height Float
----@field left Float
----@field top Float
----@field right Float
----@field bottom Float
----@field centreX Float
----@field centreY Float
+---@field x Float The X position of the rectangle.
+---@field y Float The Y position of the rectangle.
+---@field width Float The width of the rectangle.
+---@field height Float The height of the rectangle.
+---@field left Float The left edge of the rectangle. left = x
+---@field top Float The upper edge of the rectangle. top = y
+---@field right Float The right edge of the rectangle. right = x + width
+---@field bottom Float The lower edge of the rectangle. bottom = y + height
+---@field centreX Float The X position of the centre point of the rectangle. centreX = x + (width / 2)
+---@field centreY Float The Y position of the centre point of the rectangle. centreY = y + (height / 2)
 Rect = {}
 
 ---Creates and returns a rectangle with the provided values, or with all elements set to 0 if no arguments were provided.

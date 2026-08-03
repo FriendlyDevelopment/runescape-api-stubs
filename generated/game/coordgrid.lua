@@ -1,13 +1,13 @@
 ---@meta
 
 ---@class CoordGrid
----@field level Int
----@field x Int
----@field z Int
----@field mapSquareX Int
----@field mapSquareZ Int
----@field localX Int
----@field localZ Int
+---@field level Int The level of this CoordGrid. Valid range is 0-3.
+---@field x Int The world tile X of this CoordGrid, in Grid units . Valid range is 0-12799.
+---@field z Int The world tile Z of this CoordGrid, in Grid units . Valid range is 0-12799.
+---@field mapSquareX Int The mapsquare X of this CoordGrid, in Grid units . Valid range is 0-199.
+---@field mapSquareZ Int The mapsquare Z of this CoordGrid, in Grid units . Valid range is 0-199.
+---@field localX Int The local tile X of this CoordGrid, in Grid units . Valid range is 0-63.
+---@field localZ Int The local tile Z of this CoordGrid, in Grid units . Valid range is 0-63.
 CoordGrid = {}
 
 ---Constructs a CoordGrid from the provided numeric value.

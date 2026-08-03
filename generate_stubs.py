@@ -565,6 +565,50 @@ def _fill_return_descriptions(sigs: list[Signature], return_table: Node):
                 sig.returns.append(ReturnVal(type=rtype, description=rdesc))
 
 
+def _synth_settings_class(
+    method: "Method", headers: list[str], rows: list[list[str]]
+) -> Optional["TypeBlock"]:
+    """Build a settings/filter-set class from a "Key/Type/[Default Value/]Description" table.
+
+    Some methods (e.g. ShapeList.Draw, PlayerList.Filter) take a single
+    argument documented only as a bare ``Table`` in the function signature.
+    The docs separately describe its accepted keys in a table further down
+    the page (introduced by prose like "Supported values for the settings
+    table are:" or "Available tests are:"). Synthesizing a real class for
+    that shape - instead of leaving the param typed as ``Table`` - is only
+    safe when the method has exactly one signature with exactly one
+    ``Table``-typed param to attach the new type to.
+    """
+    if len(method.signatures) != 1:
+        return None
+    sig = method.signatures[0]
+    table_params = [p for p in sig.params if p.type == "Table"]
+    if len(table_params) != 1:
+        return None
+
+    class_name = _bare_name(sig.class_name) if sig.class_name else ""
+    tb = TypeBlock(name=f"{class_name}{method.name}Settings")
+
+    name_col, type_col, desc_col = _prop_columns(headers)
+    seen: set[str] = set()
+    for row in rows:
+        if len(row) < 2:
+            continue
+        pname = (row[name_col] if name_col < len(row) else row[0]).strip()
+        if not pname or pname in seen:
+            continue
+        seen.add(pname)
+        raw_type = row[type_col] if type_col < len(row) else ""
+        raw_desc = row[desc_col] if desc_col < len(row) else ""
+        ptype, pdesc = _coerce_prop_type(raw_type, raw_desc)
+        tb.properties.append(Property(name=pname, type=ptype, description=pdesc))
+
+    if not tb.properties:
+        return None
+    table_params[0].type = tb.name
+    return tb
+
+
 def _title_to_type_name(title: str) -> str:
     """Convert a section title to a valid Lua identifier / type name.
 
@@ -1014,16 +1058,24 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
                 # a combined param table (common pattern)
                 elif {"name", "type", "description"} <= header_set:
                     _fill_param_descriptions(current_method.signatures, node)
+                elif "key" in header_set and "type" in header_set:
+                    # "Supported values for the X table are" / "Available
+                    # tests are" style table documenting the keys of a
+                    # settings/filter-set argument typed as bare Table.
+                    settings_tb = _synth_settings_class(current_method, headers, rows)
+                    if settings_tb is not None:
+                        model.extra_types.append(settings_tb)
 
             elif _is_prop_section(section_h2):
                 _, _, props = _target()
+                name_col, type_col, desc_col = _prop_columns(headers)
                 for row in rows:
                     if len(row) < 2:
                         continue
-                    pname = row[0]
-                    ptype, pdesc = _coerce_prop_type(
-                        row[1], row[2] if len(row) > 2 else ""
-                    )
+                    pname = row[name_col] if name_col < len(row) else row[0]
+                    raw_type = row[type_col] if type_col < len(row) else ""
+                    raw_desc = row[desc_col] if desc_col < len(row) else ""
+                    ptype, pdesc = _coerce_prop_type(raw_type, raw_desc)
                     read_only = (
                         "(read-only)" in pdesc.lower() or "(read-only)" in pname.lower()
                     )
@@ -1081,13 +1133,14 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
                 # Property table inside an active TypeBlock (e.g. audio.SoundPlaybackParams,
                 # ui.ComponentDragConfig …) — not caught by section_h2 because the TypeBlock
                 # was introduced by an h3 inside a "types" h2.
+                name_col, type_col, desc_col = _prop_columns(headers)
                 for row in rows:
                     if len(row) < 2:
                         continue
-                    pname = row[0]
-                    ptype, pdesc = _coerce_prop_type(
-                        row[1], row[2] if len(row) > 2 else ""
-                    )
+                    pname = row[name_col] if name_col < len(row) else row[0]
+                    raw_type = row[type_col] if type_col < len(row) else ""
+                    raw_desc = row[desc_col] if desc_col < len(row) else ""
+                    ptype, pdesc = _coerce_prop_type(raw_type, raw_desc)
                     read_only = (
                         "(read-only)" in pdesc.lower() or "(read-only)" in pname.lower()
                     )
@@ -1241,6 +1294,27 @@ def _lua_type(t: str) -> str:
         return "{" + ", ".join(f"[{i + 1}]: {p}" for i, p in enumerate(parts)) + "}"
 
     return _TYPE_NORMALISE.get(t, t)
+
+
+def _prop_columns(headers: list[str]) -> tuple[int, int, int]:
+    """Return (name_col, type_col, desc_col) for a property table's headers.
+
+    Property tables aren't always a plain Name/Type/Description triple - some
+    pages insert extra Default Value / Writeable columns in between (e.g.
+    shapelist.html's ShapeInstance/ShapeEntity, minimenu.html's MiniMenuEntry),
+    which shifts the real description further right. Resolve columns by
+    header name (like _fill_param_descriptions does) instead of assuming
+    description is always column 2.
+    """
+    name_col = next(
+        (i for i, h in enumerate(headers) if h in ("name", "property", "key")), 0
+    )
+    type_col = next((i for i, h in enumerate(headers) if h == "type"), 1)
+    desc_col = next(
+        (i for i, h in enumerate(headers) if h in ("description", "desc")),
+        len(headers) - 1,
+    )
+    return name_col, type_col, desc_col
 
 
 def _coerce_prop_type(raw_type: str, raw_desc: str) -> tuple[str, str]:
