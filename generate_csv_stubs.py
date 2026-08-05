@@ -81,32 +81,38 @@ def load_csv(path: Path) -> list[tuple[int, str]]:
     return id_name
 
 
-def generate_enum(enum_name: str, entries: list[tuple[int, str]]) -> str:
-    kv_lines = [f"    {lua_key(name)} = {entry_id}," for entry_id, name in entries]
-    kv_block = "\n".join(kv_lines)
-
+# LuaLS seems to have a hard file limit of 10MiB, we use 8MiB just to be safe.
+# Even with preloadFileSize set this can't be avoided and seemingly won't get changed: https://github.com/LuaLS/lua-language-server/issues/2399
+# We'll make sure to split id.X and config.X into separate files
+def _enum_block(prefix: str, enum_name: str, kv_block: str) -> str:
     lines = [
         "---@meta",
         "",
-        f"---@enum id.{enum_name}",
-        f"id.{enum_name} = {{",
+        f"---@enum {prefix}.{enum_name}",
+        f"{prefix}.{enum_name} = {{",
         kv_block,
         "}",
         "",
-        f"---@param id integer",
-        f"---@return string",
-        f"function id.{enum_name}.FromID(id) end",
-        "",
-        f"config.{enum_name} = {{",
-        kv_block,
-        "}",
-        "",
-        f"---@param id integer",
-        f"---@return string",
-        f"function config.{enum_name}.FromID(id) end",
+        "---@param id integer",
+        "---@return string",
+        f"function {prefix}.{enum_name}.FromID(id) end",
         "",
     ]
     return "\n".join(lines)
+
+
+def generate_enum_files(
+    enum_name: str, entries: list[tuple[int, str]]
+) -> dict[str, str]:
+    """Return {filename: contents} for one enum: id.<name> in <name>.lua,
+    config.<name> in <name>.config.lua."""
+    kv_lines = [f"    {lua_key(name)} = {entry_id}," for entry_id, name in entries]
+    kv_block = "\n".join(kv_lines)
+
+    return {
+        f"{enum_name}.lua": _enum_block("id", enum_name, kv_block),
+        f"{enum_name}.config.lua": _enum_block("config", enum_name, kv_block),
+    }
 
 
 def process(csv_dir: Path, out_dir: Path, verbose: bool = False):
@@ -126,14 +132,13 @@ def process(csv_dir: Path, out_dir: Path, verbose: bool = False):
             continue
 
         enum_name = csv_path.stem
-        lua_code = generate_enum(enum_name, entries)
+        for filename, lua_code in generate_enum_files(enum_name, entries).items():
+            out_path = out_dir / filename
+            out_path.write_text(lua_code, encoding="utf-8")
 
-        out_path = out_dir / csv_path.with_suffix(".lua").name
-        out_path.write_text(lua_code, encoding="utf-8")
-
-        if verbose:
-            print(f"  wrote: {out_path.name}  ({len(entries)} entries)")
-        generated += 1
+            if verbose:
+                print(f"  wrote: {out_path.name}  ({len(entries)} entries)")
+            generated += 1
 
     print(f"Generated {generated} enum file(s) in {out_dir}.")
 
