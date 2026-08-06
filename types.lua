@@ -50,6 +50,22 @@
 ---Extends integer so that leaf values (e.g. id.Font.X) are accepted wherever
 ---an integer is expected.
 ---@class id: integer
+---@field Component id.Component
+---@field Cursor id.Cursor
+---@field Font id.Font
+---@field Interface id.Interface
+---@field Inv id.Inv
+---@field Loc id.Loc
+---@field Music id.Music
+---@field NPC id.NPC
+---@field Obj id.Obj
+---@field Quest id.Quest
+---@field Sound id.Sound
+---@field Sprite id.Sprite
+---@field StyleSheet id.StyleSheet
+---@field VarClient id.VarClient
+---@field VarPlayer id.VarPlayer
+---@field VarPlayerGroup id.VarPlayerGroup
 ---@field [any] id
 id = {}
 
@@ -61,6 +77,22 @@ var = {}
 ---Game config lookup tables (e.g. config.Obj.BRONZE_DAGGER).
 ---Sub-tables are also config instances for nested access.
 ---@class config
+---@field Component config.Component
+---@field Cursor config.Cursor
+---@field Font config.Font
+---@field Interface config.Interface
+---@field Inv config.Inv
+---@field Loc config.Loc
+---@field Music config.Music
+---@field NPC config.NPC
+---@field Obj config.Obj
+---@field Quest config.Quest
+---@field Sound config.Sound
+---@field Sprite config.Sprite
+---@field StyleSheet config.StyleSheet
+---@field VarClient config.VarClient
+---@field VarPlayer config.VarPlayer
+---@field VarPlayerGroup config.VarPlayerGroup
 ---@field [any] config
 config = {}
 
