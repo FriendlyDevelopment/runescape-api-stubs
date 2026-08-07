@@ -72,10 +72,10 @@ function ShapeList.DestroyEntity(name) end
 
 ---The ShapeData table provides a way to store data like positions, colours and triangle and line indices in one object.
 ---@class ShapeData
----@field positions any Array of Vector3 A list of 3D positions.
----@field rgba any Array of Integer A list of 32-bit colours. The number of colours in this array must match the number of positions, or be empty. If empty, the default colour value is 0xFFFFFFFF .
----@field tris any Array of Integer A list of position index triplets which represent a single triangle. Indices are 0-indexed.
----@field lines any Array of Integer A list of position index pairs which represent a single line. Indices are 0-indexed.
+---@field positions Vector3[] A list of 3D positions.
+---@field rgba Int[] A list of 32-bit colours. The number of colours in this array must match the number of positions, or be empty. If empty, the default colour value is 0xFFFFFFFF .
+---@field tris Int[] A list of position index triplets which represent a single triangle. Indices are 0-indexed.
+---@field lines Int[] A list of position index pairs which represent a single line. Indices are 0-indexed.
 ShapeData = {}
 
 ---Creates and returns an empty ShapeData object.
@@ -105,20 +105,21 @@ function ShapeData.Unregister(name) end
 ---@class ShapeListDrawSettings
 ---@field shapeDataName String The name of a registered ShapeData to draw.
 ---@field shapeData ShapeData The ShapeData to draw directly.
----@field shapePositions any Array of Vector3 The raw shape data positions to draw.
----@field shapeRGBA any Array of Integer The raw shape data colours to draw.
----@field shapeTris any Array of Integer The raw shape data triangle indices to draw.
----@field shapeLines any Array of Integer The raw shape data line indices to draw.
+---@field shapePositions Vector3[] The raw shape data positions to draw.
+---@field shapeRGBA Int[] The raw shape data colours to draw.
+---@field shapeTris Int[] The raw shape data triangle indices to draw.
+---@field shapeLines Int[] The raw shape data line indices to draw.
 ---@field translation Vector3 A positional offset transform applied to the shape when it is drawn. Allows shape data constructed in local-space to be drawn in world-space.
 ---@field rotation Vector3 A rotational transform applied to the shape when it is drawn. X = Yaw, Y = Pitch, Z = Roll
 ---@field scale Vector3 A scaling transform applied to the shape when it is drawn.
 ---@field ignoreDepth Bool Controls how the shape handles depth testing when drawing: true - Always draws on top of world geometry false - Draws behind occluding world geometry.
 ---@field colour Int A 32-bit colour which is multiplied against the RGBA data of the shape being drawn.
 ---@field lineWidth Float The drawn thickness of any lines defined by the shape data. Maximum value is 10.0 .
+---@field asBillboard Bool Whether the shape should always rotate to face the camera. This rotation is applied around the centre of final AABB of the drawn shape.
 ShapeListDrawSettings = {}
 
 ---@class ShapeListDrawLineSettings
----@field positions any Array of Vector3 The list of positions to draw lines between.
+---@field positions Vector3[] The list of positions to draw lines between.
 ---@field translation Vector3 A positional offset transform applied to the lines when they are drawn. Allows positions constructed in local-space to be drawn in world-space.
 ---@field rotation Vector3 A rotational transform applied to the lines when they are drawn. X = Yaw, Y = Pitch, Z = Roll
 ---@field scale Vector3 A scaling transform applied to the lines when they are drawn.
@@ -139,6 +140,7 @@ ShapeListDrawLineSettings = {}
 ---@field ignoreDepth Bool Controls how the instance handles depth testing when drawing: true - Always draws on top of world geometry false - Draws behind occluding world geometry.
 ---@field colour Int A 32-bit colour which is multiplied against the RGBA data of the ShapeData being drawn.
 ---@field lineWidth Float The drawn thickness of any lines defined by the instance's ShapeData . Maximum value is 10.0 .
+---@field asBillboard Bool Whether the shape should always rotate to face the camera. This rotation is applied around the centre of final AABB of the drawn shape.
 ShapeInstance = {}
 
 ---Assigns a copy of the given shape data to the instance and returns whether the data was valid and successfully set.
@@ -171,6 +173,7 @@ function ShapeInstance:Destroy() end
 ---@field heightOffset Float How high above the ground level the entity should be drawn.
 ---@field rotation Float The starting rotation of the entity. Rotation occurs around the vertical Y axis. Units are in degrees.
 ---@field rotationSpeed Float How far the entity rotates in a clockwise direction in one second. Rotation occurs around the vertical Y axis. Units are in degrees.
+---@field asBillboard Bool Whether the shape should always rotate to face the camera. This rotation is applied around the centre of final AABB of the drawn shape. This setting often conflicts with alignType - it is recommended to use ShapeEntityAlignType.NONE when drawing a shape entity as a billboard.
 ShapeEntity = {}
 
 ---Assigns a copy of the given shape data to the entity and returns whether the data was valid and successfully set.

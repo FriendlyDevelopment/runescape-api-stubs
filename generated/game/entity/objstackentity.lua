@@ -4,6 +4,7 @@
 ---@field isValid Bool Whether this entity still exists. Dispose of this usertype object when invalid.
 ---@field position Vector3 The world position of this ObjStackEntity .
 ---@field coordGrid CoordGrid Returns the CoordGrid tile this ObjStackEntity is currently on.
+---@field aabb AABB Returns the current bounding box for this ObjStackEntity .
 ---@field stackSize Int The number of ObjEntries in this ObjStackEntity .
 ObjStackEntity = {}
 

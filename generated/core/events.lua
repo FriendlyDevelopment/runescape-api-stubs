@@ -3,11 +3,11 @@
 ---These are provided as part of the following event payloads:
 ---@enum EntityType
 EntityType = {
-    NPC = 1,
-    PLAYER = 2,
-    OBJSTACK = 3,
-    NONE = 127,
-    UNKNOWN = -1,
+    LOCATION = "LOCATION", -- 0
+    NPC = "NPC", -- 1
+    PLAYER = "PLAYER", -- 2
+    OBJSTACK = "OBJSTACK", -- 3
+    COMBINED_LOCATION_SECTION = "COMBINED_LOCATION_SECTION", -- 12
 }
 
 ---These are provided as part of the ChatMessage event payload.
@@ -281,6 +281,45 @@ MiniMenuEntryAdded = {}
 ---@field entry MiniMenuEntry (Read-only) The MiniMenuEntry which has been selected from the MiniMenu.
 MiniMenuEntrySelected = {}
 
+---Called when a location is added to the game world, or changed from one location ito another, by the server. A location will only be changed to another if the both shapeType and coordGrid match. If a custom transform is not provided in the event, then the new location will inherit any pre-existing custom transform from any location it is changing. Warning: If a location is changed via its MultiLoc variable state, then this event is not called.
+---@class LocAdded
+---@field config LocType (Read-only) The location config.
+---@field shapeType LocShapeType (Read-only) The LocShapeType of the location being added.
+---@field rotationType RotationType (Read-only) The 90-degree rotation type being used by this location.
+---@field coordGrid CoordGrid (Read-only) The coordinate the location is being added to.
+---@field overrideTransform Bool (Read-only) Whether an overriding transformation should be applied to this location.
+---@field transformTranslate Vector3 (Read-only) The overriding translation transformation.
+---@field transformRotation Vector3 (Read-only) The overriding rotation transformation.
+---@field transformScale Vector3 (Read-only) The overriding scale transformation.
+LocAdded = {}
+
+---Called when a location is removed from the game world by the server. No config is provided with this event, and only existing locations with a matching shapeType and coordGrid will be removed.
+---@class LocRemoved
+---@field shapeType LocShapeType (Read-only) The LocShapeType of the location being removed.
+---@field rotationType RotationType (Read-only) The 90-degree rotation type of the location being removed.
+---@field coordGrid CoordGrid (Read-only) The coordinate the location is being removed from.
+LocRemoved = {}
+
+---Called when an existing location has an appearance customisation applied to it by the server. This event retains any existing custom transformation the location already has.
+---@class LocCustomised
+---@field config LocType (Read-only) The location config.
+---@field shapeType LocShapeType (Read-only) The LocShapeType of the location being removed.
+---@field rotationType RotationType (Read-only) The 90-degree rotation type of the location being removed.
+---@field coordGrid CoordGrid (Read-only) The coordinate the location is being removed from.
+---@field customModels Int[] (Read-only) A list of model IDs to overwrite the base LocType model IDs. Use id.Model.FromID(id) to see the overriding material.
+---@field customColours Int[] (Read-only) A list of 16-bit HSL colours to overwrite the base LocType HSL colours.
+---@field customMaterials Int[] (Read-only) A list of material IDs to overwrite the base LocType material IDs. Use id.Material.FromID(id) to see the overriding material.
+LocCustomised = {}
+
+---Called when an animation SeqType is started on a location by the server. No config is provided with this event, and only existing locations with a matching shapeType and coordGrid will be animated.
+---@class LocAnimation
+---@field shapeType LocShapeType (Read-only) The LocShapeType of the location being animated.
+---@field rotationType RotationType (Read-only) The 90-degree rotation type of the location being animated.
+---@field coordGrid CoordGrid (Read-only) The coordinate the location being animated.
+---@field animation SeqType (Read-only) The animation to be played. Will be nil if an existing animation is being stopped by this event.
+---@field animationDelay Int (Read-only) How many client logic ticks to wait before starting the animation. There are 50 logic ticks per second.
+LocAnimation = {}
+
 ---@class Event
 ---@field Logic EventSubscription<Logic, nil> Called each time the client begins a logic update.
 ---@field ServerLogic EventSubscription<nil, nil> Called each time the client finishes processing a data packet sent from the server.
@@ -310,4 +349,8 @@ MiniMenuEntrySelected = {}
 ---@field MiniMenuReady EventSubscription<MiniMenuReady, nil> Called when the MiniMenu has finished adding all entries for the current Logic tick and can now be altered.
 ---@field MiniMenuEntryAdded EventSubscription<MiniMenuEntryAdded, nil> Called when a MiniMenuEntry has been added to the MiniMenu .
 ---@field MiniMenuEntrySelected EventSubscription<MiniMenuEntrySelected, nil> Called when a MiniMenuEntry has been selected from the MiniMenu .
+---@field LocAdded EventSubscription<LocAdded, nil> Called when a location is added to the game world, or changed from one location ito another, by the server.
+---@field LocRemoved EventSubscription<LocRemoved, nil> Called when a location is removed from the game world by the server.
+---@field LocCustomised EventSubscription<LocCustomised, nil> Called when an existing location has an appearance customisation applied to it by the server.
+---@field LocAnimation EventSubscription<LocAnimation, nil> Called when an animation SeqType is started on a location by the server.
 Event = {}

@@ -4,7 +4,7 @@
 ---@field id Int The ID of this config type.
 ---@field configName String The name of this config, i.e. "BOSS_INSTANCE_STALKER_BOSS" .
 ---@field typeName String The type of this config. Will always be "Struct" .
----@field params any Array of ParamType Returns a list of all the ParamTypes stored in this config.
+---@field params ParamType[] Returns a list of all the ParamTypes stored in this config.
 Struct = {}
 
 ---Returns the corresponding output value for the given input ParamType .

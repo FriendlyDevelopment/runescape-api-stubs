@@ -29,19 +29,19 @@ QuestDifficulty = {
 ---@field type QuestType The type of quest.
 ---@field difficulty QuestDifficulty The difficulty rating of this quest.
 ---@field iconID Int The sprite ID to display for this quest. This is shown on any MiniMenuEntry related to this quest.
----@field startCoordGrids any Array of CoordGrid A list of CoordGrids used to indicate where this quest can be started.
+---@field startCoordGrids CoordGrid[] A list of CoordGrids used to indicate where this quest can be started.
 ---@field viaCoordGrid CoordGrid An optional CoordGrid to help navigate to one of the quest starting coordinates.
 ---@field preReqQuestPoints Int How many quest points the Player Character must have before starting this quest.
----@field preReqQuests any Array of QuestType A list of quests the Player Character must have completed in order to start this quest.
----@field preReqSkills any Array of QuestPreReqSkill A list of SkillType level requirement checks. Player Characters must meet all of the given requirements to start this quest.
+---@field preReqQuests QuestType[] A list of quests the Player Character must have completed in order to start this quest.
+---@field preReqSkills QuestPreReqSkill[] A list of SkillType level requirement checks. Player Characters must meet all of the given requirements to start this quest.
 ---@field completedPreReqQuestPoints Bool Whether the Player Character has the required number of quest points to start this quest.
----@field completedPreReqQuests any Array of Boolean Returns a list of boolean values for each prerequisite quest, indicating whether the Player Character has completed each of them.
----@field completedPreReqSkills any Array of Boolean Returns a list of boolean values for each prerequisite skill level check, indicating whether the Player Character has completed each of them.
+---@field completedPreReqQuests Bool[] Returns a list of boolean values for each prerequisite quest, indicating whether the Player Character has completed each of them.
+---@field completedPreReqSkills Bool[] Returns a list of boolean values for each prerequisite skill level check, indicating whether the Player Character has completed each of them.
 ---@field canStartQuest Bool Whether the Player Character is able to start this quest. This returns true if all prerequisite checks are completed.
 ---@field hasStartedQuest Bool Whether the Player Character has started this quest.
 ---@field hasFinishedQuest Bool Whether the Player Character has completed this quest.
----@field masterQuestVars any Array of MasterQuestVarPlayer An array holding a list of MasterQuestVarPlayer descriptors. There will always be one element in this array.
----@field params any Array of ParamType Returns a list of all the ParamTypes stored in this config.
+---@field masterQuestVars MasterQuestVarPlayer[] An array holding a list of MasterQuestVarPlayer descriptors. There will always be one element in this array.
+---@field params ParamType[] Returns a list of all the ParamTypes stored in this config.
 Quest = {}
 
 ---Returns the corresponding output value for the given input ParamType .

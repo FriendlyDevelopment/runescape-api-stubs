@@ -97,7 +97,7 @@ MiniMenuActionType = {
 ---@class MiniMenu
 ---@field isOpen Bool Whether the MiniMenu is currently open.
 ---@field entryCount Int How many entries are in the MiniMenu.
----@field entries any Array of MiniMenuEntry A list of current entries available in the MiniMenu.
+---@field entries MiniMenuEntry[] A list of current entries available in the MiniMenu.
 MiniMenu = {}
 
 ---Returns whether the MiniMenu is currently open. This static method be called at any time.
@@ -121,7 +121,7 @@ function onMiniMenuReady(miniMenuEvent) end
 ---@field extraText String An additional string appended to the entry.
 ---@field fullText String The full text displayed when the entry is shown in the MiniMenu. Combines verbText , subjectText and extraText in that order.
 ---@field cursorID Int The Cursor config ID shown when this entry is active. Use config.Cursor.FromID(cursorID) to obtain the config.
----@field iconSpriteIDs any Array of Integer An array of sprite IDs which are drawn next to the entry text. Empty if none are drawn.
+---@field iconSpriteIDs Int[] An array of sprite IDs which are drawn next to the entry text. Empty if none are drawn.
 ---@field subjectOnOtherLevel Bool Whether the source entity is on a different level from the Player Character. NOTE: Not always correct.
 ---@field subjectHash Int A (sort of) unique identifier for the entry. This identifier is only unique for entries that share the same actionEntryType .
 ---@field npcData? NPCData A collection of data related to this entry. Will be nil if unavailable.
@@ -165,7 +165,7 @@ GroundData = {}
 MapElementData = {}
 
 ---@class ComponentData
----@field opIndex Int The Op index for this entry. Valid values are 1 -> 10 .
+---@field opIndex Int The op index for this entry. Valid values are 1 -> 10 .
 ---@field objConfig? ObjType Some Components allow ObjType IDs to be assigned to them, such as Sprites and Models . This property provides the config, if set on the source Component. Will be nil if unavailable.
 ---@field component Component The Component source for this entry.
 ComponentData = {}

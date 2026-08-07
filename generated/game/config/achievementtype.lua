@@ -48,7 +48,7 @@ AchievementHiddenType = {
 ---@field dbRowConfig DBRow Any associated DBRow for this achievement. Returns nil if not set.
 ---@field tallyTarget Int For achievements with a tally (such as killing 100 monsters), this returns what the target value is. Each achievement can have only one tally. Returns -1 if not set.
 ---@field tallyProgress Int For achievements with a tally, this returns the current progression count. Returns -1 if not set.
----@field descriptions any Array of Table Returns a list of entries, each of which contain a AchievementDescriptionType and the text for the description, i.e. [ { "type" : AchievementDescriptionType , "text" : "Description..." }, ... ]
+---@field descriptions Table[] Returns a list of entries, each of which contain a AchievementDescriptionType and the text for the description, i.e. [ { "type" : AchievementDescriptionType , "text" : "Description..." }, ... ]
 ---@field prereqs Table Returns all prerequisites for this achievement, separated into sub-lists of requirement type, i.e. { "skills" : [ AchievementTestSkill , ... ], "quests" : [ AchievementTestQuest , ... ], "achievements" : [ AchievementTestAchievement , ... ], "varTotals" : [ AchievementTestVarTotal , ... ], "varTestBits" : [ AchievementTestVarTestBit , ... ], }
 ---@field achievements Table Returns all requirements for this achievement, separated into sub-lists of requirement type, i.e. { "skills" : [ AchievementTestSkill , ... ], "quests" : [ AchievementTestQuest , ... ], "achievements" : [ AchievementTestAchievement , ... ], "varTotals" : [ AchievementTestVarTotal , ... ], "varTestBits" : [ AchievementTestVarTestBit , ... ], }
 ---@field progress Int Returns a progression value for this achievement. If the value is 0 or less, then it will be a AchievementProgressType . Use AchievementProgressType.FromID(config.progress) to view the type name. If the value is greater than 0 then it indicates the current completion progress, where 10000 is the maximum value. For example: local percentComplete = config.progress / 100
@@ -77,7 +77,7 @@ function Achievement:GetSubItemCompletionCountForRequirementGroup(group) end
 ---This test collects Player Character's levels in the given SkillTypes into one cumulative total, and compares it against the target total level.
 ---@class AchievementTestSkill
 ---@field group Int The group ID of this test.
----@field skillTypes any Array of SkillType All skill types to be tested. The levels of each skill type are added together.
+---@field skillTypes SkillType[] All skill types to be tested. The levels of each skill type are added together.
 ---@field totalLevels Int The target total skill levels which must be achieved.
 ---@field description String The description for this test, if supplied.
 ---@field isComplete Bool Whether the Player Character has completed this test.
@@ -102,7 +102,7 @@ AchievementTestAchievement = {}
 ---This test checks whether the cumulative total of a given list of VarPlayers values meets or exceeds a given total value.
 ---@class AchievementTestVarTotal
 ---@field group Int The group ID of this test.
----@field vars any Array of VarPlayer The list of VarPlayer variables to accumulate the values of.
+---@field vars VarPlayer[] The list of VarPlayer variables to accumulate the values of.
 ---@field totalValue Int The target value which must be met or exceeded.
 ---@field description String The description for this test, if supplied.
 ---@field isComplete Bool Whether the Player Character has completed this test.

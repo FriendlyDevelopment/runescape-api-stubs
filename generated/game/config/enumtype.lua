@@ -5,7 +5,7 @@
 ---@field configName String The name of this config, i.e. "CRAFTING_PLATINUM_TABLE" .
 ---@field typeName String The type of this config. Will always be "Enum" .
 ---@field valueCount Int The total number of key-value pairs in this enum.
----@field values any Array of [ ?, ? ] All data value pairs contained in this enum. Each pair in the array is a 2-element data array of [ inputValueType, outputValueType ] .
+---@field values ?,?[][] All data value pairs contained in this enum. Each pair in the array is a 2-element data array of [ inputValueType, outputValueType ] .
 ---@field inputValueType ValueType The expected type of data this enum expects as an input value.
 ---@field outputValueType ValueType The expected type of data this enum expects as an output value.
 Enum = {}
