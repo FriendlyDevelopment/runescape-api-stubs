@@ -194,6 +194,7 @@ class TypeBlock:
     enums: list[Enum] = field(default_factory=list)
     properties: list[Property] = field(default_factory=list)
     methods: list[Method] = field(default_factory=list)
+    parent_class: str = ""
 
 
 @dataclass
@@ -1098,7 +1099,8 @@ def extract_page(html: str, file_path: str = "") -> PageModel:
                 and "value" not in header_set
                 and rows
                 and re.match(
-                    r"^[A-Z][A-Z0-9_]+( Supported by.*)?$", rows[0][0].strip() if rows[0] else ""
+                    r"^[A-Z][A-Z0-9_]+( Supported by.*)?$",
+                    rows[0][0].strip() if rows[0] else "",
                 )
             ):
                 # "Name | Parameters | Description" table inside a TypeBlock —
@@ -1332,7 +1334,9 @@ def _coerce_prop_type(raw_type: str, raw_desc: str) -> tuple[str, str]:
     # and keeps the marker text in the description (where read_only detection
     # already looks for it).
     is_bare_marker = bool(
-        re.fullmatch(r"\(?\s*(read-only|writable)\s*\)?", raw_type.strip(), re.IGNORECASE)
+        re.fullmatch(
+            r"\(?\s*(read-only|writable)\s*\)?", raw_type.strip(), re.IGNORECASE
+        )
     )
     if not is_bare_marker and " " not in raw_type:
         return raw_type, raw_desc
@@ -1638,7 +1642,10 @@ def _parse_supported_events(article: Node) -> list[dict]:
     children = _child_nodes(article)
     start = None
     for idx, n in enumerate(children):
-        if n.tag == "h2" and n.text().replace("¶", "").strip().lower() == "supported events":
+        if (
+            n.tag == "h2"
+            and n.text().replace("¶", "").strip().lower() == "supported events"
+        ):
             start = idx + 1
             break
     if start is None:
@@ -1689,7 +1696,9 @@ def _parse_supported_events(article: Node) -> list[dict]:
                 if len(names) > 1 and len(names) == len(types):
                     for nm, ty in zip(names, types):
                         current["properties"].append(
-                            Property(name=nm, type=ty, description=desc, read_only=read_only)
+                            Property(
+                                name=nm, type=ty, description=desc, read_only=read_only
+                            )
                         )
                 else:
                     current["properties"].append(
@@ -1899,7 +1908,12 @@ def generate_lua(model: PageModel) -> str:
         if tb.properties or tb.methods:
             out.extend(
                 _render_class(
-                    tb.name, tb.description, tb.properties, tb.methods, seen_namespaces
+                    tb.name,
+                    tb.description,
+                    tb.properties,
+                    tb.methods,
+                    seen_namespaces,
+                    parent_class=tb.parent_class,
                 )
             )
 
@@ -2023,6 +2037,83 @@ def _detect_skipped_globals(
     return methods
 
 
+_VECTOR_CONCRETE_TYPES = ("Vector2", "Vector3", "Vector4")
+
+
+def _clone_signature_for_vector_type(sig: Signature, concrete: str) -> Signature:
+    """Copy a Vector method signature, substituting the abstract "Vector"
+    type for a concrete size (Vector2/Vector3/Vector4) in params/returns."""
+    return Signature(
+        raw=sig.raw,
+        class_name=concrete,
+        method_name=sig.method_name,
+        separator=sig.separator,
+        params=[
+            Param(
+                name=p.name,
+                type=concrete if p.type == "Vector" else p.type,
+                description=p.description,
+            )
+            for p in sig.params
+        ],
+        returns=[
+            ReturnVal(
+                type=concrete if r.type == "Vector" else r.type,
+                description=r.description,
+            )
+            for r in sig.returns
+        ],
+    )
+
+
+def _specialise_vector_page(model: PageModel) -> None:
+    """math/vector.html special-case.
+
+    The site documents Abs/Ceil/Floor/Dot/Max/Min/Normalise once under
+    "Common Methods and Properties", typed against the abstract Vector
+    class, with a note that "Vector" there really means "a vector of the
+    same size as the object this was called on". Vector2/Vector3/Vector4
+    are also never declared as extending Vector. Left as-is: LuaLS can't
+    resolve these methods on a Vector2/Vector3/Vector4 value at all (they
+    aren't Vector subtypes), and even if it could, it would report the
+    result as the abstract Vector - not the concrete type - breaking
+    chained calls like `v:Normalise().x`.
+    Fix: declare each concrete type as `: Vector` (so it inherits shared
+    fields like isNormal/length for free) and clone each common method onto
+    it with "Vector" substituted for that concrete type name.
+    """
+    common_methods = model.methods
+    for tb in model.extra_types:
+        if tb.name not in _VECTOR_CONCRETE_TYPES:
+            continue
+        tb.parent_class = "Vector"
+
+        if tb.name == "Vector3":
+            # Site bug: the Reflect section's code sample is a copy-paste of
+            # Cross's signature (`function Vector3:Cross(normal: Vector3)`),
+            # even though the heading, description and example call all say
+            # Reflect. Rendered as-is this produces a second `Vector3:Cross`
+            # stub with a `normal` param that shadows the real Cross and
+            # leaves Reflect completely undefined.
+            for m in tb.methods:
+                if m.name == "Reflect":
+                    for sig in m.signatures:
+                        if sig.method_name == "Cross":
+                            sig.method_name = "Reflect"
+
+        for m in common_methods:
+            tb.methods.append(
+                Method(
+                    name=m.name,
+                    description=m.description,
+                    signatures=[
+                        _clone_signature_for_vector_type(s, tb.name)
+                        for s in m.signatures
+                    ],
+                )
+            )
+
+
 def should_process(path: Path, site_dir: Path) -> bool:
     if path.suffix != ".html":
         return False
@@ -2054,6 +2145,8 @@ def process_site(site_dir: Path, out_dir: Path, verbose: bool = False):
             lua_code = generate_events_lua(html)
         else:
             model = extract_page(html, str(rel))
+            if rel == Path("math/vector.html"):
+                _specialise_vector_page(model)
             for m in model.methods:
                 known_names.add(m.name)
             lua_code = generate_lua(model)
