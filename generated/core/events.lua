@@ -320,6 +320,22 @@ LocCustomised = {}
 ---@field animationDelay Int (Read-only) How many client logic ticks to wait before starting the animation. There are 50 logic ticks per second.
 LocAnimation = {}
 
+---Called after an inventory and its contents have been populated by the server.
+---@class InventoryAdded
+---@field inv InvTypeProxy (Read-only) Config of the inventory added. (x)
+InventoryAdded = {}
+
+---Called when an inventory and its contents have been updated by the server.
+---@class InventoryUpdated
+---@field inv InvTypeProxy (Read-only) Config of the inventory updated. (x)
+---@field slotsUpdated Int[] (Read-only) List of slot ids that have been updated. (x)
+InventoryUpdated = {}
+
+---Called when the server stops transmitting the inventory and its contents to the client, signalling its removal. After being removed, the inventory and its contents are no longer available to the client or the API.
+---@class InventoryRemoved
+---@field inv InvTypeProxy (Read-only) Config of the inventory removed. (x)
+InventoryRemoved = {}
+
 ---@class Event
 ---@field Logic EventSubscription<Logic, nil> Called each time the client begins a logic update.
 ---@field ServerLogic EventSubscription<nil, nil> Called each time the client finishes processing a data packet sent from the server.
@@ -353,4 +369,7 @@ LocAnimation = {}
 ---@field LocRemoved EventSubscription<LocRemoved, nil> Called when a location is removed from the game world by the server.
 ---@field LocCustomised EventSubscription<LocCustomised, nil> Called when an existing location has an appearance customisation applied to it by the server.
 ---@field LocAnimation EventSubscription<LocAnimation, nil> Called when an animation SeqType is started on a location by the server.
+---@field InventoryAdded EventSubscription<InventoryAdded, nil> Called after an inventory and its contents have been populated by the server.
+---@field InventoryUpdated EventSubscription<InventoryUpdated, nil> Called when an inventory and its contents have been updated by the server.
+---@field InventoryRemoved EventSubscription<InventoryRemoved, nil> Called when the server stops transmitting the inventory and its contents to the client, signalling its removal.
 Event = {}
