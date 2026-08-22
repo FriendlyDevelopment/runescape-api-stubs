@@ -50,6 +50,7 @@
 ---Extends integer so that leaf values (e.g. id.Font.X) are accepted wherever
 ---an integer is expected.
 ---@class id: integer
+---@field Category id.Category
 ---@field Component id.Component
 ---@field Cursor id.Cursor
 ---@field Font id.Font
@@ -77,6 +78,7 @@ var = {}
 ---Game config lookup tables (e.g. config.Obj.BRONZE_DAGGER).
 ---Sub-tables are also config instances for nested access.
 ---@class config
+---@field Category config.Category
 ---@field Component config.Component
 ---@field Cursor config.Cursor
 ---@field Font config.Font
