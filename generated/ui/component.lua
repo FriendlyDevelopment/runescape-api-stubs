@@ -9,7 +9,8 @@ ui = {}
 ---@field rgba Uint Hexadecimal colour code representing the Red, Green, Blue, And Alpha tints for this component.
 ---@field colour Vector4 Red, Green, Blue, and Alpha tints represented as a 4-channel vector, with each channel limited to a 0..1 range. On assignment, values outside of this range will be clamped.
 ---@field hidden Bool Controls whether this component is visible. This only applies to Lua-side visibility, and cannot be used to force built-in UI components to become visible.
----@field visible Bool (Read-only) Indicates whether this component is visible or not. Differs from hidden in that this also takes into account built-in UI component visibility.
+---@field visible Bool (Read-only) Indicates whether this component is visible or not. This state refers only to the internal state of this component. For the global visibility state see visibleGlobal . Differs from hidden in that this also takes into account built-in UI component visibility.
+---@field visibleGlobal Bool (Read-only) Indicates whether this component is visible within the UI component tree. For example, will return false if any parent of this component is not visible.
 ---@field stylesheetID Int ID for the StyleSheet currently in use by this component, or -1 if no StyleSheet is active.
 ---@field aspectRatioProportion Float (Read-only) The aspect ratio width value divided by the height value. For example, a 16:10 ratio resolves to a proportion of 1.6 .
 ---@field aspectRatioWidth Int (Read-only) The target width value used for aspect ratio calculations. Note this value is always 1 or higher, even when aspect ratio scaling is disabled.
@@ -26,18 +27,22 @@ ui = {}
 ---@field cursorConfig ui.ComponentCursorConfig Specifies which cursors to use, if any, when interacting with this component.
 ---@field paramsConfig ui.ComponentParamsConfig Additional parameters attached to this component.
 ---@field type ui.ComponentType (Read-only) ID identifying the type of this component.
+---@field parent any (Read-only) ui.Component ? The immediate parent of this component within the UI component tree. Returns nil if there is no parent.
+---@field parentStatic any (Read-only) ui.Component ? The static parent of this component within the UI component tree. Returns nil if there is no static parent.
 ---@field parentInterface Interface (Read-only) Interface in which this component resides.
 ---@field interfaceID Int (Read-only) ID identifying the interface in which this component resides.
 ---@field staticID Int (Read-only) ID identifying the static component on which this component resides.
 ---@field categoryID Int (Read-only) ID identifying the dynamic ID category this component's using, or -1 if this is a static component.
 ---@field dynamicID Int (Read-only) ID identifying the dynamic ID category this component's using, or -1 if this is a static component.
----@field position ui.Pos Gets or sets the this component's origin.
+---@field position ui.Pos Gets or sets this component's origin.
 ---@field size ui.Size Gets or sets the dimensions for this component.
 ---@field isSafeAreaRelative Bool Whether or not layout operations involving this component take into account the device's safe areas.
----@field x Int (Read-only) Current horizontal position for this component
----@field y Int (Read-only) Current vertical position for this component
----@field width Int (Read-only) Current width for this component
----@field height Int (Read-only) Current height for this component
+---@field x Int (Read-only) Current horizontal position for this component relative to its parent.
+---@field y Int (Read-only) Current vertical position for this component relative to its parent.
+---@field width Int (Read-only) Current width for this component.
+---@field height Int (Read-only) Current height for this component.
+---@field xyLocal Vector2 (Read-only) Current XY position for this component relative to its parent.
+---@field xyGlobal Vector2 (Read-only) Current absolute XY position for this component.
 Component = {}
 
 ---Moves this component's origin to the provided coordinates, optionally taking into account the parent's dimensions, and this component's own dimensions.
