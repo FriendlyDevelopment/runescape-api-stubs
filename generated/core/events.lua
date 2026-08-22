@@ -3,11 +3,11 @@
 ---These are provided as part of the following event payloads:
 ---@enum EntityType
 EntityType = {
-    LOCATION = "LOCATION", -- 0
-    NPC = "NPC", -- 1
-    PLAYER = "PLAYER", -- 2
-    OBJSTACK = "OBJSTACK", -- 3
-    COMBINED_LOCATION_SECTION = "COMBINED_LOCATION_SECTION", -- 12
+    LOCATION = 0,
+    NPC = 1,
+    PLAYER = 2,
+    OBJSTACK = 3,
+    COMBINED_LOCATION_SECTION = 12,
 }
 
 ---These are provided as part of the ChatMessage event payload.

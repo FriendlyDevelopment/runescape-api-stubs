@@ -10,17 +10,17 @@ ObjStackEntity = {}
 
 ---Returns the ObjEntry at the given index .
 ---@param index Int The index of the ObjEntry to return. The value of index starts at 1 . Returns nil if no entry is found at the given index.
----@return ObjEntry An ObjEntry within an ObjStackEntity .
+---@return ObjEntry # An ObjEntry within an ObjStackEntity .
 function ObjStackEntity:GetEntry(index) end
 
 ---Returns whether an ObjStackEntity contains an ObjEntry referencing the given ObjType .
 ---@param objType ObjType The ObjType to search for.
----@return Bool Whether the ObjType was found.
+---@return Bool # Whether the ObjType was found.
 function ObjStackEntity:HasObj(objType) end
 
 ---Returns whether an ObjStackEntity contains an ObjEntry referencing the given ObjType ID.
 ---@param objTypeID Int The ID of ObjType to search for.
----@return Bool Whether the ObjType was found.
+---@return Bool # Whether the ObjType was found.
 function ObjStackEntity:HasObjID(objTypeID) end
 
 ---Every ObjStackEntity contains one or more instances of ObjEntry . Each ObjEntry references a single ObjType config and a count of how many there are.

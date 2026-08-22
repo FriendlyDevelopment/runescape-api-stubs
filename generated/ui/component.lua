@@ -26,7 +26,7 @@ ui = {}
 ---@field cursorConfig ui.ComponentCursorConfig Specifies which cursors to use, if any, when interacting with this component.
 ---@field paramsConfig ui.ComponentParamsConfig Additional parameters attached to this component.
 ---@field type ui.ComponentType (Read-only) ID identifying the type of this component.
----@field parentInterface Interface (Read-only) Interface in which this component resides.
+---@field parentInterface ui.Interface (Read-only) Interface in which this component resides.
 ---@field interfaceID Int (Read-only) ID identifying the interface in which this component resides.
 ---@field staticID Int (Read-only) ID identifying the static component on which this component resides.
 ---@field categoryID Int (Read-only) ID identifying the dynamic ID category this component's using, or -1 if this is a static component.
@@ -107,6 +107,14 @@ function Component:Unsubscribe(hook) end
 function Component:UnsubscribeAll(hook) end
 
 ---These events are only triggered when using a touchscreen.
+---@enum ui.SelectionChangeEvent
+ui.SelectionChangeEvent = {
+    DESELECTED = "DESELECTED", -- This entry has been deselected by the user.
+    SELECTED = "SELECTED", -- This entry has been selected by the user.
+    ERROR_MAX_SELECTED = "ERROR_MAX_SELECTED", -- This entry cannot be selected because the maximum number of entries are already selected.
+    ERROR_NOT_SELECTABLE = "ERROR_NOT_SELECTABLE", -- This entry cannot be selected because it is disabled.
+}
+
 ---@enum ui.Hook
 ui.Hook = {
     ONBUTTONPRESSED = "ONBUTTONPRESSED", -- Triggered whenever the user interacts with this button/check. Non-toggle buttons will always receive 1 and 0 for current/previous values respectively.

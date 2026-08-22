@@ -72,6 +72,7 @@ id = {}
 ---@class var
 ---@field VarPlayer any
 ---@field VarClient any
+---@field VarType VarType
 var = {}
 
 ---Game config lookup tables (e.g. config.Obj.BRONZE_DAGGER).

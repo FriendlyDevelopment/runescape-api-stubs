@@ -47,6 +47,17 @@ ui.AspectRatioMode = {
 }
 
 ---@class ui.TextDataConfig
+---@field font Int
+---@field lineSpacing Uint8
+---@field alignHorizontal ui.AlignMode
+---@field alignVertical ui.AlignMode
+---@field maxLines Uint8
+---@field alpha Float
+---@field colour Vector4
+---@field rgba Uint
+---@field shadowColour Vector4
+---@field shadowRGBA Uint
+---@field isShadowed Bool
 ui.TextDataConfig = {}
 
 ---@alias TextDataConfig ui.TextDataConfig
@@ -55,6 +66,18 @@ ui.TextDataConfig = {}
 function ui.TextDataConfig.new() end
 
 ---@class ui.SpriteDataConfig
+---@field visualMargins ui.Margin
+---@field outlineWidth Uint8
+---@field rotationRadians Float
+---@field rotationDegrees Float
+---@field alpha Float
+---@field colour Vector4
+---@field rgba Uint
+---@field shadowColour Vector4
+---@field shadowRGBA Uint
+---@field isFlippedHorizontally Bool
+---@field isFlippedVertical Bool
+---@field isTiling Bool
 ui.SpriteDataConfig = {}
 
 ---@alias SpriteDataConfig ui.SpriteDataConfig
@@ -79,7 +102,7 @@ ui.Pos = {}
 ---@overload fun(x: Int, y: Int): Pos
 ---@overload fun(x: Int, y: Int, xParentPc: Float, yParentPc: Float): Pos
 ---@overload fun(x: Int, y: Int, xParentPc: Float, yParentPc: Float, xSelfPc: Float, ySelfPc: Float): Pos
----@return Pos The newly created position object.
+---@return Pos # The newly created position object.
 function ui.Pos.new() end
 
 ---Used to represent sizes, taking into account absolute horizontal and vertical offsets, as well as a specific percent of an arbitrary parent component's width and height, as well of a component's own width and height.
@@ -96,7 +119,7 @@ ui.Size = {}
 ---@overload fun(other: Size): Size
 ---@overload fun(width: Int, height: Int): Size
 ---@overload fun(width: Int, height: Int, widthParentPc: Float, heightParentPc: Float): Size
----@return Size The newly created size object.
+---@return Size # The newly created size object.
 function ui.Size.new() end
 
 ---Used to represent a text element within a UI component. These contain properties necessary for drawing text, as well as the actual text to draw.
@@ -120,14 +143,14 @@ ui.TextData = {}
 ---Sets the alignment for this text.
 ---@overload fun(self: ui.TextData, horizontalAlignment: ui.AlignMode, verticalAlignment: ui.AlignMode): ui.TextDataConfig
 ---@param alignment ui.AlignMode The alignment to set as both horizontal and vertical alignments.
----@return ui.TextDataConfig Config containing a copy of all properties set on this TextData object, excluding non-config properties (eg. content )
+---@return ui.TextDataConfig # Config containing a copy of all properties set on this TextData object, excluding non-config properties (eg. content )
 function ui.TextData:AlignTo(alignment) end
 
 ---@param config ui.TextDataConfig The config to source the various properties from.
----@return ui.TextDataConfig Config containing a copy of all properties set on this TextData object, excluding non-config properties (eg. content )
+---@return ui.TextDataConfig # Config containing a copy of all properties set on this TextData object, excluding non-config properties (eg. content )
 function ui.TextData:SetConfig(config) end
 
----@return ui.TextDataConfig Config containing a copy of all properties set on this TextData object, excluding non-config properties (eg. content )
+---@return ui.TextDataConfig # Config containing a copy of all properties set on this TextData object, excluding non-config properties (eg. content )
 function ui.TextData:GetConfigCopy() end
 
 ---Used to represent a sprite element within a UI component. These contain properties necessary for drawing sprite, as well as the actual sprite resource to draw.
@@ -153,10 +176,10 @@ ui.SpriteData = {}
 
 ---Sets this SpriteData's properties based on the provided config values.
 ---@param config ui.SpriteDataConfig The config to source the various properties from.
----@return ui.SpriteDataConfig Config containing a copy of all properties set on this SpriteData object, excluding non-config properties (eg. content )
+---@return ui.SpriteDataConfig # Config containing a copy of all properties set on this SpriteData object, excluding non-config properties (eg. content )
 function ui.SpriteData:SetConfig(config) end
 
----@return ui.SpriteDataConfig Config containing a copy of all properties set on this SpriteData object, excluding non-config properties (eg. content )
+---@return ui.SpriteDataConfig # Config containing a copy of all properties set on this SpriteData object, excluding non-config properties (eg. content )
 function ui.SpriteData:GetConfigCopy() end
 
 ---Margins are used to represent distances from the sides of a region.
@@ -172,7 +195,7 @@ ui.Margin = {}
 ---Constructs a new margin object with the provided values, or with all sides initialised to zero if omitted.
 ---@overload fun(allSides: uint8): Margin
 ---@overload fun(left: uint8, top: uint8, right: uint8, bottom: uint8): Margin
----@return Margin Resulting margin object.
+---@return Margin # Resulting margin object.
 function ui.Margin.new() end
 
 ---Provides controls for scrolling a component's contents.

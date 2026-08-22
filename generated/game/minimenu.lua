@@ -101,7 +101,7 @@ MiniMenuActionType = {
 MiniMenu = {}
 
 ---Returns whether the MiniMenu is currently open. This static method be called at any time.
----@return Bool Whether the MiniMenu is currently open.
+---@return Bool # Whether the MiniMenu is currently open.
 function MiniMenu.IsOpen() end
 
 ---Swaps MiniMenuEntries found at the two provided indices of MiniMenu.entries .
@@ -110,7 +110,6 @@ function MiniMenu.IsOpen() end
 function MiniMenu:Swap(indexA, indexB) end
 
 ---@param miniMenuEvent any
-function onMiniMenuReady(miniMenuEvent) end
 
 ---@class MiniMenuEntry
 ---@field actionType MiniMenuActionType The action type of this entry.

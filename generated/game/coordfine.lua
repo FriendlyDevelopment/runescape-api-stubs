@@ -47,9 +47,9 @@ function CoordFine.new(coordFine) end
 ---Returns a CoordFine constructed from the provided CoordGrid.
 ---@param coordGrid CoordGrid A CoordGrid position.
 ---@param fromCentre Bool Boolean value which indicates where to centre the output CoordFine.
----@return CoordFine A CoordFine position.
+---@return CoordFine # A CoordFine position.
 function CoordFine.FromCoordGrid(coordGrid, fromCentre) end
 
 ---Returns a CoordGrid using the current CoordFine as a base.
----@return CoordGrid A CoordGrid position.
+---@return CoordGrid # A CoordGrid position.
 function CoordFine:ToCoordGrid() end

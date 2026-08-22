@@ -38,46 +38,46 @@ SkillType = {
 Player = {}
 
 ---Returns whether a Player Character is logged in and exists in a game world.
----@return Bool Whether Player data is available to access.
+---@return Bool # Whether Player data is available to access.
 function Player.IsAvailable() end
 
 ---Returns the current level for the given skill. This includes all skill bonuses and penalties.
 ---@param skill SkillType The skill to return the gameplay level for.
----@return Int The current gameplay level of the given skill.
+---@return Int # The current gameplay level of the given skill.
 function Player.GetLevelGameplay(skill) end
 
 ---Returns the current level for the given skill based on XP. This level is additionally capped by any Free/Member world limits on skill levels.
 ---@param skill SkillType The skill to return the capped level for.
----@return Int The current capped level of the given skill.
+---@return Int # The current capped level of the given skill.
 function Player.GetLevelCapped(skill) end
 
 ---Returns the current level for the given skill based on XP.
 ---@param skill SkillType The skill to return the level for.
----@return Int The current level of the given skill.
+---@return Int # The current level of the given skill.
 function Player.GetLevelUncapped(skill) end
 
 ---Returns the current XP for the given skill. This XP value is additionally capped by any Free/Member world limits on skill levels.
 ---@param skill SkillType The skill to return the capped XP for.
----@return Int The current capped XP of the given skill.
+---@return Int # The current capped XP of the given skill.
 function Player.GetXPCapped(skill) end
 
 ---Returns the current XP for the given skill.
 ---@param skill SkillType The skill to return the XP for.
----@return Int The current XP of the given skill.
+---@return Int # The current XP of the given skill.
 function Player.GetXPUncapped(skill) end
 
 ---Returns the current run energy for the Player Character. This value is a percentage.
----@return Int The current run energy.
+---@return Int # The current run energy.
 function Player.GetRunEnergy() end
 
 ---Returns the current weight of the Player Character. This value is in kilograms.
----@return Int The current weight.
+---@return Int # The current weight.
 function Player.GetWeight() end
 
 ---Returns the current combat level of the Player Character.
----@return Int The current combat level.
+---@return Int # The current combat level.
 function Player.GetCombatLevel() end
 
 ---Returns the PlayerEntity belonging to the currently logged in Player Character.
----@return PlayerEntity A PlayerEntity .
+---@return PlayerEntity # A PlayerEntity .
 function Player.GetEntity() end

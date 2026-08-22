@@ -45,7 +45,7 @@ AchievementHiddenType = {
 ---@field hasRequirementDescriptions Bool Whether any of the achievement requirements contains a description.
 ---@field totalPrereqCount Int How many total prerequisites this achievement contains.
 ---@field totalRequirementCount Int How many total requirements this achievement contains.
----@field dbRowConfig DBRow Any associated DBRow for this achievement. Returns nil if not set.
+---@field dbRowConfig DBRowType Any associated DBRow for this achievement. Returns nil if not set.
 ---@field tallyTarget Int For achievements with a tally (such as killing 100 monsters), this returns what the target value is. Each achievement can have only one tally. Returns -1 if not set.
 ---@field tallyProgress Int For achievements with a tally, this returns the current progression count. Returns -1 if not set.
 ---@field descriptions Table[] Returns a list of entries, each of which contain a AchievementDescriptionType and the text for the description, i.e. [ { "type" : AchievementDescriptionType , "text" : "Description..." }, ... ]
@@ -61,17 +61,17 @@ Achievement = {}
 
 ---Returns whether the given prerequisite group is considered complete.
 ---@param group Int The group ID to be tested for completion. group is 0-indexed.
----@return Bool Whether the prerequisite group is considered complete.
+---@return Bool # Whether the prerequisite group is considered complete.
 function Achievement:GetPrereqGroupComplete(group) end
 
 ---Returns how many individual prerequisites, each with the same group, must be completed for that group to be considered complete.
 ---@param group Int The group ID to be checked. group is 0-indexed.
----@return Bool How many items in the prerequisite group need to be completed for the entire group to be considered complete.
+---@return Bool # How many items in the prerequisite group need to be completed for the entire group to be considered complete.
 function Achievement:GetSubItemCompletionCountForPrereqGroup(group) end
 
 ---Returns how many individual requirements, each with the same group, must be completed for that group to be considered complete.
 ---@param group Int The group ID to be checked. group is 0-indexed.
----@return Bool How many items in the requirement group need to be completed for the entire group to be considered complete.
+---@return Bool # How many items in the requirement group need to be completed for the entire group to be considered complete.
 function Achievement:GetSubItemCompletionCountForRequirementGroup(group) end
 
 ---This test collects Player Character's levels in the given SkillTypes into one cumulative total, and compares it against the target total level.
@@ -86,7 +86,7 @@ AchievementTestSkill = {}
 ---This test checks whether the Player Character has completed the given quest.
 ---@class AchievementTestQuest
 ---@field group Int The group ID of this test.
----@field quest QuestType The quest config to test for completion.
+---@field quest QuestTypeConfig The quest config to test for completion.
 ---@field description String The description for this test, if supplied.
 ---@field isComplete Bool Whether the Player Character has completed this test.
 AchievementTestQuest = {}

@@ -13,7 +13,7 @@ ui = {}
 
 ---@class ui.ModelGroup : ui.ComponentCollection
 ---@field activeCameraID Int (Read-only) The index of the currently active camera.
----@field activeCamera any (Read-only) ui.ModelCamera ? A copy of the currently active camera, or nil if there isn't one.
+---@field activeCamera ui.ModelCamera? (Read-only) A copy of the currently active camera, or nil if there isn't one.
 ui.ModelGroup = {}
 
 ---@alias ModelGroup ui.ModelGroup
@@ -22,12 +22,12 @@ ui.ModelGroup = {}
 ---@param parent ui.ComponentCollection Parent component to create this model group in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return ModelGroup The newly created model group. The caller must set its layout and visual information afterwards.
+---@return ModelGroup # The newly created model group. The caller must set its layout and visual information afterwards.
 function ui.ModelGroup.new(parent, categoryID, dynamicID) end
 
 ---Adds a new defaulted camera, or a previously configured camera to the model group, returning its index.
 ---@overload fun(self: ui.ModelGroup, camera: ui.ModelCamera): Int
----@return Int Index for the newly added camera.
+---@return Int # Index for the newly added camera.
 function ui.ModelGroup:AddCamera() end
 
 ---Deletes the camera at the provided index if it exists.
@@ -39,7 +39,7 @@ function ui.ModelGroup:DeleteCamera(cameraIndex) end
 ---@param transition ui.ModelCameraTransition Determines how the visibility for this transition should be calculated over time.
 ---@param transitionMaskSpriteID Int Numeric ID associated with a sprite for use as a mask for this transition.
 ---@param transitionDurationMs Uint Determines how long this transition lasts for in milliseconds.
----@return Bool True if the camera exists and a transition was successfully started, false otherwise.
+---@return Bool # True if the camera exists and a transition was successfully started, false otherwise.
 function ui.ModelGroup:SwitchCamera(cameraIndex, transition, transitionMaskSpriteID, transitionDurationMs) end
 
 ---Checks if there's a camera present at the specified index.
@@ -48,8 +48,9 @@ function ui.ModelGroup:SwitchCamera(cameraIndex, transition, transitionMaskSprit
 function ui.ModelGroup:IsValidCameraID(cameraIndex) end
 
 ---Retrieves a copy of the camera present at the specified index.
----@return ui.ModelCamera? A copy of the camera present at the specified index, or nil if it's missing.
-function ui.ModelGroup:GetCamera() end
+---@return ui.ModelCamera? # A copy of the camera present at the specified index, or nil if it's missing.
+---@param cameraIndex Int The index of the camera to retrieve.
+function ui.ModelGroup:GetCamera(cameraIndex) end
 
 ---Helper type representing a camera to be used by model group components for rendering.
 ---@class ui.ModelCamera
@@ -57,7 +58,7 @@ function ui.ModelGroup:GetCamera() end
 ---@field useLookAt Bool Determines whether the direction between position and lookAt is used for the camera, otherwise the camera defaults to looking straight ahead. Note this direction will be modified by yawPitchRoll .
 ---@field transitionRatio Float (Read-only) Indicates how far along the current transition is, ranging from 0 (just started) to 1 (finished).
 ---@field transitionType ui.ModelCameraTransition (Read-only) Type of the current transition, used to determine how the visibility for this camera should be calculated.
----@field transitionMaskSprite any (Read-only) Numeric ID identifying the sprite to use as a mask for the current transition.
+---@field transitionMaskSprite Int (Read-only) Numeric ID identifying the sprite to use as a mask for the current transition.
 ---@field isTransitionInProgress Bool (Read-only) True if there's a transition happening currently.
 ---@field isTransitionComplete Bool (Read-only) True if there's no transition currently in progress.
 ---@field sortModelsUsingComponentOrder Bool Controls whether each model contained in this group is rendered separately in the order their components are set to draw, or all together in a single batch. This may be required for cases where there are multiple models with transparency effects present in the same group.

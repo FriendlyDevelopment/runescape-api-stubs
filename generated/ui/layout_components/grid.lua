@@ -18,7 +18,7 @@ ui.Grid = {}
 ---@param parent ui.ComponentCollection Parent component to create this grid in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return Grid The newly created grid. The caller must set its layout and visual information afterwards.
+---@return Grid # The newly created grid. The caller must set its layout and visual information afterwards.
 function ui.Grid.new(parent, categoryID, dynamicID) end
 
 ---Makes the grid use a fixed number of columns and rows, and dynamically scales cell sizes based on that and the grid's dimensions.

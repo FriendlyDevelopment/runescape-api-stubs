@@ -32,7 +32,7 @@ QuestDifficulty = {
 ---@field startCoordGrids CoordGrid[] A list of CoordGrids used to indicate where this quest can be started.
 ---@field viaCoordGrid CoordGrid An optional CoordGrid to help navigate to one of the quest starting coordinates.
 ---@field preReqQuestPoints Int How many quest points the Player Character must have before starting this quest.
----@field preReqQuests QuestType[] A list of quests the Player Character must have completed in order to start this quest.
+---@field preReqQuests QuestTypeConfig[] A list of quest configs the Player Character must have completed in order to start this quest.
 ---@field preReqSkills QuestPreReqSkill[] A list of SkillType level requirement checks. Player Characters must meet all of the given requirements to start this quest.
 ---@field completedPreReqQuestPoints Bool Whether the Player Character has the required number of quest points to start this quest.
 ---@field completedPreReqQuests Bool[] Returns a list of boolean values for each prerequisite quest, indicating whether the Player Character has completed each of them.
@@ -46,12 +46,12 @@ Quest = {}
 
 ---Returns the corresponding output value for the given input ParamType .
 ---@param param ParamType The input param value.
----@return any The corresponding output value. Returns param.defaultValue if the param is not found in the data structure.
+---@return any # The corresponding output value. Returns param.defaultValue if the param is not found in the data structure.
 function Quest:GetParamValue(param) end
 
 ---Returns whether this config contains output data for the given input ParamType .
 ---@param param ParamType The input param value.
----@return Bool Whether a corresponding value exists in this config for ParamType .
+---@return Bool # Whether a corresponding value exists in this config for ParamType .
 function Quest:HasParam(param) end
 
 ---A container table holding data about a quest's progress tracking variable. A quest will have only one of these.

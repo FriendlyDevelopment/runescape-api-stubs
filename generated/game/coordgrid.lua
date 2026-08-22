@@ -49,14 +49,14 @@ function CoordGrid.new(coordGrid) end
 
 ---Returns a CoordGrid constructed from the provided CoordFine.
 ---@param coordFine CoordFine A CoordFine position.
----@return CoordGrid A CoordGrid position.
+---@return CoordGrid # A CoordGrid position.
 function CoordGrid.FromCoordFine(coordFine) end
 
 ---Returns a numeric value which is a packed representation of the coordinate, useful for storing as a single 32-bit integer. The coordinate data is packed as follows: (level << 28) | (x << 14) | (z)
----@return Int The numeric value representing a CoordGrid.
+---@return Int # The numeric value representing a CoordGrid.
 function CoordGrid:ToPacked() end
 
 ---Returns a CoordFine using the current CoordGrid as a base.
 ---@param fromCentre Bool Boolean value which indicates where to centre the output CoordFine.
----@return CoordFine A CoordFine position.
+---@return CoordFine # A CoordFine position.
 function CoordGrid:ToCoordFine(fromCentre) end

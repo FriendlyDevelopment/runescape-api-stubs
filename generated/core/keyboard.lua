@@ -191,34 +191,34 @@ SystemKey = {
 Keyboard = {}
 
 ---Returns whether keyboard data is available on the current platform.
----@return Bool Whether keyboard data can be polled on the current platform. Returns false on Mobile devices, and true on all others.
+---@return Bool # Whether keyboard data can be polled on the current platform. Returns false on Mobile devices, and true on all others.
 function Keyboard.IsAvailable() end
 
 ---Returns whether keyboard data is being blocked by the game for any reason. This can occur when an InputField is set as restricted and is current in focus.
----@return Bool Whether accessing keyboard data is blocked at the current moment. Returns true when data is unavailable, and false when it is available.
+---@return Bool # Whether accessing keyboard data is blocked at the current moment. Returns true when data is unavailable, and false when it is available.
 function Keyboard.IsBlocked() end
 
 ---Returns whether either shift key is currently down.
----@return Bool The current shift key down state. Returns false if keyboard data is blocked .
+---@return Bool # The current shift key down state. Returns false if keyboard data is blocked .
 function Keyboard.IsShiftDown() end
 
 ---Returns whether either control/ctrl key is currently down.
----@return Bool The current control key down state. Returns false if keyboard data is blocked .
+---@return Bool # The current control key down state. Returns false if keyboard data is blocked .
 function Keyboard.IsControlDown() end
 
 ---Returns whether either alt key is currently down.
----@return Bool The current alt key down state. Returns false if keyboard data is blocked .
+---@return Bool # The current alt key down state. Returns false if keyboard data is blocked .
 function Keyboard.IsAltDown() end
 
 ---Returns whether either meta key is currently down.
----@return Bool The current meta key down state. Returns false if keyboard data is blocked .
+---@return Bool # The current meta key down state. Returns false if keyboard data is blocked .
 function Keyboard.IsMetaDown() end
 
 ---Returns whether the given GameKey key is currently down.
 ---@param key GameKey Integer enum value for the key being tested.
----@return Bool The current key down state. Returns false if keyboard data is blocked .
+---@return Bool # The current key down state. Returns false if keyboard data is blocked .
 function Keyboard.IsGameKeyDown(key) end
 
 ---Returns all currently pressed GameKeys in an array.
----@return GameKey[] An array of GameKeys .
+---@return GameKey[] # An array of GameKeys .
 function Keyboard.GetGameKeysDown() end

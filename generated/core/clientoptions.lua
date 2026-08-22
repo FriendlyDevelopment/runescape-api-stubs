@@ -17,15 +17,15 @@ game.options = {}
 
 ---Sets this option to the specified setting.
 ---@param setting Int The setting to set this option to.
----@return Bool True if this option was successfully changed to the provided setting, false otherwise.
+---@return Bool # True if this option was successfully changed to the provided setting, false otherwise.
 function game.options:Set(setting) end
 
 ---Checks if the specified setting is valid for this option.
 ---@param setting Int The setting to check for validity.
----@return Bool True if this option supports being set to the provided setting, false otherwise.
+---@return Bool # True if this option supports being set to the provided setting, false otherwise.
 function game.options:CheckIsValidSetting(setting) end
 
 ---Gets the user-friendly text label associated with the provided setting for this option.
 ---@param setting Int The setting to retrieve the text label for.
----@return String? The text label associated with the provided setting, or nil if the setting is invalid or has no associated text.
+---@return String? # The text label associated with the provided setting, or nil if the setting is invalid or has no associated text.
 function game.options:GetLabel(setting) end

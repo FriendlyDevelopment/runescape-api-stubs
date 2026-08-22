@@ -26,7 +26,7 @@ ui.RadialProgressOverlay = {}
 ---@param parent ui.ComponentCollection Parent component to create this radial progress overlay in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return RadialProgressOverlay The newly created radial progress overlay. The caller must set its layout and visual information afterwards.
+---@return RadialProgressOverlay # The newly created radial progress overlay. The caller must set its layout and visual information afterwards.
 function ui.RadialProgressOverlay.new(parent, categoryID, dynamicID) end
 
 ---Sets the value range for this component and any additional flags to modify its behaviour.

@@ -13,7 +13,7 @@ Plugin = {}
 
 ---Checks if the user has allowed the specified permission for the current plugin.
 ---@param permission PluginPermissions The permission to check.
----@return Bool True if the specified permission has been given to this plugin, false otherwise.
+---@return Bool # True if the specified permission has been given to this plugin, false otherwise.
 function Plugin.HasPermission(permission) end
 
 ---@enum PluginResourceLoadResult
@@ -33,8 +33,14 @@ PluginResourceLoadResult = {
 PluginResource = {}
 
 ---Attempts to load this resource, making it ready for immediate use afterwards if successful.
----@return PluginResourceLoadResult Indicates whether loading succeeded, or the error in case it failed.
+---@return PluginResourceLoadResult # Indicates whether loading succeeded, or the error in case it failed.
 function PluginResource:Load() end
 
 ---Attempts to unload this resource's data.
 function PluginResource:Unload() end
+
+---@class PluginImageResource : PluginResource
+PluginImageResource = {}
+
+---@class PluginAudioResource : PluginResource
+PluginAudioResource = {}
