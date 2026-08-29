@@ -109,9 +109,15 @@ function MiniMenu.IsOpen() end
 ---@param indexB Int The index of the second MiniMenuEntry in MiniMenu.entries .
 function MiniMenu:Swap(indexA, indexB) end
 
+---@param label String The text displayed for the entry.
+---@param action fun(...: any) The action invoked when the entry is selected.
+---@vararg any Arguments passed to the action.
+function MiniMenu:Add(label, action, ...) end
+
 ---@param miniMenuEvent any
 
 ---@class MiniMenuEntry
+---@field overrideText String Text that overrides the entry's default display text.
 ---@field actionType MiniMenuActionType The action type of this entry.
 ---@field actionEntryType MiniMenuEntryType The entry source type of this entry.
 ---@field actionVerbType MiniMenuActionVerbType The verb type of this entry.

@@ -51,3 +51,8 @@ function World.RemoveRoof.Add(name, coord) end
 ---@param coordRangeMin CoordGrid The minimum coordinate of the range to add to the Remove Roof system.
 ---@param coordRangeMax CoordGrid The maximum coordinate of the range to add to the Remove Roof system.
 function World.RemoveRoof.Add(name, coordRangeMin, coordRangeMax) end
+
+---@param name String The name used when the coordinate or range was registered.
+function World.RemoveRoof.Remove(name) end
+
+function World.RemoveRoof.Clear() end

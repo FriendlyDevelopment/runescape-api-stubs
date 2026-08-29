@@ -29,9 +29,9 @@ ui.Interfaces = {}
 function ui.Interfaces:GetInterface(interfaceID) end
 
 ---Retrieves the loaded interface matching the specified ID, and searches within for a component associated with the various provided IDs.
----@overload fun(self: ui.Interfaces, combinedID: Uint, categoryID: Uint, dynamicID: Uint): ui.Component?
 ---@overload fun(self: ui.Interfaces, interfaceID: Int, staticID: Uint): ui.Component?
 ---@overload fun(self: ui.Interfaces, interfaceID: Int, staticID: Uint, categoryID: Uint, dynamicID: Uint): ui.Component?
+---@overload fun(self: ui.Interfaces, combinedID: Uint, categoryID: Uint, dynamicID: Uint): ui.Component?
 ---@param combinedID Uint The combined ID ( (interfaceID << 16) | staticID ) used to identify the component that's being retrieved. Combined IDs are available via lookups such as id.Component.TOPLEVEL_V2__GAME_AREA where the double-underscore separates the interface name ( TOPLEVEL_V2 ) and the name of the component within it ( GAME_AREA )
 ---@return ui.Component? # The component of the appropriate type associated with the specified interface and component IDs, or nil if there's no component with these IDs or the interface isn't loaded.
 function ui.Interfaces:GetComponent(combinedID) end

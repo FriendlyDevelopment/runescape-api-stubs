@@ -25,5 +25,5 @@ RotationType = {
 ---@field length Int The length of this entity on the Z axis, in grid units. This taken from entity's LocType config after being rotated by rotationType .
 ---@field isHidden Bool Whether this entity has been hidden by game logic.
 ---@field isRoofRemoved Bool Whether this entity has been hidden by the Remove Roof system.
----@field currentAnimation SeqType The current animation being played by this entity. Returns nil if none is set.
+---@field currentAnimation SeqType? The current animation being played by this entity. Returns nil if none is set.
 LocEntity = {}
