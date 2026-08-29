@@ -104,6 +104,19 @@ MiniMenu = {}
 ---@return Bool Whether the MiniMenu is currently open.
 function MiniMenu.IsOpen() end
 
+---Adds a MiniMenuEntry to the end of the current list of minimenu entries. It will be displayed with the label specified and call the Lua function specified, with any additional arguments provided in order.
+---@param label String The text displayed for the entry in the minimenu.
+---@param action Function A Lua function that can take any number of arguments, including none.
+---@param ... Args A comma-separated list of arguments that will be passed to the function specified in the action parameter.
+function MiniMenu:Add(label, action, ...) end
+
+---@param a any
+---@param b any
+function logAdd(a, b) end
+
+---@param addedEvent any
+function miniMenuEntryAddedEvent(addedEvent) end
+
 ---Swaps MiniMenuEntries found at the two provided indices of MiniMenu.entries .
 ---@param indexA Int The index of the first MiniMenuEntry in MiniMenu.entries .
 ---@param indexB Int The index of the second MiniMenuEntry in MiniMenu.entries .
@@ -119,7 +132,8 @@ function onMiniMenuReady(miniMenuEvent) end
 ---@field verbText String The verb name of the entry.
 ---@field subjectText String The subject name of the entry.
 ---@field extraText String An additional string appended to the entry.
----@field fullText String The full text displayed when the entry is shown in the MiniMenu. Combines verbText , subjectText and extraText in that order.
+---@field fullText String The full text displayed when the entry is shown in the MiniMenu if overrideText has not been set. Combines verbText , subjectText and extraText in that order.
+---@field overrideText String Override text for an entry supplied by a plugin. This is displayed in place of an entry's fullText if set.
 ---@field cursorID Int The Cursor config ID shown when this entry is active. Use config.Cursor.FromID(cursorID) to obtain the config.
 ---@field iconSpriteIDs Int[] An array of sprite IDs which are drawn next to the entry text. Empty if none are drawn.
 ---@field subjectOnOtherLevel Bool Whether the source entity is on a different level from the Player Character. NOTE: Not always correct.
