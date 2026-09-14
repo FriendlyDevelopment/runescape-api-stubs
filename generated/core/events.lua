@@ -336,6 +336,12 @@ InventoryUpdated = {}
 ---@field inv InvTypeProxy (Read-only) Config of the inventory removed. (x)
 InventoryRemoved = {}
 
+---Called when one of a player character's Grand Exchange trade offers receives an update from the server.
+---@class GrandExchangeOfferUpdated
+---@field slot Int (Read-only) Number of the offer slot that has been updated. 1-indexed.
+---@field listing GrandExchangeOffer (Read-only) The offer data.
+GrandExchangeOfferUpdated = {}
+
 ---@class Event
 ---@field Logic EventSubscription<Logic, nil> Called each time the client begins a logic update.
 ---@field ServerLogic EventSubscription<nil, nil> Called each time the client finishes processing a data packet sent from the server.
@@ -372,4 +378,5 @@ InventoryRemoved = {}
 ---@field InventoryAdded EventSubscription<InventoryAdded, nil> Called after an inventory and its contents have been populated by the server.
 ---@field InventoryUpdated EventSubscription<InventoryUpdated, nil> Called when an inventory and its contents have been updated by the server.
 ---@field InventoryRemoved EventSubscription<InventoryRemoved, nil> Called when the server stops transmitting the inventory and its contents to the client, signalling its removal.
+---@field GrandExchangeOfferUpdated EventSubscription<GrandExchangeOfferUpdated, nil> Called when one of a player character's Grand Exchange trade offers receives an update from the server.
 Event = {}
