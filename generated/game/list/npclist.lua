@@ -33,6 +33,16 @@ function NPCList.ByConfig(npcType) end
 ---@return NPCEntity[] An array of NPCEntities .
 function NPCList.ByConfigID(npcTypeID) end
 
+---Returns any NPCEntity that uses the given NPCType config as its parentConfig .
+---@param npcType NPCType The config to look for when testing NPCEntities .
+---@return NPCEntity[] An array of NPCEntities .
+function NPCList.ByParentConfig(npcType) end
+
+---Returns any NPCEntity that uses the given NPCType parent config ID.
+---@param npcTypeID Int The config ID to look for when testing NPCEntities .
+---@return NPCEntity[] An array of NPCEntities .
+function NPCList.ByParentConfigID(npcTypeID) end
+
 ---Returns any NPCEntity that matches all tests in the filterSet table.
 ---@param filterSet NPCListFilterSettings A table of key-value pairs which describe individual tests to perform.
 ---@return NPCEntity[] An array of NPCEntities .
@@ -48,5 +58,7 @@ function filterRatNPC(npc) end
 ---@field range Int Ignored if coordGrid key is not provided. { range = 4 } See NPCList.ByDistance()
 ---@field config NPCType The config to match against NPCEntity.config . { config = config.NPC.HANS } See NPCList.ByConfig()
 ---@field configID Int The config ID to match against NPCEntity.configID . { configID = id.NPC.HANS } See NPCList.ByConfigID()
+---@field parentConfig NPCType The config to match against NPCEntity.parentConfig . { parentConfig = config.NPC.THIGUI_ROBIN_MULTI } See NPCList.ByParentConfig()
+---@field parentConfigID Int The config ID to match against NPCEntity.parentConfigID . { parentConfigID = id.NPC.THIGUI_ROBIN_MULTI } See NPCList.ByParentConfigID()
 ---@field func Function A function which returns a boolean, and which takes an NPCEntity as its only parameter. This function is called for every entity, and any call that returns true will include that NPCEntity in the return array. function ratFinder(npcEntity) { return npcEntity.config == config.NPC.RAT } { func = ratFinder }
 NPCListFilterSettings = {}
