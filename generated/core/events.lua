@@ -342,6 +342,33 @@ InventoryRemoved = {}
 ---@field listing GrandExchangeOffer (Read-only) The offer data.
 GrandExchangeOfferUpdated = {}
 
+---Called when a Player Character is moved to a new world area.
+---@class WorldCreated
+---@field mapSquareMinX Int (Read-only) The minimum map square on the X axis.
+---@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis.
+---@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis.
+---@field mapSquareMaxZ Int (Read-only) The maximum map square on the Z axis.
+WorldCreated = {}
+
+---Called when the current world area is updated, typically caused by player movement.
+---@class WorldUpdated
+WorldUpdated = {}
+
+---Called when a Player Character is moved to a new region.
+---@class RegionCreated
+---@field mapSquareMinX Int (Read-only) The minimum map square on the X axis.
+---@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis.
+---@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis.
+---@field mapSquareMaxZ Int (Read-only) The maximum map square on the Z axis.
+---@field regionGridCorner CoordGrid (Read-only) The bottom-left coordinate of the region.
+---@field regionGridWidth Int (Read-only) The width of the region in grid units.
+---@field regionGridLength Int (Read-only) The length of the region in grid units.
+RegionCreated = {}
+
+---Called when the current region is updated, typically caused by the server adding new zones.
+---@class RegionUpdated
+RegionUpdated = {}
+
 ---@class Event
 ---@field Logic EventSubscription<Logic, nil> Called each time the client begins a logic update.
 ---@field ServerLogic EventSubscription<nil, nil> Called each time the client finishes processing a data packet sent from the server.
@@ -379,4 +406,8 @@ GrandExchangeOfferUpdated = {}
 ---@field InventoryUpdated EventSubscription<InventoryUpdated, nil> Called when an inventory and its contents have been updated by the server.
 ---@field InventoryRemoved EventSubscription<InventoryRemoved, nil> Called when the server stops transmitting the inventory and its contents to the client, signalling its removal.
 ---@field GrandExchangeOfferUpdated EventSubscription<GrandExchangeOfferUpdated, nil> Called when one of a player character's Grand Exchange trade offers receives an update from the server.
+---@field WorldCreated EventSubscription<WorldCreated, nil> Called when a Player Character is moved to a new world area.
+---@field WorldUpdated EventSubscription<WorldUpdated, nil> Called when the current world area is updated, typically caused by player movement.
+---@field RegionCreated EventSubscription<RegionCreated, nil> Called when a Player Character is moved to a new region.
+---@field RegionUpdated EventSubscription<RegionUpdated, nil> Called when the current region is updated, typically caused by the server adding new zones.
 Event = {}
