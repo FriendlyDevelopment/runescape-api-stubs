@@ -342,6 +342,25 @@ InventoryRemoved = {}
 ---@field listing GrandExchangeOffer (Read-only) The offer data. (x)
 GrandExchangeOfferUpdated = {}
 
+---Called when a Player Character is moved to a new world area. A world area is a static part of the game world shared by all Player Characters. Provides the minimum and maximum range of map squares that make up the current world area.
+---@class WorldCreated
+---@field mapSquareMinX Int (Read-only) The minimum map square on the X axis. (x)
+---@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis. (x)
+---@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis. (x)
+---@field mapSquareMaxZ Int (Read-only) The maximum map square on the Z axis. (x)
+WorldCreated = {}
+
+---Called when a Player Character is moved to a new region. A region is a duplicated area outside of the main game world, typically to allow players to experience content alone or within a group. A Region is often known in game-terms as an Instance . The term region is used to clearly differentiate this concept from other uses of instance in the API. Provides the minimum and maximum range of map squares that make up the current region, as well as the bottom-left CoordGrid tile, and region dimensions in grid units. The region dimensions may not fully fill the map squares that make up the region, e.g. a 1x1 map square region may contain a region of 64x48 tiles.
+---@class RegionCreated
+---@field mapSquareMinX Int (Read-only) The minimum map square on the X axis. (x)
+---@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis. (x)
+---@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis. (x)
+---@field mapSquareMaxZ Int (Read-only) The maximum map square on the Z axis. (x)
+---@field regionGridCorner CoordGrid (Read-only) The bottom-left coordinate of the region. (x)
+---@field regionGridWidth Int (Read-only) The width of the region in grid units. (x)
+---@field regionGridLength Int (Read-only) The length of the region in grid units. (x)
+RegionCreated = {}
+
 ---@class Event
 ---@field Logic EventSubscription<Logic, nil> Called each time the client begins a logic update.
 ---@field ServerLogic EventSubscription<nil, nil> Called each time the client finishes processing a data packet sent from the server.
@@ -379,4 +398,8 @@ GrandExchangeOfferUpdated = {}
 ---@field InventoryUpdated EventSubscription<InventoryUpdated, nil> Called when an inventory and its contents have been updated by the server.
 ---@field InventoryRemoved EventSubscription<InventoryRemoved, nil> Called when the server stops transmitting the inventory and its contents to the client, signalling its removal.
 ---@field GrandExchangeOfferUpdated EventSubscription<GrandExchangeOfferUpdated, nil> Called when one of a player character's Grand Exchange trade offers receives an update from the server.
+---@field WorldCreated EventSubscription<WorldCreated, nil> Called when a Player Character is moved to a new world area.
+---@field WorldUpdated EventSubscription<nil, nil> Called when the current world area is updated, typically caused by player movement.
+---@field RegionCreated EventSubscription<RegionCreated, nil> Called when a Player Character is moved to a new region.
+---@field RegionUpdated EventSubscription<nil, nil> Called when the current region is updated, typically caused by the server adding new zones, e.g.
 Event = {}
