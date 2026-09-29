@@ -41,6 +41,10 @@ Player = {}
 ---@return Bool Whether Player data is available to access.
 function Player.IsAvailable() end
 
+---Returns a unique 64-bit tracking value for the Player Character.
+---@return Long? The 64-bit tracking value. Returns nil if unavailable due to login transmission delay, or missing permissions.
+function Player.GetTrackingID() end
+
 ---Returns the current level for the given skill. This includes all skill bonuses and penalties.
 ---@param skill SkillType The skill to return the gameplay level for.
 ---@return Int The current gameplay level of the given skill.

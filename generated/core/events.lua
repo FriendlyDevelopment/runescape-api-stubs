@@ -10,79 +10,6 @@ EntityType = {
     COMBINED_LOCATION_SECTION = "COMBINED_LOCATION_SECTION", -- 12
 }
 
----These are provided as part of the ChatMessage event payload.
----@enum ChatType
-ChatType = {
-    GENERAL = 0,
-    MOD = 1,
-    PUBLIC = 2,
-    PRIVATE_INCOMING = 3,
-    ENGINE = 4,
-    LOGIN_LOGOUT = 5,
-    PRIVATE_OUTGOING = 6,
-    MOD_PRIVATE_INCOMING = 7,
-    FRIEND_CHAT = 9,
-    FRIEND_CHAT_NOTIFICATION = 11,
-    QUICKCHAT_PUBLIC = 17,
-    QUICKCHAT_PRIVATE_INCOMING = 18,
-    QUICKCHAT_PRIVATE_OUTGOING = 19,
-    QUICKCHAT_FRIEND_CHAT = 20,
-    GROUP_SAME_TEAM = 22,
-    QUICKCHAT_GROUP_SAME_TEAM = 23,
-    GROUP_ALL = 24,
-    QUICKCHAT_GROUP_ALL = 25,
-    SNAPSHOT_FEEDBACK = 26,
-    OBJ_EXAMINE = 27,
-    NPC_EXAMINE = 28,
-    LOC_EXAMINE = 29,
-    FRIEND_NOTIFICATION = 30,
-    IGNORE_NOTIFICATION = 31,
-    CLANCHANNEL_AFFINED_CHAT = 41,
-    CLANCHANNEL_AFFINED_QUICKCHAT = 42,
-    CLANCHANNEL_AFFINED_NOTIFICATION = 43,
-    CLANCHANNEL_GUEST_CHAT = 44,
-    CLANCHANNEL_GUEST_QUICKCHAT = 45,
-    CLANCHANNEL_GUEST_NOTIFICATION = 46,
-    CONSOLE_ERROR = 96,
-    CONSOLE_BUFFER_REPLACE = 98,
-    CONSOLE = 99,
-    TRADE_REQUEST = 100,
-    CHALLENGE = 101,
-    ASSIST_REQUEST = 102,
-    TRADE_NOTIFICATION = 103,
-    ASSIST_NOTIFICATION = 104,
-    CLAN_CHALLENGE = 107,
-    ALLY_REQUEST = 108,
-    SPAM = 109,
-    DUNGEON_INVITE = 111,
-    CONQUEST_REGULAR_CHALLENGE = 113,
-    SYSTEM_BROADCAST = 115,
-    NPC_CHAT = 116,
-    CLAN_JOIN = 117,
-    RATED_CLAN_WAR = 118,
-    IGNORABLE_TRADE_NOTIFICATION = 119,
-    ALL_PANES = 120,
-    RAID_HIGH = 122,
-    RAID_DND = 123,
-    BROADCAST = 125,
-    WORLD_EVENT = 126,
-    MISC_BROADCAST = 127,
-    GROUPCHAT_NOTIFICATION = 128,
-    DUEL_ANY_REQUEST = 132,
-    TEMPORARY_EVENT = 133,
-    HATI_FENRIR = 134,
-    LATEST_NEWSPOST = 135,
-    MOTD = 136,
-    BROADCAST_GLOBAL = 137,
-    BROADCAST_WORLD = 138,
-    BROADCAST_FRIENDS = 139,
-    INTERFACE_OPEN = 140,
-    TIMED_EVENT = 142,
-    INTERFACE_OPEN_FILTERED = 143,
-    GROUP_IRONMAN_NOTIFICATION = 144,
-    GENERAL_LINKABLE = 145,
-}
-
 ---These are provided as part of the GameStateChanged event payload.
 ---@enum GameState
 GameState = {
@@ -121,6 +48,12 @@ Draw = {}
 ---@field enabled Bool (Read-only) Whether the optional dependency plugin is now enabled or disabled.
 OptionalDependencyChanged = {}
 
+---Called when an optional permission is approved or revoked for a plugin.
+---@class OptionalPermissionChanged
+---@field permissionName String (Read-only) The name of the permission .
+---@field enabled Bool (Read-only) Whether the permission is now enabled or disabled.
+OptionalPermissionChanged = {}
+
 ---Called when a Keyboard key press is released.
 ---@class KeyUp
 ---@field gameKey GameKey (Read-only) The game key which was released.
@@ -152,9 +85,12 @@ KeyTyped = {}
 ---@field newValue Int|String (Read-only) The current value of the config. The return type is determined by the variable config.
 VarTransmit = {}
 
----Called each time the client receives a message from the server that is intended for a chat window. There are a variety of chat message types that can be received, see ChatType .
+---Called each time the client receives a message from the server, or a local Chat.AddMessage() , that is intended for a chat window. There are a variety of chat message types that can be received, see ChatType . Warning: A plugin will only receive these events if it has requested and been granted the chatAccess permission.
 ---@class ChatMessage
 ---@field chatMessage String The message received. Can be edited freely, and will be passed to any subsequent subscribed functions.
+---@field senderNameUnfiltered String (Read-only) An unfiltered version of a Player Character's name. Will be an empty string if no sender is attributed to the message.
+---@field senderNameFiltered String (Read-only) A filtered version of a Player Character's name intended for display, which may be altered depending on the current language context. This string may not be unique due to any filtering performed. Will be an empty string if no sender is attributed to the message.
+---@field senderNameSimple String (Read-only) A filtered version of a Player Character's name without any pre- or post-fixes. Will be an empty string if no sender is attributed to the message.
 ---@field chatType ChatType (Read-only) The type of chat message.
 ---@field timestamp Int (Read-only) The time when the message was received. Timestamp is in seconds since Unix epoch.
 ChatMessage = {}
@@ -189,6 +125,7 @@ NPCEntityRemoved = {}
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.OBJSTACK .
 ---@field objType ObjType (Read-only) The config type of the object that was added to the objStack.
 ---@field count Int (Read-only) How many of the object was added.
+---@field isOwner Bool (Read-only) Whether the local player is the owner of the stack.
 ObjStackEntityAdded = {}
 
 ---Called when an objStack entity is removed to the game world. This event occurs when the final object in a stack is picked up, or the objStack goes out of view range.
@@ -197,6 +134,7 @@ ObjStackEntityAdded = {}
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.OBJSTACK .
 ---@field objType ObjType (Read-only) The config type of the object that was removed from the objStack.
 ---@field count Int (Read-only) How many of the object was removed.
+---@field isOwner Bool (Read-only) Whether the local player is the owner of the stack.
 ObjStackEntityRemoved = {}
 
 ---Called when an existing objStack entity has changed. This event occurs when objects are added or removed from the tile the objStack is in.
@@ -206,6 +144,7 @@ ObjStackEntityRemoved = {}
 ---@field objType ObjType (Read-only) The config type of the object that was added or removed from the objStack.
 ---@field oldCount Int (Read-only) The previous amount of the object.
 ---@field newCount Int (Read-only) The current amount of the object.
+---@field isOwner Bool (Read-only) Whether the local player is the owner of the stack.
 ObjStackEntityChanged = {}
 
 ---Called when the focus of the game window changes.
@@ -322,55 +261,66 @@ LocAnimation = {}
 
 ---Called after an inventory and its contents have been populated by the server.
 ---@class InventoryAdded
----@field inv InvTypeProxy (Read-only) Config of the inventory added. (x)
+---@field inv InvTypeProxy (Read-only) Config of the inventory added.
 InventoryAdded = {}
 
 ---Called when an inventory and its contents have been updated by the server.
 ---@class InventoryUpdated
----@field inv InvTypeProxy (Read-only) Config of the inventory updated. (x)
----@field slotsUpdated Int[] (Read-only) List of slot ids that have been updated. (x)
+---@field inv InvTypeProxy (Read-only) Config of the inventory updated.
+---@field slotsUpdated Int[] (Read-only) List of slot ids that have been updated.
 InventoryUpdated = {}
 
 ---Called when the server stops transmitting the inventory and its contents to the client, signalling its removal. After being removed, the inventory and its contents are no longer available to the client or the API.
 ---@class InventoryRemoved
----@field inv InvTypeProxy (Read-only) Config of the inventory removed. (x)
+---@field inv InvTypeProxy (Read-only) Config of the inventory removed.
 InventoryRemoved = {}
 
 ---Called when one of a player character's Grand Exchange trade offers receives an update from the server.
 ---@class GrandExchangeOfferUpdated
----@field slot Int (Read-only) Number of the offer slot that has been updated. 1-indexed. (x)
----@field listing GrandExchangeOffer (Read-only) The offer data. (x)
+---@field slot Int (Read-only) Number of the offer slot that has been updated. 1-indexed.
+---@field listing GrandExchangeOffer (Read-only) The offer data.
 GrandExchangeOfferUpdated = {}
 
 ---Called when a Player Character is moved to a new world area. A world area is a static part of the game world shared by all Player Characters. Provides the minimum and maximum range of map squares that make up the current world area.
 ---@class WorldCreated
----@field mapSquareMinX Int (Read-only) The minimum map square on the X axis. (x)
----@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis. (x)
----@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis. (x)
----@field mapSquareMaxZ Int (Read-only) The maximum map square on the Z axis. (x)
+---@field mapSquareMinX Int (Read-only) The minimum map square on the X axis.
+---@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis.
+---@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis.
+---@field mapSquareMaxZ Int (Read-only) The maximum map square on the Z axis.
 WorldCreated = {}
 
 ---Called when a Player Character is moved to a new region. A region is a duplicated area outside of the main game world, typically to allow players to experience content alone or within a group. A Region is often known in game-terms as an Instance . The term region is used to clearly differentiate this concept from other uses of instance in the API. Provides the minimum and maximum range of map squares that make up the current region, as well as the bottom-left CoordGrid tile, and region dimensions in grid units. The region dimensions may not fully fill the map squares that make up the region, e.g. a 1x1 map square region may contain a region of 64x48 tiles.
 ---@class RegionCreated
----@field mapSquareMinX Int (Read-only) The minimum map square on the X axis. (x)
----@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis. (x)
----@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis. (x)
----@field mapSquareMaxZ Int (Read-only) The maximum map square on the Z axis. (x)
----@field regionGridCorner CoordGrid (Read-only) The bottom-left coordinate of the region. (x)
----@field regionGridWidth Int (Read-only) The width of the region in grid units. (x)
----@field regionGridLength Int (Read-only) The length of the region in grid units. (x)
+---@field mapSquareMinX Int (Read-only) The minimum map square on the X axis.
+---@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis.
+---@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis.
+---@field mapSquareMaxZ Int (Read-only) The maximum map square on the Z axis.
+---@field regionGridCorner CoordGrid (Read-only) The bottom-left coordinate of the region.
+---@field regionGridWidth Int (Read-only) The width of the region in grid units.
+---@field regionGridLength Int (Read-only) The length of the region in grid units.
 RegionCreated = {}
+
+---Called when the settings layer is presented for a given plugin. The settings layer is shown after selecting a Settings Icon in the Manage tab of the Plugin Hub . Plugin developers are expected to populate this layer with UI elements for settings appropriate to their plugin. The layer is cleared of pre-existing elements immediately before this event is called. The Settings Icon is disabled by default, and can be enabled by adding the following to the plugin manifest:
+---@class SettingsLayerReady
+---@field component Component An empty layer to be populated by UI elements.
+SettingsLayerReady = {}
+
+---Called when the content layer is presented for a given plugin. The content layer is shown after selecting a Ribbon Icon in the Plugins floating UI window. Plugin developers are expected to populate this layer with UI elements for content appropriate to their plugin. The layer is cleared of pre-existing elements immediately before this event is called. The Ribbon Icon is disabled by default, and can be enabled by adding the following to the plugin manifest:
+---@class ContentLayerReady
+---@field component Component An empty layer to be populated by UI elements.
+ContentLayerReady = {}
 
 ---@class Event
 ---@field Logic EventSubscription<Logic, nil> Called each time the client begins a logic update.
 ---@field ServerLogic EventSubscription<nil, nil> Called each time the client finishes processing a data packet sent from the server.
 ---@field Draw EventSubscription<Draw, nil> Called each time the client begins a draw update.
 ---@field OptionalDependencyChanged EventSubscription<OptionalDependencyChanged, nil> Called when an optional dependency plugin is enabled or disabled.
+---@field OptionalPermissionChanged EventSubscription<OptionalPermissionChanged, nil> Called when an optional permission is approved or revoked for a plugin.
 ---@field KeyUp EventSubscription<KeyUp, nil> Called when a Keyboard key press is released.
 ---@field KeyDown EventSubscription<KeyDown, nil> Called when a Keyboard key press is first pressed, and when a key-repeat event is sent by the OS.
 ---@field KeyTyped EventSubscription<KeyTyped, nil> This event provides the string character generated by the combination of keys just pressed.
 ---@field VarTransmit EventSubscription<VarTransmit, nil> Called when a variable update is transmitted from the server to the client.
----@field ChatMessage EventSubscription<ChatMessage, nil> Called each time the client receives a message from the server that is intended for a chat window.
+---@field ChatMessage EventSubscription<ChatMessage, nil> Called each time the client receives a message from the server, or a local Chat.AddMessage() , that is intended for a chat window.
 ---@field PlayerEntityAdded EventSubscription<PlayerEntityAdded, nil> Called when a player entity is added to the game world.
 ---@field PlayerEntityRemoved EventSubscription<PlayerEntityRemoved, nil> Called when a player entity is removed from the game world.
 ---@field NPCEntityAdded EventSubscription<NPCEntityAdded, nil> Called when an NPC entity is added to the game world.
@@ -402,4 +352,6 @@ RegionCreated = {}
 ---@field WorldUpdated EventSubscription<nil, nil> Called when the current world area is updated, typically caused by player movement.
 ---@field RegionCreated EventSubscription<RegionCreated, nil> Called when a Player Character is moved to a new region.
 ---@field RegionUpdated EventSubscription<nil, nil> Called when the current region is updated, typically caused by the server adding new zones, e.g.
+---@field SettingsLayerReady EventSubscription<SettingsLayerReady, nil> Called when the settings layer is presented for a given plugin.
+---@field ContentLayerReady EventSubscription<ContentLayerReady, nil> Called when the content layer is presented for a given plugin.
 Event = {}

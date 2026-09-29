@@ -15,6 +15,18 @@ World = {}
 ---@return Bool Whether the world data is available to read from.
 function World.IsAvailable() end
 
+---Returns whether the currently connected world is a Member's world.
+---@return Bool Whether the world is a Member's world.
+function World.IsMembers() end
+
+---Returns the ping value to the current game world.
+---@return Int The ping value to the current game world.
+function World.GetPing() end
+
+---Returns the number of logic ticks (50 per second) until the currently connected server reboots.
+---@return Int The number of logic ticks until a server reboot.
+function World.GetRebootTimer() end
+
 ---Returns whether the current game world is a region or not.
 ---@return Bool Whether the current game world is a region.
 function World.IsRegion() end
