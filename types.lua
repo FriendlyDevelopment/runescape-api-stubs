@@ -3,6 +3,7 @@
 -- ── Primitive type aliases ─────────────────────────────────────────────────────
 ---@alias Float number
 ---@alias Int integer
+---@alias Long integer
 ---@alias Uint integer
 ---@alias Uint8 integer
 ---@alias Uint16 integer

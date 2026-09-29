@@ -37,6 +37,7 @@ ChatType = {
     LOC_EXAMINE = 29,
     FRIEND_NOTIFICATION = 30,
     IGNORE_NOTIFICATION = 31,
+    PLUGIN = 33,
     CLANCHANNEL_AFFINED_CHAT = 41,
     CLANCHANNEL_AFFINED_QUICKCHAT = 42,
     CLANCHANNEL_AFFINED_NOTIFICATION = 43,
@@ -121,6 +122,12 @@ Draw = {}
 ---@field enabled Bool (Read-only) Whether the optional dependency plugin is now enabled or disabled.
 OptionalDependencyChanged = {}
 
+---Called when an optional permission is approved or revoked for a plugin.
+---@class OptionalPermissionChanged
+---@field permissionName String (Read-only) The name of the permission.
+---@field enabled Bool (Read-only) Whether the permission is now enabled or disabled.
+OptionalPermissionChanged = {}
+
 ---Called when a Keyboard key press is released.
 ---@class KeyUp
 ---@field gameKey GameKey (Read-only) The game key which was released.
@@ -152,9 +159,14 @@ KeyTyped = {}
 ---@field newValue Int|String (Read-only) The current value of the config. The return type is determined by the variable config.
 VarTransmit = {}
 
----Called each time the client receives a message from the server that is intended for a chat window. There are a variety of chat message types that can be received, see ChatType .
+---Called each time the client receives a message from the server, or a local Chat.AddMessage(), intended for a chat window.
+---There are a variety of chat message types that can be received, see ChatType.
+---Only received if the plugin has requested and been granted the chatAccess permission.
 ---@class ChatMessage
 ---@field chatMessage String The message received. Can be edited freely, and will be passed to any subsequent subscribed functions.
+---@field senderNameUnfiltered String (Read-only) The unfiltered Player Character name. Empty if no sender is attributed to the message.
+---@field senderNameFiltered String (Read-only) The name filtered for display in the current language context. May not be unique after filtering. Empty if no sender is attributed to the message.
+---@field senderNameSimple String (Read-only) The filtered name without prefixes or suffixes. Empty if no sender is attributed to the message.
 ---@field chatType ChatType (Read-only) The type of chat message.
 ---@field timestamp Int (Read-only) The time when the message was received. Timestamp is in seconds since Unix epoch.
 ChatMessage = {}
@@ -189,6 +201,7 @@ NPCEntityRemoved = {}
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.OBJSTACK .
 ---@field objType ObjType (Read-only) The config type of the object that was added to the objStack.
 ---@field count Int (Read-only) How many of the object was added.
+---@field isOwner Bool (Read-only) Whether the local player is the owner of the stack.
 ObjStackEntityAdded = {}
 
 ---Called when an objStack entity is removed to the game world. This event occurs when the final object in a stack is picked up, or the objStack goes out of view range.
@@ -197,6 +210,7 @@ ObjStackEntityAdded = {}
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.OBJSTACK .
 ---@field objType ObjType (Read-only) The config type of the object that was removed from the objStack.
 ---@field count Int (Read-only) How many of the object was removed.
+---@field isOwner Bool (Read-only) Whether the local player is the owner of the stack.
 ObjStackEntityRemoved = {}
 
 ---Called when an existing objStack entity has changed. This event occurs when objects are added or removed from the tile the objStack is in.
@@ -206,6 +220,7 @@ ObjStackEntityRemoved = {}
 ---@field objType ObjType (Read-only) The config type of the object that was added or removed from the objStack.
 ---@field oldCount Int (Read-only) The previous amount of the object.
 ---@field newCount Int (Read-only) The current amount of the object.
+---@field isOwner Bool (Read-only) Whether the local player is the owner of the stack.
 ObjStackEntityChanged = {}
 
 ---Called when the focus of the game window changes.
@@ -369,16 +384,31 @@ RegionCreated = {}
 ---@class RegionUpdated
 RegionUpdated = {}
 
+---Called when the settings layer is presented after selecting the Settings Icon in the Plugin Hub's Manage tab.
+---Populate the layer with the plugin's settings UI. Existing elements are cleared immediately before this event.
+---Enable the Settings Icon by setting "hasSettingsIcon": true in the plugin manifest.
+---@class SettingsLayerReady
+---@field component Component An empty layer to be populated by UI elements.
+SettingsLayerReady = {}
+
+---Called when the content layer is presented after selecting the Ribbon Icon in the Plugins floating UI window.
+---Populate the layer with the plugin's content UI. Existing elements are cleared immediately before this event.
+---Enable the Ribbon Icon by setting "hasRibbonIcon": true in the plugin manifest.
+---@class ContentLayerReady
+---@field component Component An empty layer to be populated by UI elements.
+ContentLayerReady = {}
+
 ---@class Event
 ---@field Logic EventSubscription<Logic, nil> Called each time the client begins a logic update.
 ---@field ServerLogic EventSubscription<nil, nil> Called each time the client finishes processing a data packet sent from the server.
 ---@field Draw EventSubscription<Draw, nil> Called each time the client begins a draw update.
 ---@field OptionalDependencyChanged EventSubscription<OptionalDependencyChanged, nil> Called when an optional dependency plugin is enabled or disabled.
+---@field OptionalPermissionChanged EventSubscription<OptionalPermissionChanged, nil> Called when an optional permission is approved or revoked for a plugin.
 ---@field KeyUp EventSubscription<KeyUp, nil> Called when a Keyboard key press is released.
 ---@field KeyDown EventSubscription<KeyDown, nil> Called when a Keyboard key press is first pressed, and when a key-repeat event is sent by the OS.
 ---@field KeyTyped EventSubscription<KeyTyped, nil> This event provides the string character generated by the combination of keys just pressed.
 ---@field VarTransmit EventSubscription<VarTransmit, nil> Called when a variable update is transmitted from the server to the client.
----@field ChatMessage EventSubscription<ChatMessage, nil> Called each time the client receives a message from the server that is intended for a chat window.
+---@field ChatMessage EventSubscription<ChatMessage, nil> Called for server or local Chat.AddMessage() messages intended for a chat window. Requires the chatAccess permission.
 ---@field PlayerEntityAdded EventSubscription<PlayerEntityAdded, nil> Called when a player entity is added to the game world.
 ---@field PlayerEntityRemoved EventSubscription<PlayerEntityRemoved, nil> Called when a player entity is removed from the game world.
 ---@field NPCEntityAdded EventSubscription<NPCEntityAdded, nil> Called when an NPC entity is added to the game world.
@@ -410,4 +440,6 @@ RegionUpdated = {}
 ---@field WorldUpdated EventSubscription<WorldUpdated, nil> Called when the current world area is updated, typically caused by player movement.
 ---@field RegionCreated EventSubscription<RegionCreated, nil> Called when a Player Character is moved to a new region.
 ---@field RegionUpdated EventSubscription<RegionUpdated, nil> Called when the current region is updated, typically caused by the server adding new zones.
+---@field SettingsLayerReady EventSubscription<SettingsLayerReady, nil> Called when the settings layer is presented for this plugin. Requires hasSettingsIcon in the manifest.
+---@field ContentLayerReady EventSubscription<ContentLayerReady, nil> Called when the content layer is presented for this plugin. Requires hasRibbonIcon in the manifest.
 Event = {}

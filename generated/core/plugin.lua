@@ -4,6 +4,8 @@
 ---@enum PluginPermissions
 PluginPermissions = {
     httpAccess = "httpAccess", -- Allows the use of HTTP -related functionality if provided. Makes use of base URLs specified in the plugin's manifest file.
+    chatAccess = "chatAccess", -- Allows the use of Chat-related functionality if provided.
+    trackingAccess = "trackingAccess", -- Allows access to the Player Character's tracking ID through Player.GetTrackingID().
 }
 
 ---@class Plugin
