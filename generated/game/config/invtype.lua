@@ -6,4 +6,4 @@
 ---@field typeName String The type of this config. Will always be "Inv" .
 ---@field size Int The number of inventory slots in this config.
 ---@field stockCount Int The number of stock ObjTypes in this config.
-InvType = {}
+local InvType = {}

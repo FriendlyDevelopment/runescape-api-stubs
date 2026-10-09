@@ -26,7 +26,7 @@ ObjStackType = {
 ---@field interfaceOpNames String[] A list of names displayed for the available ops when the object is shown in an interface component. Use pairs() to iterate this list, which will provide both the op index and name as opIndex,opName .
 ---@field stackCountAltObjs {[1]: Int, [2]: ObjType}[] A list of count/config pairs used to select which ObjType config is used to draw the current object.
 ---@field params ParamType[] Returns a list of all the ParamTypes stored in this config.
-Obj = {}
+local Obj = {}
 
 ---Returns the custom CursorType , if any, used for the given op index when the ObjType is on the ground.
 ---@param opIndex Int The op index.

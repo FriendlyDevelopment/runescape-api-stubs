@@ -7,4 +7,3 @@
 ---@field hotspotX Int The horizontal pixel inside the source sprite where clicks are centred.
 ---@field hotspotY Int The vertical pixel inside the source sprite where clicks are centred.
 ---@field spriteID Int The ID of the source sprite.
-CursorType = {}

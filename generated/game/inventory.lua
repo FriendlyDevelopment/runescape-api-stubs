@@ -21,7 +21,7 @@ function Inventory.Find(id) end
 ---@field slotCount Int Total number of slots.
 ---@field usedSlotCount Int Number of non-empty slots.
 ---@field freeSlotCount Int Number of empty slots.
-Inv = {}
+local Inv = {}
 
 ---Returns the InvSlot at the specified index.
 ---@param index Int A valid slot index. Index values are 1-indexed.
@@ -51,4 +51,3 @@ function Inv:GetCategoryTotal(category) end
 ---@class InvSlot
 ---@field obj ObjType Unique ID associated with the inventory.
 ---@field count Int Number of objects in the slot.
-InvSlot = {}

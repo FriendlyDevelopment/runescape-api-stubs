@@ -42,7 +42,7 @@ QuestDifficulty = {
 ---@field hasFinishedQuest Bool Whether the Player Character has completed this quest.
 ---@field masterQuestVars MasterQuestVarPlayer[] An array holding a list of MasterQuestVarPlayer descriptors. There will always be one element in this array.
 ---@field params ParamType[] Returns a list of all the ParamTypes stored in this config.
-Quest = {}
+local Quest = {}
 
 ---Returns the corresponding output value for the given input ParamType .
 ---@param param ParamType The input param value.
@@ -59,10 +59,8 @@ function Quest:HasParam(param) end
 ---@field varPlayer VarType The var.VarPlayer which holds the current progress value.
 ---@field startState Int The starting variable value for this quest. Values below this indicates that the quest has not been started.
 ---@field endState Int The completion value for this quest. Actual variable value may be greater than this, indicating post-completion progress.
-MasterQuestVarPlayer = {}
 
 ---A container table holding data about a skill prerequisite.
 ---@class QuestPreReqSkill
 ---@field skillType SkillType The skill type to check.
 ---@field minimumLevel Int The minimum skill level required by the Player Character to complete this prerequisite.
-QuestPreReqSkill = {}

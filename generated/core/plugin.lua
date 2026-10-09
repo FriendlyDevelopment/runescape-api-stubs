@@ -32,7 +32,7 @@ PluginResourceLoadResult = {
 ---@field path String (Read-only) The disk path to this resource.
 ---@field loaded Bool (Read-only) Whether the resource's data is currently loaded and ready to use.
 ---@field inUse Bool (Read-only) Whether or not the resource is being used anywhere currently.
-PluginResource = {}
+local PluginResource = {}
 
 ---Attempts to load this resource, making it ready for immediate use afterwards if successful.
 ---@return PluginResourceLoadResult # Indicates whether loading succeeded, or the error in case it failed.

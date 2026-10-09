@@ -37,11 +37,9 @@ function World.GetMapSquareBounds() end
 ---@return Bool
 function World.GetGroundHeight(level, x, z, heightOffsetType) end
 
----If the name has already been registered then the existing coordinate, or coordinate range, is updated with the new coordinate.
----@class Functions
-Functions = {}
+World.RemoveRoof = {}
 
----Adds the given coordinate to the Remove Roof system, registering it by the given name.
+---Adds the given coordinate to the Remove Roof system, registering it by the given name. If the name has already been registered then the existing coordinate, or coordinate range, is updated with the new coordinate.
 ---@param name String The name to register the coordinate with.
 ---@param coord CoordGrid The coordinate to add to the Remove Roof system.
 function World.RemoveRoof.Add(name, coord) end

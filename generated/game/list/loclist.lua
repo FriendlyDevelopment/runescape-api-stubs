@@ -42,4 +42,3 @@ function LocList.Filter(filterSet) end
 ---@field config LocType The config to match against LocEntity.config . { config = config.Loc.FFH_WILLOW_TREE_TRUNK } See LocList.ByConfig()
 ---@field configID Int The config ID to match against LocEntity.configID . { configID = id.Loc.FFH_WILLOW_TREE_TRUNK } See LocList.ByConfigID()
 ---@field func fun(locEntity: LocEntity): Bool A predicate used to include matching location entities.
-LocListFilterSettings = {}

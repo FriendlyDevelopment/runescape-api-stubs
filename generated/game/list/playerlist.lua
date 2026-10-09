@@ -38,4 +38,3 @@ function PlayerList.Filter(filterSet) end
 ---@field coordGrid CoordGrid A coord to test entity distance from. If range is not provided, the default value of range will be 0 . { coordGrid = CoordGrid._0_50_50_32_32 } See PlayerList.ByDistance()
 ---@field range Int Ignored if coordGrid key is not provided. { range = 4 } See PlayerList.ByDistance()
 ---@field func fun(playerEntity: PlayerEntity): Bool A predicate used to include matching player entities.
-PlayerListFilterSettings = {}

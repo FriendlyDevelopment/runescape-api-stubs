@@ -9,7 +9,7 @@ ui = {}
 ---@field scrollY number (Read-only) Current vertical origin for this component's scroll region.
 ---@field scrollWidth number (Read-only) Width of this component's scroll region.
 ---@field scrollHeight number (Read-only) Height of this component's scroll region.
-ComponentCollection = {}
+local ComponentCollection = {}
 
 ---Iterates over statically defined components contained in this collection, executing the provided callback once for each component, optionally stopping based on the callback's return value.
 ---@param callback fun(component : ui.Component, visible : Bool):Bool Callback to execute for each component, receiving the component and its visibility status. If it returns true, iteration will stop

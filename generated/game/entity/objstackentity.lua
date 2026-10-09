@@ -6,7 +6,7 @@
 ---@field coordGrid CoordGrid Returns the CoordGrid tile this ObjStackEntity is currently on.
 ---@field aabb AABB Returns the current bounding box for this ObjStackEntity .
 ---@field stackSize Int The number of ObjEntries in this ObjStackEntity .
-ObjStackEntity = {}
+local ObjStackEntity = {}
 
 ---Returns the ObjEntry at the given index .
 ---@param index Int The index of the ObjEntry to return. The value of index starts at 1 . Returns nil if no entry is found at the given index.
@@ -28,4 +28,3 @@ function ObjStackEntity:HasObjID(objTypeID) end
 ---@field config ObjType The config that describes this entry.
 ---@field configID Int The config ID that describes this entry.
 ---@field count Int How many of this object are in this specific entry. This will always be 1 for ObjTypes that cannot stack.
-ObjEntry = {}

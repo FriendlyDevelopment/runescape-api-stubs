@@ -47,7 +47,7 @@ MapElementTextSize = {
 ---@field alignHorizontal MapElementHorizontalAlign The horizontal alignment of the MapElement.
 ---@field alignVertical MapElementVerticalAlign The vertical alignment of the MapElement.
 ---@field isMultiMapElement Bool Whether this config contains a sub-list of MapElementTypes, of which one is selected based on a variable check.
-MapElement = {}
+local MapElement = {}
 
 ---Returns the corresponding output value for the given input ParamType .
 ---@param param ParamType The input param value.

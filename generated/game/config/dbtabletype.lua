@@ -5,7 +5,7 @@
 ---@field configName String The name of this config, i.e. "INVENT_PERK_TABLE" .
 ---@field typeName String The type of this config. Will always be "DBTable" .
 ---@field columnCount Int The total number columns in this table.
-DBTable = {}
+local DBTable = {}
 
 ---Returns the number of values in the given column.
 ---@param columnIndex Int The column index to check. Column index values are 1-indexed.

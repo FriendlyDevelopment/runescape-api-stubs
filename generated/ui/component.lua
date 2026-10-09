@@ -44,7 +44,7 @@ ui = {}
 ---@field xyLocal Vector2 (Read-only) Current XY position relative to this component's parent.
 ---@field xyGlobal Vector2 (Read-only) Current absolute XY position.
 ---@field isRestricted Bool (Read-only) Whether this component is restricted.
-Component = {}
+local Component = {}
 
 ---Moves this component's origin to the provided coordinates, optionally taking into account the parent's dimensions, and this component's own dimensions.
 ---@param x Int Absolute horizontal coordinate to move this component to in interface units

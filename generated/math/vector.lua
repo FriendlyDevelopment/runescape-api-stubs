@@ -5,7 +5,7 @@
 ---@field length Float (Read-only) Length value for this vector.
 ---@field lengthSq Float (Read-only) Squared length value for this vector. Faster to calculate than length.
 ---@field invLength Float (Read-only) Inverse of the length value for this vector, equivalent to 1.0 / length.
-Vector = {}
+local Vector = {}
 
 ---Computes the absolute value representation for the provided vector and returns it.
 ---@return Vector # Contains the absolute value representation of the provided vector.

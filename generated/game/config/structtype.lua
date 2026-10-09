@@ -5,7 +5,7 @@
 ---@field configName String The name of this config, i.e. "BOSS_INSTANCE_STALKER_BOSS" .
 ---@field typeName String The type of this config. Will always be "Struct" .
 ---@field params ParamType[] Returns a list of all the ParamTypes stored in this config.
-Struct = {}
+local Struct = {}
 
 ---Returns the corresponding output value for the given input ParamType .
 ---@param param ParamType The input param value.

@@ -6,7 +6,7 @@
 ---@field typeName String The type of this config. Will always be "DBRow" .
 ---@field columnCount Int The total number columns in this table.
 ---@field ownerDBTable DBTableType The parent table config for this row config.
-DBRow = {}
+local DBRow = {}
 
 ---Returns the number of values in the given column.
 ---@param columnIndex Int The column index to check. Column index values are 1-indexed.
