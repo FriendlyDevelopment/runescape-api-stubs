@@ -19,8 +19,6 @@ function ShapeList.Draw(settings) end
 ---@param settings ShapeListDrawLineSettings A table of key-value pairs which describe the settings for the draw operation.
 function ShapeList.DrawLine(settings) end
 
----@param coord any
-
 ---Creates a new ShapeInstance with the given name. Returns nil if an instance already exists with that name.
 ---@param name String The name of the instance.
 ---@return ShapeInstance? # The created ShapeInstance . Returns nil if the instance could not be created.

@@ -304,16 +304,16 @@ GameState = {
 
 ---Called after an inventory and its contents have been populated by the server.
 ---@class InventoryAddedEventPayload
----@field inv InvTypeProxy (Read-only) Config of the inventory added. (x)
+---@field inv InvType (Read-only) Config of the inventory added. (x)
 
 ---Called when an inventory and its contents have been updated by the server.
 ---@class InventoryUpdatedEventPayload
----@field inv InvTypeProxy (Read-only) Config of the inventory updated. (x)
+---@field inv InvType (Read-only) Config of the inventory updated. (x)
 ---@field slotsUpdated Int[] (Read-only) List of slot ids that have been updated. (x)
 
 ---Called when the server stops transmitting the inventory and its contents to the client, signalling its removal. After being removed, the inventory and its contents are no longer available to the client or the API.
 ---@class InventoryRemovedEventPayload
----@field inv InvTypeProxy (Read-only) Config of the inventory removed. (x)
+---@field inv InvType (Read-only) Config of the inventory removed. (x)
 
 ---Called when one of a player character's Grand Exchange trade offers receives an update from the server.
 ---@class GrandExchangeOfferUpdatedEventPayload
@@ -358,7 +358,7 @@ GameState = {
 ---@class Event
 ---@field Logic EventSubscription<LogicEventPayload, nil> Called each time the client begins a logic update.
 ---@field ServerLogic EventSubscription<nil, nil> Called each time the client finishes processing a data packet sent from the server.
----@field Draw EventSubscription<DrawEventPayload, void> Called each time the client begins a draw update.
+---@field Draw EventSubscription<DrawEventPayload, nil> Called each time the client begins a draw update.
 ---@field OptionalDependencyChanged EventSubscription<OptionalDependencyChangedEventPayload, nil> Called when an optional dependency plugin is enabled or disabled.
 ---@field OptionalPermissionChanged EventSubscription<OptionalPermissionChangedEventPayload, nil> Called when an optional permission is approved or revoked for a plugin.
 ---@field KeyUp EventSubscription<KeyUpEventPayload, nil> Called when a Keyboard key press is released.
