@@ -35,7 +35,7 @@ ui.Sprite = {}
 ---@param parent ui.ComponentCollection Parent component to create this sprite component in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return Sprite The newly created sprite component. The caller must set its layout and visual information afterwards.
+---@return Sprite # The newly created sprite component. The caller must set its layout and visual information afterwards.
 function ui.Sprite.new(parent, categoryID, dynamicID) end
 
 ---Associates an object with this component, making it use the object's name and optionally it's quantity as the displayed contents for this component.
@@ -53,5 +53,5 @@ function ui.Sprite:AlignTo(alignment) end
 function ui.Sprite:SetConfig(config) end
 
 ---Returns a copy of this Sprite's config, allowing it to be used elsewhere.
----@return ui.SpriteDataConfig Config containing a copy of all properties set on this Sprite object, excluding non-config properties (eg. content )
+---@return ui.SpriteDataConfig # Config containing a copy of all properties set on this Sprite object, excluding non-config properties (eg. content )
 function ui.Sprite:GetConfigCopy() end

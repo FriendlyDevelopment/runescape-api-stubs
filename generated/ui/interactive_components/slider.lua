@@ -23,7 +23,7 @@ ui.Slider = {}
 ---@param parent ui.ComponentCollection Parent component to create this slider in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return Slider The newly created slider. The caller must set its layout and visual information afterwards.
+---@return Slider # The newly created slider. The caller must set its layout and visual information afterwards.
 function ui.Slider.new(parent, categoryID, dynamicID) end
 
 ---Configures the value range for this slider and its current value, returning true if the provided data represents a valid range for a slider.
@@ -32,11 +32,11 @@ function ui.Slider.new(parent, categoryID, dynamicID) end
 ---@overload fun(self: ui.Slider, entriesMap: table<String, Int>, selectedValue: Int?): Bool
 ---@param max Int Maximum value for this slider. Must be higher than min .
 ---@param curValue Int Current value for this slider. Must be between min and max .
----@return Bool True if setup was successful, indicating the slider now has a valid range and is ready to be used.
+---@return Bool # True if setup was successful, indicating the slider now has a valid range and is ready to be used.
 function ui.Slider:Setup(max, curValue) end
 
 ---Sets the current value for this slider.
 ---@param value Int Desired current value for this slider.
 ---@param triggerEvents Bool? Whether or not to emit ONSELECTIONCHANGED events for this change. Defaults to false.
----@return Bool True if the provided value is representable by this slider and was set successfully, false otherwise.
+---@return Bool # True if the provided value is representable by this slider and was set successfully, false otherwise.
 function ui.Slider:SetValue(value, triggerEvents) end

@@ -44,7 +44,7 @@ ui.Model = {}
 ---@param parent ui.ComponentCollection Parent component to create this model in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return Model The newly created model. The caller must set its layout and visual information afterwards.
+---@return Model # The newly created model. The caller must set its layout and visual information afterwards.
 function ui.Model.new(parent, categoryID, dynamicID) end
 
 ---Sets the model to be drawn as part of this component.
@@ -107,6 +107,9 @@ function ui.Model:ResetEnvironment() end
 ---@field maxAutoExposure Float Controls the maximum calculated exposure for a scene, used in tonemapping. Defaults to 1.0 .
 ---@field bloomScale Float Controls the intensity of bloom visuals. Defaults to 1.0 .
 ui.ModelEnvironment = {}
+
+---@return ui.ModelEnvironment
+function ui.ModelEnvironment.new() end
 
 ---@alias ModelEnvironment ui.ModelEnvironment
 

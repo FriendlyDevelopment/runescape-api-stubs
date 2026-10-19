@@ -8,3 +8,6 @@ ui.CutscenePlaybackEndReason = {
     INTERRUPTED = "INTERRUPTED", -- The cutscene was interrupted by another cutscene.
     INTERFACE_CLOSED = "INTERFACE_CLOSED", -- The cutscene's playback was interrupt due to the interface in which its layer resided being closed.
 }
+
+---@class ui.CutsceneLayer : ui.Layer
+ui.CutsceneLayer = {}

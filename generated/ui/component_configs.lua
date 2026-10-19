@@ -51,11 +51,11 @@ ui.OpNameFilter = {}
 
 ---Creates a new op name filter object.
 ---@overload fun(filterString: String, exactMatch: Bool, invertFilter: Bool): ui.OpNameFilter
----@return ui.OpNameFilter True if the provided string would pass this filter, false otherwise.
+---@return ui.OpNameFilter # True if the provided string would pass this filter, false otherwise.
 function ui.OpNameFilter.new() end
 
 ---@param testString String String to test this filter against.
----@return Bool True if the provided string would pass this filter, false otherwise.
+---@return Bool # True if the provided string would pass this filter, false otherwise.
 function ui.OpNameFilter:Test(testString) end
 
 ---Config type containing the ingame actions available for the player to perform when interacting with this config's UI component.
@@ -75,74 +75,65 @@ ui.ComponentOpConfig = {}
 
 ---Retrieves the name of the op at the specified index.
 ---@param opIndex Int Index of the op that will be accessed.
----@return String Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return String # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:GetOpName(opIndex) end
 
----@return Int Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:ClearOpNames() end
 
 ---@param opIndex Int Index of the op that will be accessed.
----@return Int Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return Int # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:GetOpCursor(opIndex) end
 
 ---@param opIndex Int Index of the op that will be accessed.
 ---@param cursorID Int ID of the cursor to use for this op.
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:SetOpCursor(opIndex, cursorID) end
 
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:ClearOpCursors() end
 
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return Bool # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:HasHiddenTests() end
 
 ---@param opIndex Int Index of the op that will be accessed.
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return Bool # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:TestOpIsHidden(opIndex) end
 
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:ClearHiddenOps() end
 
 ---@param opIndex Int Index of the op that will be accessed.
 ---@param hidden Bool Whether this op should be hidden by default or not.
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:SetOpIDHidden(opIndex, hidden) end
 
 ---@param opIndex Int Index of the op that will be accessed.
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return Bool # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:GetOpIDHidden(opIndex) end
 
 ---@param filter ui.OpNameFilter Filter used to determine whether an op should be shown higher on the op list or not based on its name.
----@return ui.OpNameFilter Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:SetOpNameHidden(filter) end
 
----@return ui.OpNameFilter Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return ui.OpNameFilter # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:GetOpNameHidden() end
 
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return Bool # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:HasHighPriorityTests() end
 
 ---@param opIndex Int Index of the op that will be accessed.
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return Bool # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:TestOpIsHighPriority(opIndex) end
 
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:ClearHighPriorityOps() end
 
 ---@param opIndex Int Index of the op that will be accessed.
 ---@param highPriority Bool Whether this op should be shown higher on the op list by default or not.
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:SetOpIDHighPriority(opIndex, highPriority) end
 
 ---@param opIndex Int Index of the op that will be accessed.
----@return Bool Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return Bool # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:GetOpIDHighPriority(opIndex) end
 
 ---@param filter ui.OpNameFilter Filter used to determine whether an op should be shown higher on the op list or not based on its name.
----@return ui.OpNameFilter Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:SetOpNameHighPriority(filter) end
 
----@return ui.OpNameFilter Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
+---@return ui.OpNameFilter # Currently active filter used to determine whether an op should be shown higher on the op list or not based on its name. If not set previously, this will represent an always-fail filter.
 function ui.ComponentOpConfig:GetOpNameHighPriority() end
 
 ---Configuration paremeters used for swipe gesture handling on components.
@@ -163,8 +154,8 @@ function ui.ComponentSwipeConfig:SetDeadZone(horizontal, vertical) end
 
 ---Configuration parameters used for drag gestures handling on components.
 ---@class ui.ComponentDragConfig
----@field draggedComponent Component The component that's being actively dragged.
----@field renderBehaviour DragRenderBehaviour Indicates how the component should be rendered while it's being dragged.
+---@field draggedComponent ui.Component The component that's being actively dragged.
+---@field renderBehaviour ui.DragRenderBehaviour Indicates how the component should be rendered while it's being dragged.
 ---@field dragDelayTicks Uint8 How long the user must be attempting a drag action for on a component in logic ticks, before the action actually starts.
 ---@field deadZone Uint8 Minimum distance in interface units before a drag gesture is triggered, assuming dragDelayTicks has been exceeded.
 ui.ComponentDragConfig = {}
@@ -197,9 +188,9 @@ ui.ComponentParamsConfig = {}
 
 ---Retrieves the value for the parameter associated with the provided ID.
 ---@param paramID Int Numeric ID associated with the parameter to check.
----@return Int? | String? True if a parameter with the specified ID exists, false otherwise.
+---@return Int|String|nil # The parameter value, or nil if no parameter is associated with the provided ID.
 function ui.ComponentParamsConfig:Get(paramID) end
 
 ---@param paramID Int Numeric ID associated with the parameter to check.
----@return Bool True if a parameter with the specified ID exists, false otherwise.
+---@return Bool # True if a parameter with the specified ID exists, false otherwise.
 function ui.ComponentParamsConfig:CheckExists(paramID) end

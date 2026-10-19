@@ -41,22 +41,20 @@ MapElementTextSize = {
 ---@field textBGOutlineColour Vector4 The colour of the background for the text displayed on the map.
 ---@field textBGOutlineRGBA Int The colour of the background outline for the text displayed on the when a mouse hovers over it on the map as an integer.
 ---@field showOnMiniMap Bool Is this config displayed on the minimap.
----@field showOnMiniMap Bool Is this config displayed on the world map.
 ---@field category Int The MapElement category this config is associated with.
 ---@field subjectText String The text for the world map subject for the associated MapElement.
----@field spriteID Int The ID of the sprite associated with the MapElement when flashing on the map.
 ---@field minimapIconScale Int The icon scaling for the MapElement used when rendering it to the minimap.
 ---@field alignHorizontal MapElementHorizontalAlign The horizontal alignment of the MapElement.
 ---@field alignVertical MapElementVerticalAlign The vertical alignment of the MapElement.
 ---@field isMultiMapElement Bool Whether this config contains a sub-list of MapElementTypes, of which one is selected based on a variable check.
-MapElement = {}
+local MapElement = {}
 
 ---Returns the corresponding output value for the given input ParamType .
 ---@param param ParamType The input param value.
----@return any The corresponding output value. Returns param.defaultValue if the param is not found in the data structure.
+---@return any # The corresponding output value. Returns param.defaultValue if the param is not found in the data structure.
 function MapElement:GetParamValue(param) end
 
 ---Returns whether this config contains output data for the given input ParamType .
 ---@param param ParamType The input param value.
----@return Bool Whether a corresponding value exists in this config for ParamType .
+---@return Bool # Whether a corresponding value exists in this config for ParamType .
 function MapElement:HasParam(param) end

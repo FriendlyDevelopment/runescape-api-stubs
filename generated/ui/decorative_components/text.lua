@@ -23,7 +23,7 @@ ui.Text = {}
 ---@param parent ui.ComponentCollection Parent component to create this text component in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return Text The newly created text component. The caller must set its layout and visual information afterwards.
+---@return Text # The newly created text component. The caller must set its layout and visual information afterwards.
 function ui.Text.new(parent, categoryID, dynamicID) end
 
 ---Associates an object with this component, making it use the object's name and optionally it's quantity as the displayed contents for this component.
@@ -41,5 +41,5 @@ function ui.Text:AlignTo(alignment) end
 function ui.Text:SetConfig(config) end
 
 ---Returns a copy of this Text's config, allowing it to be used elsewhere.
----@return ui.TextDataConfig Config containing a copy of all properties set on this Text object, excluding non-config properties (eg. content )
+---@return ui.TextDataConfig # Config containing a copy of all properties set on this Text object, excluding non-config properties (eg. content )
 function ui.Text:GetConfigCopy() end

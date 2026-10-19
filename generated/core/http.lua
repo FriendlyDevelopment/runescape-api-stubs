@@ -24,13 +24,13 @@ HTTPRequest = {}
 function HTTPRequest.new(baseURL, path) end
 
 ---Triggers a GET / POST request to the remote endpoint specified by this request, and optionally sets up callbacks to track its completion and/or progress.
----@param completionCallback function? (self : HTTPRequest) Callback triggered when this request finishes, regardless of success. Receives this request as its parameter.
----@param progressCallback function? (self : HTTPRequest) Callback triggered whenever this request's download progress changes. Receives this request as its parameter.
+---@param completionCallback fun(self: HTTPRequest)? # Triggered when this request finishes, regardless of success.
+---@param progressCallback fun(self: HTTPRequest)? # Triggered whenever this request's download progress changes.
 function HTTPRequest:Get(completionCallback, progressCallback) end
 
 ---@param data String
----@param completionCallback function? (self : HTTPRequest) Callback triggered when this request finishes, regardless of success. Receives this request as its parameter.
----@param progressCallback function? (self : HTTPRequest) Callback triggered whenever this request's download progress changes. Receives this request as its parameter.
+---@param completionCallback fun(self: HTTPRequest)? # Triggered when this request finishes, regardless of success.
+---@param progressCallback fun(self: HTTPRequest)? # Triggered whenever this request's download progress changes.
 function HTTPRequest:Post(data, completionCallback, progressCallback) end
 
 function HTTPRequest:Cancel() end

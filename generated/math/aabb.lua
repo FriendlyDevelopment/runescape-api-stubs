@@ -36,48 +36,40 @@ AABB = {}
 ---Creates and returns an AABB with the provided values.
 ---@param minimum Vector3 The minimum value on each axis.
 ---@param maximum Vector3 The maximum value on each axis.
----@return AABB The newly created AABB
+---@return AABB # The newly created AABB
 function AABB.new(minimum, maximum) end
 
 ---Returns the position of the given corner type in this AABB.
 ---@param corner BoxCornerType The corner type.
----@return Bool The position of the corner.
+---@return Vector3 # The position of the corner.
 function AABB:GetCorner(corner) end
 
 ---Returns whether the position is within the AABB
 ---@param position Vector3 The position to test.
----@return Bool Whether the given position is within this AABB.
+---@overload fun(self: AABB, otherAABB: AABB): Bool
+---@return Bool # Whether the given position is within this AABB.
 function AABB:IsInside(position) end
-
----Returns whether the given other AABB entirely encompasses this AABB.
----@param otherAABB AABB The AABB to test.
----@return Bool Whether this AABB is entirely with the given AABB.
-function AABB:IsInside(otherAABB) end
 
 ---Returns whether the given line segment intersects with this AABB at any point.
 ---@param fromPosition Vector3 The line segment start position to test.
 ---@param toPosition Vector3 The line segment end position to test.
----@return Bool Whether an intersection occurs.
+---@overload fun(self: AABB, otherAABB: AABB): Bool
+---@return Bool # Whether an intersection occurs.
 function AABB:Intersects(fromPosition, toPosition) end
-
----Returns whether the given AABB intersects with this AABB at any point.
----@param otherAABB AABB The AABB to test.
----@return Bool Whether an intersection occurs.
-function AABB:Intersects(otherAABB) end
 
 ---Returns the position on the AABB surface which is closest to the given position. If the position is inside the AABB then the given position will be returned.
 ---@param position Vector3 The position to test.
----@return Vector3 The closest AABB surface position, or the given position if it is inside the AABB.
+---@return Vector3 # The closest AABB surface position, or the given position if it is inside the AABB.
 function AABB:GetClosestPosition(position) end
 
 ---Returns the position on the AABB surface which is furthest to the given position.
 ---@param position Vector3 The position to test.
----@return Vector3 The furthest AABB surface position.
+---@return Vector3 # The furthest AABB surface position.
 function AABB:GetFurthestPosition(position) end
 
 ---Returns the shortest distance from the given position to this AABB. Will return 0.0 if the position is inside the AABB.
 ---@param position Vector3 The position to test.
----@return Float The closest distance from the position to the AABB, or 0 if the position is inside the AABB.
+---@return Float # The closest distance from the position to the AABB, or 0 if the position is inside the AABB.
 function AABB:GetDistanceToPosition(position) end
 
 ---Moves the AABB's minimum and maximum elements by the given offset value.

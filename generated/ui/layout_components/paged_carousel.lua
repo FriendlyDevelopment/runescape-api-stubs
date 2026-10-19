@@ -32,5 +32,5 @@ ui.PagedCarousel = {}
 ---@param parent ui.ComponentCollection Parent component to create this paged carousel in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return PagedCarousel The newly created paged carousel. The caller must set its layout and visual information afterwards.
+---@return PagedCarousel # The newly created paged carousel. The caller must set its layout and visual information afterwards.
 function ui.PagedCarousel.new(parent, categoryID, dynamicID) end

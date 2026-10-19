@@ -101,39 +101,28 @@ MiniMenuActionType = {
 MiniMenu = {}
 
 ---Returns whether the MiniMenu is currently open. This static method be called at any time.
----@return Bool Whether the MiniMenu is currently open.
+---@return Bool # Whether the MiniMenu is currently open.
 function MiniMenu.IsOpen() end
-
----Adds a MiniMenuEntry to the end of the current list of minimenu entries. It will be displayed with the label specified and call the Lua function specified, with any additional arguments provided in order.
----@param label String The text displayed for the entry in the minimenu.
----@param action Function A Lua function that can take any number of arguments, including none.
----@param ... Args A comma-separated list of arguments that will be passed to the function specified in the action parameter.
-function MiniMenu:Add(label, action, ...) end
-
----@param a any
----@param b any
-function logAdd(a, b) end
-
----@param addedEvent any
-function miniMenuEntryAddedEvent(addedEvent) end
 
 ---Swaps MiniMenuEntries found at the two provided indices of MiniMenu.entries .
 ---@param indexA Int The index of the first MiniMenuEntry in MiniMenu.entries .
 ---@param indexB Int The index of the second MiniMenuEntry in MiniMenu.entries .
 function MiniMenu:Swap(indexA, indexB) end
 
----@param miniMenuEvent any
-function onMiniMenuReady(miniMenuEvent) end
+---@param label String The text displayed for the entry.
+---@param action fun(...: any) The action invoked when the entry is selected.
+---@vararg any Arguments passed to the action.
+function MiniMenu:Add(label, action, ...) end
 
 ---@class MiniMenuEntry
+---@field overrideText String Text that overrides the entry's default display text.
 ---@field actionType MiniMenuActionType The action type of this entry.
 ---@field actionEntryType MiniMenuEntryType The entry source type of this entry.
 ---@field actionVerbType MiniMenuActionVerbType The verb type of this entry.
 ---@field verbText String The verb name of the entry.
 ---@field subjectText String The subject name of the entry.
 ---@field extraText String An additional string appended to the entry.
----@field fullText String The full text displayed when the entry is shown in the MiniMenu if overrideText has not been set. Combines verbText , subjectText and extraText in that order.
----@field overrideText String Override text for an entry supplied by a plugin. This is displayed in place of an entry's fullText if set.
+---@field fullText String The full text displayed when the entry is shown in the MiniMenu. Combines verbText , subjectText and extraText in that order.
 ---@field cursorID Int The Cursor config ID shown when this entry is active. Use config.Cursor.FromID(cursorID) to obtain the config.
 ---@field iconSpriteIDs Int[] An array of sprite IDs which are drawn next to the entry text. Empty if none are drawn.
 ---@field subjectOnOtherLevel Bool Whether the source entity is on a different level from the Player Character. NOTE: Not always correct.
@@ -145,41 +134,33 @@ function onMiniMenuReady(miniMenuEvent) end
 ---@field groundData? GroundData A collection of data related to this entry. Will be nil if unavailable.
 ---@field mapElementData? MapElementData A collection of data related to this entry. Will be nil if unavailable.
 ---@field componentData? ComponentData A collection of data related to this entry. Will be nil if unavailable.
-MiniMenuEntry = {}
 
 ---@class NPCData
 ---@field entity NPCEntity The NPC entity source for this entry.
-NPCData = {}
 
 ---@class LocData
 ---@field coordGridX Int The south-west tile X coordinate the Loc entity is positioned at.
 ---@field coordGridZ Int The south-west tile Z coordinate the Loc entity is positioned at.
 ---@field config LocType The config for the Loc entity.
-LocData = {}
 
 ---@class ObjData
 ---@field entity ObjStackEntity The ObjStack entity source for this entry.
 ---@field stackIndex Int The specific object within the source ObjStackEntity that this MiniMenuEntry relates to. Use this with ObjStackEntity:GetEntry() .
 ---@field config ObjType The config for the specific object that this MiniMenuEntry relates to.
-ObjData = {}
 
 ---@class PlayerData
 ---@field entity PlayerEntity The Player entity source for this entry.
-PlayerData = {}
 
 ---@class GroundData
 ---@field coordGridX Int The tile X coordinate this entry is focused at.
 ---@field coordGridZ Int The tile Z coordinate this entry is focused at.
 ---@field fromMiniMap Bool true if this entry was created from the MiniMap. false if this entry was created from the 3D world view.
-GroundData = {}
 
 ---@class MapElementData
 ---@field mapElementID Int The MapElement config ID shown when this entry is active. Use config.MapElement.FromID(mapElementID) to obtain the config. TODO: MapElement configs are not available yet.
 ---@field categoryID Int The Category ID belonging to this map element.
-MapElementData = {}
 
 ---@class ComponentData
 ---@field opIndex Int The op index for this entry. Valid values are 1 -> 10 .
 ---@field objConfig? ObjType Some Components allow ObjType IDs to be assigned to them, such as Sprites and Models . This property provides the config, if set on the source Component. Will be nil if unavailable.
 ---@field component Component The Component source for this entry.
-ComponentData = {}

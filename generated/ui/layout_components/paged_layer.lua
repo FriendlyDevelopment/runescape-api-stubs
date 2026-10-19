@@ -17,7 +17,7 @@ ui.PagedLayer = {}
 ---@param parent ui.ComponentCollection Parent component to create this paged layer in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return PagedLayer The newly created paged layer. The caller must set its layout and visual information afterwards.
+---@return PagedLayer # The newly created paged layer. The caller must set its layout and visual information afterwards.
 function ui.PagedLayer.new(parent, categoryID, dynamicID) end
 
 ---Sets whether the user can switch to the specified page through a paged layer header .
@@ -27,7 +27,7 @@ function ui.PagedLayer:SetPageEnabled(pageIndex, enabled) end
 
 ---Gets whether the user can switch to the specified page through a paged layer header .
 ---@param pageIndex Uint8 Index for the page to access.
----@return Bool True if the page exists and is enabled, false otherwise.
+---@return Bool # True if the page exists and is enabled, false otherwise.
 function ui.PagedLayer:GetPageEnabled(pageIndex) end
 
 ---Sets the text label displayed for the specified page in a paged layer header .
@@ -37,7 +37,7 @@ function ui.PagedLayer:SetPageLabel(pageIndex, label) end
 
 ---Gets the text label displayed for the specified page in a paged layer header .
 ---@param pageIndex Uint8 Index for the page to access.
----@return String Text to display for this page in a paged layer header, or an empty string if not specified or if the page is missing.
+---@return String # Text to display for this page in a paged layer header, or an empty string if not specified or if the page is missing.
 function ui.PagedLayer:GetPageLabel(pageIndex) end
 
 ---Sets the ID for the sprite to display as an icon for the specified page in a paged layer header .
@@ -47,14 +47,14 @@ function ui.PagedLayer:SetPageIcon(pageIndex, iconSpriteID) end
 
 ---Gets the ID for the sprite to display as an icon for the specified page in a paged layer header .
 ---@param pageIndex Uint8 Index for the page to access.
----@return Int ID for the sprite to use as an icon for this page, or -1 if not specified or if the page is missing.
+---@return Int # ID for the sprite to use as an icon for this page, or -1 if not specified or if the page is missing.
 function ui.PagedLayer:GetPageIcon(pageIndex) end
 
 ---Creates a new PagedLayerHeader on the specified parent, and associates it with this paged layer, allowing it to retrieve labels and icons for the available pages.
 ---@param parent ui.ComponentCollection Parent component to create this paged layer header in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return PagedLayerHeader The newly created paged layer header associated with this paged layer. The caller must set its layout and visual information afterwards.
+---@return PagedLayerHeader # The newly created paged layer header associated with this paged layer. The caller must set its layout and visual information afterwards.
 function ui.PagedLayer:AddHeader(parent, categoryID, dynamicID) end
 
 ---These components are directly associated with an individual PagedLayer, and provide a basic UI to allow the user to switch between the various pages.

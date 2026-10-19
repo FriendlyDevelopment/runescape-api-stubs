@@ -32,7 +32,7 @@ ui.Button = {}
 ---@param parent ui.ComponentCollection Parent component to create this button in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return Button The newly created button. The caller must set its layout and visual information afterwards.
+---@return Button # The newly created button. The caller must set its layout and visual information afterwards.
 function ui.Button.new(parent, categoryID, dynamicID) end
 
 ---Associates an object with this component, making it use the object's name and optionally it's quantity as the displayed contents for this component.

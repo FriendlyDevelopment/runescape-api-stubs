@@ -67,7 +67,7 @@ ui.InputField = {}
 ---@param parent ui.ComponentCollection Parent component to create this input field in.
 ---@param categoryID Int? Category ID used to identify this component. Defaults to the parent's category ID if not specified.
 ---@param dynamicID Int? Dynamic ID used to identify this component. Defaults to auto-incrementing from the parent's dynamic ID if not specified.
----@return InputField The newly created input field. The caller must set its layout and visual information afterwards.
+---@return InputField # The newly created input field. The caller must set its layout and visual information afterwards.
 function ui.InputField.new(parent, categoryID, dynamicID) end
 
 ---Sets text handling and content drawing properties for this input field.

@@ -15,5 +15,5 @@
 ---@field facing Int The current facing angle, in degrees, of this NPCEntity .
 ---@field facingTarget Int The target facing angle, in degrees, of this NPCEntity . The NPCEntity will be turning towards this angle, if different from NPCEntity.facing .
 ---@field route CoordGrid[] Returns a list of the current coordinates in the NPCEntity 's movement route. Returns the current position coordinate if the NPCEntity is not moving.
----@field routeEnd any CoordGrid ? Returns the final coordinate in the NPCEntity 's movement route. Returns the current position coordinate if the NPCEntity is not moving.
-NPCEntity = {}
+---@field routeEnd CoordGrid? Returns the final coordinate in the NPCEntity's movement route. Returns the current position coordinate if the NPCEntity is not moving.
+local NPCEntity = {}

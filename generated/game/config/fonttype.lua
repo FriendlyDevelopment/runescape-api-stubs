@@ -9,12 +9,12 @@
 ---@field lowerCaseAscent Int The distance above the baseline for the lowercase 'x' glyph in the font.
 ---@field maxAscent Int The maximum distance above the baseline for the tallest glyph in the font.
 ---@field maxDescent Int The maximum distance below the baseline for the lowest glyph in the font.
-Font = {}
+local Font = {}
 
 ---Returns the pixel width of a string drawn with this font.
 ---@param text String The text to calculate the total pixel width for.
 ---@param ignoreTags Bool? See Common Modifiers .
----@return Int The total pixel width of the given string when drawn with this font.
+---@return Int # The total pixel width of the given string when drawn with this font.
 function Font:GetStringWidth(text, ignoreTags) end
 
 ---Returns the pixel width of a wrapped multiline string drawn with this font.
@@ -23,7 +23,7 @@ function Font:GetStringWidth(text, ignoreTags) end
 ---@param ignoreTags Bool? See Common Modifiers .
 ---@param noWordWrapping Bool? See Common Modifiers .
 ---@param noTrimEdges Bool? See Common Modifiers .
----@return Int The total pixel width of the longest line after wrapping this given string into multiple lines.
+---@return Int # The total pixel width of the longest line after wrapping this given string into multiple lines.
 function Font:GetStringWidthMultiline(text, wrapWidth, ignoreTags, noWordWrapping, noTrimEdges) end
 
 ---Returns how many lines the given string will be become when wrapped using this font.
@@ -32,7 +32,7 @@ function Font:GetStringWidthMultiline(text, wrapWidth, ignoreTags, noWordWrappin
 ---@param ignoreTags Bool? See Common Modifiers .
 ---@param noWordWrapping Bool? See Common Modifiers .
 ---@param noTrimEdges Bool? See Common Modifiers .
----@return Int The total number of lines resulting after wrapping the given string using this font.
+---@return Int # The total number of lines resulting after wrapping the given string using this font.
 function Font:GetStringLineCount(text, wrapWidth, ignoreTags, noWordWrapping, noTrimEdges) end
 
 ---Returns the total pixel height of a string wrapped using this font and how many lines the text was wrapped into.
@@ -42,8 +42,8 @@ function Font:GetStringLineCount(text, wrapWidth, ignoreTags, noWordWrapping, no
 ---@param ignoreTags Bool? See Common Modifiers .
 ---@param noWordWrapping Bool? See Common Modifiers .
 ---@param noTrimEdges Bool? See Common Modifiers .
----@return Int The total pixel height after wrapping this given string into multiple lines.
----@return Int The total number of lines resulting after wrapping the given string using this font.
+---@return Int # The total pixel height after wrapping this given string into multiple lines.
+---@return Int # The total number of lines resulting after wrapping the given string using this font.
 function Font:GetStringHeightAndLineCount(text, wrapWidth, lineSpacing, ignoreTags, noWordWrapping, noTrimEdges) end
 
 ---Splits the given string using the given pixel wrap distance and returns the resulting strings.
@@ -52,7 +52,7 @@ function Font:GetStringHeightAndLineCount(text, wrapWidth, lineSpacing, ignoreTa
 ---@param ignoreTags Bool? See Common Modifiers .
 ---@param noWordWrapping Bool? See Common Modifiers .
 ---@param noTrimEdges Bool? See Common Modifiers .
----@return String[] The resulting strings after spliting the given string.
+---@return String[] # The resulting strings after spliting the given string.
 function Font:SplitString(text, wrapWidth, ignoreTags, noWordWrapping, noTrimEdges) end
 
 ---Splits the given string using the given pixel wrap distance and returns the specific line requested.
@@ -62,5 +62,5 @@ function Font:SplitString(text, wrapWidth, ignoreTags, noWordWrapping, noTrimEdg
 ---@param ignoreTags Bool? See Common Modifiers .
 ---@param noWordWrapping Bool? See Common Modifiers .
 ---@param noTrimEdges Bool? See Common Modifiers .
----@return String The requested line after spliting the given string.
+---@return String # The requested line after spliting the given string.
 function Font:GetSplitStringLine(text, lineIndex, wrapWidth, ignoreTags, noWordWrapping, noTrimEdges) end

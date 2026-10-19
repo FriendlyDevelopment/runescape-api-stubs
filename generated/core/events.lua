@@ -3,11 +3,85 @@
 ---These are provided as part of the following event payloads:
 ---@enum EntityType
 EntityType = {
-    LOCATION = "LOCATION", -- 0
-    NPC = "NPC", -- 1
-    PLAYER = "PLAYER", -- 2
-    OBJSTACK = "OBJSTACK", -- 3
-    COMBINED_LOCATION_SECTION = "COMBINED_LOCATION_SECTION", -- 12
+    LOCATION = 0,
+    NPC = 1,
+    PLAYER = 2,
+    OBJSTACK = 3,
+    COMBINED_LOCATION_SECTION = 12,
+}
+
+---These are provided as part of the ChatMessage event payload.
+---@enum ChatType
+ChatType = {
+    GENERAL = 0,
+    MOD = 1,
+    PUBLIC = 2,
+    PRIVATE_INCOMING = 3,
+    ENGINE = 4,
+    LOGIN_LOGOUT = 5,
+    PRIVATE_OUTGOING = 6,
+    MOD_PRIVATE_INCOMING = 7,
+    FRIEND_CHAT = 9,
+    FRIEND_CHAT_NOTIFICATION = 11,
+    QUICKCHAT_PUBLIC = 17,
+    QUICKCHAT_PRIVATE_INCOMING = 18,
+    QUICKCHAT_PRIVATE_OUTGOING = 19,
+    QUICKCHAT_FRIEND_CHAT = 20,
+    GROUP_SAME_TEAM = 22,
+    QUICKCHAT_GROUP_SAME_TEAM = 23,
+    GROUP_ALL = 24,
+    QUICKCHAT_GROUP_ALL = 25,
+    SNAPSHOT_FEEDBACK = 26,
+    OBJ_EXAMINE = 27,
+    NPC_EXAMINE = 28,
+    LOC_EXAMINE = 29,
+    FRIEND_NOTIFICATION = 30,
+    IGNORE_NOTIFICATION = 31,
+    PLUGIN = 33,
+    CLANCHANNEL_AFFINED_CHAT = 41,
+    CLANCHANNEL_AFFINED_QUICKCHAT = 42,
+    CLANCHANNEL_AFFINED_NOTIFICATION = 43,
+    CLANCHANNEL_GUEST_CHAT = 44,
+    CLANCHANNEL_GUEST_QUICKCHAT = 45,
+    CLANCHANNEL_GUEST_NOTIFICATION = 46,
+    CONSOLE_ERROR = 96,
+    CONSOLE_BUFFER_REPLACE = 98,
+    CONSOLE = 99,
+    TRADE_REQUEST = 100,
+    CHALLENGE = 101,
+    ASSIST_REQUEST = 102,
+    TRADE_NOTIFICATION = 103,
+    ASSIST_NOTIFICATION = 104,
+    CLAN_CHALLENGE = 107,
+    ALLY_REQUEST = 108,
+    SPAM = 109,
+    DUNGEON_INVITE = 111,
+    CONQUEST_REGULAR_CHALLENGE = 113,
+    SYSTEM_BROADCAST = 115,
+    NPC_CHAT = 116,
+    CLAN_JOIN = 117,
+    RATED_CLAN_WAR = 118,
+    IGNORABLE_TRADE_NOTIFICATION = 119,
+    ALL_PANES = 120,
+    RAID_HIGH = 122,
+    RAID_DND = 123,
+    BROADCAST = 125,
+    WORLD_EVENT = 126,
+    MISC_BROADCAST = 127,
+    GROUPCHAT_NOTIFICATION = 128,
+    DUEL_ANY_REQUEST = 132,
+    TEMPORARY_EVENT = 133,
+    HATI_FENRIR = 134,
+    LATEST_NEWSPOST = 135,
+    MOTD = 136,
+    BROADCAST_GLOBAL = 137,
+    BROADCAST_WORLD = 138,
+    BROADCAST_FRIENDS = 139,
+    INTERFACE_OPEN = 140,
+    TIMED_EVENT = 142,
+    INTERFACE_OPEN_FILTERED = 143,
+    GROUP_IRONMAN_NOTIFICATION = 144,
+    GENERAL_LINKABLE = 145,
 }
 
 ---These are provided as part of the GameStateChanged event payload.
@@ -30,198 +104,171 @@ GameState = {
 ---@class EventSubscription<T, RetT>
 ---@field Subscribe fun(name: string, callback: fun(event: T): RetT)
 ---@field Unsubscribe fun(name: string)
-EventSubscription = {}
 
 ---Called each time the client begins a logic update. The client runs at a fixed 50 logic ticks per second.
----@class Logic
+---@class LogicEventPayload
 ---@field logicTick Int (Read-only) How many logic ticks have occurred since the client was started.
-Logic = {}
 
 ---Called each time the client begins a draw update. The interval between draw events is determined by the frame rate.
----@class Draw
+---@class DrawEventPayload
 ---@field timeDeltaSecs Float (Read-only) The time, in seconds, since the last draw event (often known as the delta).
-Draw = {}
 
 ---Called when an optional dependency plugin is enabled or disabled. This event is only sent to plugins which have registered the changing plugin as an optional dependency . This event is automatically created for plugins that use the built-in PluginDependencyUpdate method.
----@class OptionalDependencyChanged
+---@class OptionalDependencyChangedEventPayload
 ---@field pluginIdentifier String (Read-only) The identifier name of the optional dependency plugin.
 ---@field enabled Bool (Read-only) Whether the optional dependency plugin is now enabled or disabled.
-OptionalDependencyChanged = {}
 
 ---Called when an optional permission is approved or revoked for a plugin.
----@class OptionalPermissionChanged
----@field permissionName String (Read-only) The name of the permission .
+---@class OptionalPermissionChangedEventPayload
+---@field permissionName String (Read-only) The name of the permission.
 ---@field enabled Bool (Read-only) Whether the permission is now enabled or disabled.
-OptionalPermissionChanged = {}
 
 ---Called when a Keyboard key press is released.
----@class KeyUp
+---@class KeyUpEventPayload
 ---@field gameKey GameKey (Read-only) The game key which was released.
 ---@field systemKey SystemKey (Read-only) The system key equivalent to gameKey which was released.
 ---@field modifiers Int (Read-only) A bitfield containing the modifier keys currently held.
 ---@field timestamp Int (Read-only) The time, in milliseconds, when the key was released.
-KeyUp = {}
 
 ---Called when a Keyboard key press is first pressed, and when a key-repeat event is sent by the OS. An equivalent KeyTyped event is always sent immediately after this event.
----@class KeyDown
+---@class KeyDownEventPayload
 ---@field isRepeat Bool (Read-only) Whether the key press is a repeat or not. A value of false means the key has just been pressed. A value of true means the key was already pressed and the OS has re-sent the key event as a repeat.
 ---@field gameKey GameKey (Read-only) The game key which was pressed.
 ---@field systemKey SystemKey (Read-only) The system key equivalent to gameKey which was pressed.
 ---@field modifiers Int (Read-only) A bitfield containing the modifier keys currently held.
 ---@field timestamp Int (Read-only) The time, in milliseconds, when the key was first pressed, or the repeat event was sent.
-KeyDown = {}
 
 ---This event provides the string character generated by the combination of keys just pressed. The character value provided may not be a printable one once converted to a string value. This event always follows an equivalent KeyDown event.
----@class KeyTyped
+---@class KeyTypedEventPayload
 ---@field char Int (Read-only) The integer value of the character generated. This can be converted to a string value with: local keyStr = string.char(keyTypedEvent.char)
 ---@field modifiers Int (Read-only) A bitfield containing the modifier keys currently held.
 ---@field timestamp Int (Read-only) The time, in milliseconds, when the character was generated.
-KeyTyped = {}
 
 ---Called when a variable update is transmitted from the server to the client. The variable is not guaranteed to have changed. This event is called immediately after the variable has been set.
----@class VarTransmit
+---@class VarTransmitEventPayload
 ---@field var VarType (Read-only) The variable config that triggered the event.
 ---@field oldValue Int|String (Read-only) The previous value of the config. The return type is determined by the variable config.
 ---@field newValue Int|String (Read-only) The current value of the config. The return type is determined by the variable config.
-VarTransmit = {}
 
----Called each time the client receives a message from the server, or a local Chat.AddMessage() , that is intended for a chat window. There are a variety of chat message types that can be received, see ChatType . Warning: A plugin will only receive these events if it has requested and been granted the chatAccess permission.
----@class ChatMessage
+---Called each time the client receives a message from the server, or a local Chat.AddMessage(), intended for a chat window.
+---There are a variety of chat message types that can be received, see ChatType.
+---Only received if the plugin has requested and been granted the chatAccess permission.
+---@class ChatMessageEventPayload
 ---@field chatMessage String The message received. Can be edited freely, and will be passed to any subsequent subscribed functions.
----@field senderNameUnfiltered String (Read-only) An unfiltered version of a Player Character's name. Will be an empty string if no sender is attributed to the message.
----@field senderNameFiltered String (Read-only) A filtered version of a Player Character's name intended for display, which may be altered depending on the current language context. This string may not be unique due to any filtering performed. Will be an empty string if no sender is attributed to the message.
----@field senderNameSimple String (Read-only) A filtered version of a Player Character's name without any pre- or post-fixes. Will be an empty string if no sender is attributed to the message.
+---@field senderNameUnfiltered String (Read-only) The unfiltered Player Character name. Empty if no sender is attributed to the message.
+---@field senderNameFiltered String (Read-only) The name filtered for display in the current language context. May not be unique after filtering. Empty if no sender is attributed to the message.
+---@field senderNameSimple String (Read-only) The filtered name without prefixes or suffixes. Empty if no sender is attributed to the message.
 ---@field chatType ChatType (Read-only) The type of chat message.
 ---@field timestamp Int (Read-only) The time when the message was received. Timestamp is in seconds since Unix epoch.
-ChatMessage = {}
 
 ---Called when a player entity is added to the game world.
----@class PlayerEntityAdded
+---@class PlayerEntityAddedEventPayload
 ---@field playerEntity PlayerEntity (Read-only) The player entity.
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.PLAYER .
-PlayerEntityAdded = {}
 
 ---Called when a player entity is removed from the game world.
----@class PlayerEntityRemoved
+---@class PlayerEntityRemovedEventPayload
 ---@field playerEntity PlayerEntity (Read-only) The player entity.
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.PLAYER .
-PlayerEntityRemoved = {}
 
 ---Called when an NPC entity is added to the game world.
----@class NPCEntityAdded
+---@class NPCEntityAddedEventPayload
 ---@field npcEntity NPCEntity (Read-only) The NPC entity.
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.NPC .
-NPCEntityAdded = {}
 
 ---Called when an NPC entity is removed from the game world.
----@class NPCEntityRemoved
+---@class NPCEntityRemovedEventPayload
 ---@field npcEntity NPCEntity (Read-only) The NPC entity.
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.NPC .
-NPCEntityRemoved = {}
 
 ---Called when an objStack entity is added to the game world. This event provides the first object in the stack, with additional objects being provided by ObjStackEntityChanged .
----@class ObjStackEntityAdded
+---@class ObjStackEntityAddedEventPayload
 ---@field objStackEntity ObjStackEntity (Read-only) The objStack entity.
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.OBJSTACK .
 ---@field objType ObjType (Read-only) The config type of the object that was added to the objStack.
 ---@field count Int (Read-only) How many of the object was added.
 ---@field isOwner Bool (Read-only) Whether the local player is the owner of the stack.
-ObjStackEntityAdded = {}
 
 ---Called when an objStack entity is removed to the game world. This event occurs when the final object in a stack is picked up, or the objStack goes out of view range.
----@class ObjStackEntityRemoved
+---@class ObjStackEntityRemovedEventPayload
 ---@field objStackEntity ObjStackEntity (Read-only) The objStack entity.
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.OBJSTACK .
 ---@field objType ObjType (Read-only) The config type of the object that was removed from the objStack.
 ---@field count Int (Read-only) How many of the object was removed.
 ---@field isOwner Bool (Read-only) Whether the local player is the owner of the stack.
-ObjStackEntityRemoved = {}
 
 ---Called when an existing objStack entity has changed. This event occurs when objects are added or removed from the tile the objStack is in.
----@class ObjStackEntityChanged
+---@class ObjStackEntityChangedEventPayload
 ---@field objStackEntity ObjStackEntity (Read-only) The objStack entity.
 ---@field entityType EntityType (Read-only) The type of entity. This is always EntityType.OBJSTACK .
 ---@field objType ObjType (Read-only) The config type of the object that was added or removed from the objStack.
 ---@field oldCount Int (Read-only) The previous amount of the object.
 ---@field newCount Int (Read-only) The current amount of the object.
 ---@field isOwner Bool (Read-only) Whether the local player is the owner of the stack.
-ObjStackEntityChanged = {}
 
 ---Called when the focus of the game window changes.
----@class WindowFocusChanged
+---@class WindowFocusChangedEventPayload
 ---@field hasFocus Bool (Read-only) Whether the window has gained or lost focus.
-WindowFocusChanged = {}
 
 ---Called when the client's internal state changes. See GameState for the list of possible states.
----@class GameStateChanged
+---@class GameStateChangedEventPayload
 ---@field oldState GameState (Read-only) The previous game state.
 ---@field newState GameState (Read-only) The current game state.
-GameStateChanged = {}
 
 ---Called when an entity is about to be drawn. Warning: This event requires a boolean return value to indicate whether the entity should continue drawing. See below for an example.
----@class EntityDraw
+---@class EntityDrawEventPayload
 ---@field entityType EntityType (Read-only) The type of entity.
 ---@field npcEntity NPCEntity (Read-only) The entity being drawn. Returns one of the listed entities, use entityType to select the correct one.
 ---@field playerEntity PlayerEntity (Read-only) The entity being drawn. Returns one of the listed entities, use entityType to select the correct one.
 ---@field objStackEntity ObjStackEntity (Read-only) The entity being drawn. Returns one of the listed entities, use entityType to select the correct one.
-EntityDraw = {}
 
 ---Called when the size of the game window changes.
----@class WindowSizeChanged
+---@class WindowSizeChangedEventPayload
 ---@field oldWidth Int (Read-only) The old width of the window.
 ---@field oldHeight Int (Read-only) The old height of the window.
 ---@field newWidth Int (Read-only) The new width of the window.
 ---@field newHeight Int (Read-only) The new height of the window.
-WindowSizeChanged = {}
 
 ---Called when a player character's skill changes in value.
----@class SkillTransmit
+---@class SkillTransmitEventPayload
 ---@field skill SkillType (Read-only) The skill that has changed in value.
 ---@field oldXP Int (Read-only) The previous XP value for the skill.
 ---@field newXP Int (Read-only) The current XP value for the skill.
 ---@field oldGameplayLevel Int (Read-only) The previous gameplay level for the skill.
 ---@field newGameplayLevel Int (Read-only) The current gameplay level for the skill.
-SkillTransmit = {}
 
 ---Called when the player character's run energy changes in value.
----@class RunEnergyTransmit
+---@class RunEnergyTransmitEventPayload
 ---@field oldRunEnergy Int (Read-only) The player character's previous run energy value.
 ---@field newRunEnergy Int (Read-only) The player character's current run energy value.
-RunEnergyTransmit = {}
 
 ---Called when the player character's weight changes in value.
----@class RunWeightTransmit
+---@class RunWeightTransmitEventPayload
 ---@field oldRunWeight Int (Read-only) The player character's previous weight value.
 ---@field newRunWeight Int (Read-only) The player character's current weight value.
-RunWeightTransmit = {}
 
 ---Called when the MiniMenu has been opened. Access to the MiniMenu's list of entries is available from this event's payload, but cannot be edited. Use Event.MiniMenuReady to make changes to the list of entries.
----@class MiniMenuOpened
+---@class MiniMenuOpenedEventPayload
 ---@field miniMenu MiniMenu (Read-only) The current MiniMenu and its list of entries.
-MiniMenuOpened = {}
 
 ---Called when the MiniMenu has been closed. This is called both when a MiniMenuEntry is selected and when the MiniMenu closes without selecting a MiniMenuEntry . Access to the MiniMenu's list of entries is available from this event's payload, but cannot be edited. Use Event.MiniMenuReady to make changes to the list of entries.
----@class MiniMenuClosed
+---@class MiniMenuClosedEventPayload
 ---@field miniMenu MiniMenu (Read-only) The current MiniMenu and its list of entries.
-MiniMenuClosed = {}
 
 ---Called when the MiniMenu has finished adding all entries for the current Logic tick and can now be altered.
----@class MiniMenuReady
+---@class MiniMenuReadyEventPayload
 ---@field miniMenu MiniMenu (Read-only) The current MiniMenu and its list of entries. (Using Swap())
-MiniMenuReady = {}
 
 ---Called when a MiniMenuEntry has been added to the MiniMenu .
----@class MiniMenuEntryAdded
+---@class MiniMenuEntryAddedEventPayload
 ---@field entry MiniMenuEntry (Read-only) The MiniMenuEntry which has been added to the MiniMenu.
-MiniMenuEntryAdded = {}
 
 ---Called when a MiniMenuEntry has been selected from the MiniMenu .
----@class MiniMenuEntrySelected
+---@class MiniMenuEntrySelectedEventPayload
 ---@field entry MiniMenuEntry (Read-only) The MiniMenuEntry which has been selected from the MiniMenu.
-MiniMenuEntrySelected = {}
 
 ---Called when a location is added to the game world, or changed from one location ito another, by the server. A location will only be changed to another if the both shapeType and coordGrid match. If a custom transform is not provided in the event, then the new location will inherit any pre-existing custom transform from any location it is changing. Warning: If a location is changed via its MultiLoc variable state, then this event is not called.
----@class LocAdded
+---@class LocAddedEventPayload
 ---@field config LocType (Read-only) The location config.
 ---@field shapeType LocShapeType (Read-only) The LocShapeType of the location being added.
 ---@field rotationType RotationType (Read-only) The 90-degree rotation type being used by this location.
@@ -230,17 +277,15 @@ MiniMenuEntrySelected = {}
 ---@field transformTranslate Vector3 (Read-only) The overriding translation transformation.
 ---@field transformRotation Vector3 (Read-only) The overriding rotation transformation.
 ---@field transformScale Vector3 (Read-only) The overriding scale transformation.
-LocAdded = {}
 
 ---Called when a location is removed from the game world by the server. No config is provided with this event, and only existing locations with a matching shapeType and coordGrid will be removed.
----@class LocRemoved
+---@class LocRemovedEventPayload
 ---@field shapeType LocShapeType (Read-only) The LocShapeType of the location being removed.
 ---@field rotationType RotationType (Read-only) The 90-degree rotation type of the location being removed.
 ---@field coordGrid CoordGrid (Read-only) The coordinate the location is being removed from.
-LocRemoved = {}
 
 ---Called when an existing location has an appearance customisation applied to it by the server. This event retains any existing custom transformation the location already has.
----@class LocCustomised
+---@class LocCustomisedEventPayload
 ---@field config LocType (Read-only) The location config.
 ---@field shapeType LocShapeType (Read-only) The LocShapeType of the location being removed.
 ---@field rotationType RotationType (Read-only) The 90-degree rotation type of the location being removed.
@@ -248,49 +293,45 @@ LocRemoved = {}
 ---@field customModels Int[] (Read-only) A list of model IDs to overwrite the base LocType model IDs. Use id.Model.FromID(id) to see the overriding material.
 ---@field customColours Int[] (Read-only) A list of 16-bit HSL colours to overwrite the base LocType HSL colours.
 ---@field customMaterials Int[] (Read-only) A list of material IDs to overwrite the base LocType material IDs. Use id.Material.FromID(id) to see the overriding material.
-LocCustomised = {}
 
 ---Called when an animation SeqType is started on a location by the server. No config is provided with this event, and only existing locations with a matching shapeType and coordGrid will be animated.
----@class LocAnimation
+---@class LocAnimationEventPayload
 ---@field shapeType LocShapeType (Read-only) The LocShapeType of the location being animated.
 ---@field rotationType RotationType (Read-only) The 90-degree rotation type of the location being animated.
 ---@field coordGrid CoordGrid (Read-only) The coordinate the location being animated.
 ---@field animation SeqType (Read-only) The animation to be played. Will be nil if an existing animation is being stopped by this event.
 ---@field animationDelay Int (Read-only) How many client logic ticks to wait before starting the animation. There are 50 logic ticks per second.
-LocAnimation = {}
 
 ---Called after an inventory and its contents have been populated by the server.
----@class InventoryAdded
----@field inv InvTypeProxy (Read-only) Config of the inventory added.
-InventoryAdded = {}
+---@class InventoryAddedEventPayload
+---@field inv InvType (Read-only) Config of the inventory added. (x)
 
 ---Called when an inventory and its contents have been updated by the server.
----@class InventoryUpdated
----@field inv InvTypeProxy (Read-only) Config of the inventory updated.
----@field slotsUpdated Int[] (Read-only) List of slot ids that have been updated.
-InventoryUpdated = {}
+---@class InventoryUpdatedEventPayload
+---@field inv InvType (Read-only) Config of the inventory updated. (x)
+---@field slotsUpdated Int[] (Read-only) List of slot ids that have been updated. (x)
 
 ---Called when the server stops transmitting the inventory and its contents to the client, signalling its removal. After being removed, the inventory and its contents are no longer available to the client or the API.
----@class InventoryRemoved
----@field inv InvTypeProxy (Read-only) Config of the inventory removed.
-InventoryRemoved = {}
+---@class InventoryRemovedEventPayload
+---@field inv InvType (Read-only) Config of the inventory removed. (x)
 
 ---Called when one of a player character's Grand Exchange trade offers receives an update from the server.
----@class GrandExchangeOfferUpdated
+---@class GrandExchangeOfferUpdatedEventPayload
 ---@field slot Int (Read-only) Number of the offer slot that has been updated. 1-indexed.
 ---@field listing GrandExchangeOffer (Read-only) The offer data.
-GrandExchangeOfferUpdated = {}
 
----Called when a Player Character is moved to a new world area. A world area is a static part of the game world shared by all Player Characters. Provides the minimum and maximum range of map squares that make up the current world area.
----@class WorldCreated
+---Called when a Player Character is moved to a new world area.
+---@class WorldCreatedEventPayload
 ---@field mapSquareMinX Int (Read-only) The minimum map square on the X axis.
 ---@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis.
 ---@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis.
 ---@field mapSquareMaxZ Int (Read-only) The maximum map square on the Z axis.
-WorldCreated = {}
 
----Called when a Player Character is moved to a new region. A region is a duplicated area outside of the main game world, typically to allow players to experience content alone or within a group. A Region is often known in game-terms as an Instance . The term region is used to clearly differentiate this concept from other uses of instance in the API. Provides the minimum and maximum range of map squares that make up the current region, as well as the bottom-left CoordGrid tile, and region dimensions in grid units. The region dimensions may not fully fill the map squares that make up the region, e.g. a 1x1 map square region may contain a region of 64x48 tiles.
----@class RegionCreated
+---Called when the current world area is updated, typically caused by player movement.
+---@class WorldUpdatedEventPayload
+
+---Called when a Player Character is moved to a new region.
+---@class RegionCreatedEventPayload
 ---@field mapSquareMinX Int (Read-only) The minimum map square on the X axis.
 ---@field mapSquareMinZ Int (Read-only) The minimum map square on the Z axis.
 ---@field mapSquareMaxX Int (Read-only) The maximum map square on the X axis.
@@ -298,60 +339,64 @@ WorldCreated = {}
 ---@field regionGridCorner CoordGrid (Read-only) The bottom-left coordinate of the region.
 ---@field regionGridWidth Int (Read-only) The width of the region in grid units.
 ---@field regionGridLength Int (Read-only) The length of the region in grid units.
-RegionCreated = {}
 
----Called when the settings layer is presented for a given plugin. The settings layer is shown after selecting a Settings Icon in the Manage tab of the Plugin Hub . Plugin developers are expected to populate this layer with UI elements for settings appropriate to their plugin. The layer is cleared of pre-existing elements immediately before this event is called. The Settings Icon is disabled by default, and can be enabled by adding the following to the plugin manifest:
----@class SettingsLayerReady
----@field component Component An empty layer to be populated by UI elements.
-SettingsLayerReady = {}
+---Called when the current region is updated, typically caused by the server adding new zones.
+---@class RegionUpdatedEventPayload
 
----Called when the content layer is presented for a given plugin. The content layer is shown after selecting a Ribbon Icon in the Plugins floating UI window. Plugin developers are expected to populate this layer with UI elements for content appropriate to their plugin. The layer is cleared of pre-existing elements immediately before this event is called. The Ribbon Icon is disabled by default, and can be enabled by adding the following to the plugin manifest:
----@class ContentLayerReady
+---Called when the settings layer is presented after selecting the Settings Icon in the Plugin Hub's Manage tab.
+---Populate the layer with the plugin's settings UI. Existing elements are cleared immediately before this event.
+---Enable the Settings Icon by setting "hasSettingsIcon": true in the plugin manifest.
+---@class SettingsLayerReadyEventPayload
 ---@field component Component An empty layer to be populated by UI elements.
-ContentLayerReady = {}
+
+---Called when the content layer is presented after selecting the Ribbon Icon in the Plugins floating UI window.
+---Populate the layer with the plugin's content UI. Existing elements are cleared immediately before this event.
+---Enable the Ribbon Icon by setting "hasRibbonIcon": true in the plugin manifest.
+---@class ContentLayerReadyEventPayload
+---@field component Component An empty layer to be populated by UI elements.
 
 ---@class Event
----@field Logic EventSubscription<Logic, nil> Called each time the client begins a logic update.
+---@field Logic EventSubscription<LogicEventPayload, nil> Called each time the client begins a logic update.
 ---@field ServerLogic EventSubscription<nil, nil> Called each time the client finishes processing a data packet sent from the server.
----@field Draw EventSubscription<Draw, nil> Called each time the client begins a draw update.
----@field OptionalDependencyChanged EventSubscription<OptionalDependencyChanged, nil> Called when an optional dependency plugin is enabled or disabled.
----@field OptionalPermissionChanged EventSubscription<OptionalPermissionChanged, nil> Called when an optional permission is approved or revoked for a plugin.
----@field KeyUp EventSubscription<KeyUp, nil> Called when a Keyboard key press is released.
----@field KeyDown EventSubscription<KeyDown, nil> Called when a Keyboard key press is first pressed, and when a key-repeat event is sent by the OS.
----@field KeyTyped EventSubscription<KeyTyped, nil> This event provides the string character generated by the combination of keys just pressed.
----@field VarTransmit EventSubscription<VarTransmit, nil> Called when a variable update is transmitted from the server to the client.
----@field ChatMessage EventSubscription<ChatMessage, nil> Called each time the client receives a message from the server, or a local Chat.AddMessage() , that is intended for a chat window.
----@field PlayerEntityAdded EventSubscription<PlayerEntityAdded, nil> Called when a player entity is added to the game world.
----@field PlayerEntityRemoved EventSubscription<PlayerEntityRemoved, nil> Called when a player entity is removed from the game world.
----@field NPCEntityAdded EventSubscription<NPCEntityAdded, nil> Called when an NPC entity is added to the game world.
----@field NPCEntityRemoved EventSubscription<NPCEntityRemoved, nil> Called when an NPC entity is removed from the game world.
----@field ObjStackEntityAdded EventSubscription<ObjStackEntityAdded, nil> Called when an objStack entity is added to the game world.
----@field ObjStackEntityRemoved EventSubscription<ObjStackEntityRemoved, nil> Called when an objStack entity is removed to the game world.
----@field ObjStackEntityChanged EventSubscription<ObjStackEntityChanged, nil> Called when an existing objStack entity has changed.
----@field WindowFocusChanged EventSubscription<WindowFocusChanged, nil> Called when the focus of the game window changes.
----@field GameStateChanged EventSubscription<GameStateChanged, nil> Called when the client's internal state changes.
----@field EntityDraw EventSubscription<EntityDraw, boolean> Called when an entity is about to be drawn.
----@field WindowSizeChanged EventSubscription<WindowSizeChanged, nil> Called when the size of the game window changes.
----@field SkillTransmit EventSubscription<SkillTransmit, nil> Called when a player character's skill changes in value.
----@field RunEnergyTransmit EventSubscription<RunEnergyTransmit, nil> Called when the player character's run energy changes in value.
----@field RunWeightTransmit EventSubscription<RunWeightTransmit, nil> Called when the player character's weight changes in value.
----@field MiniMenuOpened EventSubscription<MiniMenuOpened, nil> Called when the MiniMenu has been opened.
----@field MiniMenuClosed EventSubscription<MiniMenuClosed, nil> Called when the MiniMenu has been closed.
----@field MiniMenuReady EventSubscription<MiniMenuReady, nil> Called when the MiniMenu has finished adding all entries for the current Logic tick and can now be altered.
----@field MiniMenuEntryAdded EventSubscription<MiniMenuEntryAdded, nil> Called when a MiniMenuEntry has been added to the MiniMenu .
----@field MiniMenuEntrySelected EventSubscription<MiniMenuEntrySelected, nil> Called when a MiniMenuEntry has been selected from the MiniMenu .
----@field LocAdded EventSubscription<LocAdded, nil> Called when a location is added to the game world, or changed from one location ito another, by the server.
----@field LocRemoved EventSubscription<LocRemoved, nil> Called when a location is removed from the game world by the server.
----@field LocCustomised EventSubscription<LocCustomised, nil> Called when an existing location has an appearance customisation applied to it by the server.
----@field LocAnimation EventSubscription<LocAnimation, nil> Called when an animation SeqType is started on a location by the server.
----@field InventoryAdded EventSubscription<InventoryAdded, nil> Called after an inventory and its contents have been populated by the server.
----@field InventoryUpdated EventSubscription<InventoryUpdated, nil> Called when an inventory and its contents have been updated by the server.
----@field InventoryRemoved EventSubscription<InventoryRemoved, nil> Called when the server stops transmitting the inventory and its contents to the client, signalling its removal.
----@field GrandExchangeOfferUpdated EventSubscription<GrandExchangeOfferUpdated, nil> Called when one of a player character's Grand Exchange trade offers receives an update from the server.
----@field WorldCreated EventSubscription<WorldCreated, nil> Called when a Player Character is moved to a new world area.
----@field WorldUpdated EventSubscription<nil, nil> Called when the current world area is updated, typically caused by player movement.
----@field RegionCreated EventSubscription<RegionCreated, nil> Called when a Player Character is moved to a new region.
----@field RegionUpdated EventSubscription<nil, nil> Called when the current region is updated, typically caused by the server adding new zones, e.g.
----@field SettingsLayerReady EventSubscription<SettingsLayerReady, nil> Called when the settings layer is presented for a given plugin.
----@field ContentLayerReady EventSubscription<ContentLayerReady, nil> Called when the content layer is presented for a given plugin.
+---@field Draw EventSubscription<DrawEventPayload, nil> Called each time the client begins a draw update.
+---@field OptionalDependencyChanged EventSubscription<OptionalDependencyChangedEventPayload, nil> Called when an optional dependency plugin is enabled or disabled.
+---@field OptionalPermissionChanged EventSubscription<OptionalPermissionChangedEventPayload, nil> Called when an optional permission is approved or revoked for a plugin.
+---@field KeyUp EventSubscription<KeyUpEventPayload, nil> Called when a Keyboard key press is released.
+---@field KeyDown EventSubscription<KeyDownEventPayload, nil> Called when a Keyboard key press is first pressed, and when a key-repeat event is sent by the OS.
+---@field KeyTyped EventSubscription<KeyTypedEventPayload, nil> This event provides the string character generated by the combination of keys just pressed.
+---@field VarTransmit EventSubscription<VarTransmitEventPayload, nil> Called when a variable update is transmitted from the server to the client.
+---@field ChatMessage EventSubscription<ChatMessageEventPayload, nil> Called for server or local Chat.AddMessage() messages intended for a chat window. Requires the chatAccess permission.
+---@field PlayerEntityAdded EventSubscription<PlayerEntityAddedEventPayload, nil> Called when a player entity is added to the game world.
+---@field PlayerEntityRemoved EventSubscription<PlayerEntityRemovedEventPayload, nil> Called when a player entity is removed from the game world.
+---@field NPCEntityAdded EventSubscription<NPCEntityAddedEventPayload, nil> Called when an NPC entity is added to the game world.
+---@field NPCEntityRemoved EventSubscription<NPCEntityRemovedEventPayload, nil> Called when an NPC entity is removed from the game world.
+---@field ObjStackEntityAdded EventSubscription<ObjStackEntityAddedEventPayload, nil> Called when an objStack entity is added to the game world.
+---@field ObjStackEntityRemoved EventSubscription<ObjStackEntityRemovedEventPayload, nil> Called when an objStack entity is removed to the game world.
+---@field ObjStackEntityChanged EventSubscription<ObjStackEntityChangedEventPayload, nil> Called when an existing objStack entity has changed.
+---@field WindowFocusChanged EventSubscription<WindowFocusChangedEventPayload, nil> Called when the focus of the game window changes.
+---@field GameStateChanged EventSubscription<GameStateChangedEventPayload, nil> Called when the client's internal state changes.
+---@field EntityDraw EventSubscription<EntityDrawEventPayload, boolean> Called when an entity is about to be drawn.
+---@field WindowSizeChanged EventSubscription<WindowSizeChangedEventPayload, nil> Called when the size of the game window changes.
+---@field SkillTransmit EventSubscription<SkillTransmitEventPayload, nil> Called when a player character's skill changes in value.
+---@field RunEnergyTransmit EventSubscription<RunEnergyTransmitEventPayload, nil> Called when the player character's run energy changes in value.
+---@field RunWeightTransmit EventSubscription<RunWeightTransmitEventPayload, nil> Called when the player character's weight changes in value.
+---@field MiniMenuOpened EventSubscription<MiniMenuOpenedEventPayload, nil> Called when the MiniMenu has been opened.
+---@field MiniMenuClosed EventSubscription<MiniMenuClosedEventPayload, nil> Called when the MiniMenu has been closed.
+---@field MiniMenuReady EventSubscription<MiniMenuReadyEventPayload, nil> Called when the MiniMenu has finished adding all entries for the current Logic tick and can now be altered.
+---@field MiniMenuEntryAdded EventSubscription<MiniMenuEntryAddedEventPayload, nil> Called when a MiniMenuEntry has been added to the MiniMenu .
+---@field MiniMenuEntrySelected EventSubscription<MiniMenuEntrySelectedEventPayload, nil> Called when a MiniMenuEntry has been selected from the MiniMenu .
+---@field LocAdded EventSubscription<LocAddedEventPayload, nil> Called when a location is added to the game world, or changed from one location ito another, by the server.
+---@field LocRemoved EventSubscription<LocRemovedEventPayload, nil> Called when a location is removed from the game world by the server.
+---@field LocCustomised EventSubscription<LocCustomisedEventPayload, nil> Called when an existing location has an appearance customisation applied to it by the server.
+---@field LocAnimation EventSubscription<LocAnimationEventPayload, nil> Called when an animation SeqType is started on a location by the server.
+---@field InventoryAdded EventSubscription<InventoryAddedEventPayload, nil> Called after an inventory and its contents have been populated by the server.
+---@field InventoryUpdated EventSubscription<InventoryUpdatedEventPayload, nil> Called when an inventory and its contents have been updated by the server.
+---@field InventoryRemoved EventSubscription<InventoryRemovedEventPayload, nil> Called when the server stops transmitting the inventory and its contents to the client, signalling its removal.
+---@field GrandExchangeOfferUpdated EventSubscription<GrandExchangeOfferUpdatedEventPayload, nil> Called when one of a player character's Grand Exchange trade offers receives an update from the server.
+---@field WorldCreated EventSubscription<WorldCreatedEventPayload, nil> Called when a Player Character is moved to a new world area.
+---@field WorldUpdated EventSubscription<WorldUpdatedEventPayload, nil> Called when the current world area is updated, typically caused by player movement.
+---@field RegionCreated EventSubscription<RegionCreatedEventPayload, nil> Called when a Player Character is moved to a new region.
+---@field RegionUpdated EventSubscription<RegionUpdatedEventPayload, nil> Called when the current region is updated, typically caused by the server adding new zones.
+---@field SettingsLayerReady EventSubscription<SettingsLayerReadyEventPayload, nil> Called when the settings layer is presented for this plugin. Requires hasSettingsIcon in the manifest.
+---@field ContentLayerReady EventSubscription<ContentLayerReadyEventPayload, nil> Called when the content layer is presented for this plugin. Requires hasRibbonIcon in the manifest.
 Event = {}
