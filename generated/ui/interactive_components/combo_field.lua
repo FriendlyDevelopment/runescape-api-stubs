@@ -85,4 +85,3 @@ function ui.ComboField:SetEntries(entries, selectedID) end
 ---@field text String The label for this entry.
 ---@field id Int (Read-only) The value for this entry.
 ---@field selectable Bool (Read-only) Whether this entry can be selected.
-ComboEntry = {}

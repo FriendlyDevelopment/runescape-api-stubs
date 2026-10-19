@@ -58,4 +58,3 @@ function NPCList.Filter(filterSet) end
 ---@field parentConfig NPCType The config to match against NPCEntity.parentConfig . { parentConfig = config.NPC.THIGUI_ROBIN_MULTI } See NPCList.ByParentConfig()
 ---@field parentConfigID Int The config ID to match against NPCEntity.parentConfigID . { parentConfigID = id.NPC.THIGUI_ROBIN_MULTI } See NPCList.ByParentConfigID()
 ---@field func fun(npcEntity: NPCEntity): Bool A predicate used to include matching NPC entities.
-NPCListFilterSettings = {}

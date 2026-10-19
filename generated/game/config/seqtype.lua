@@ -33,11 +33,11 @@ AnimationDuplicateBehaviour = {
 ---@field length Int Number of client ticks the associated animation will run for.
 ---@field loop Int How many more loops the animation will run for.
 ---@field priority Int Priority of the animation. Higher is more important.
----@field replaceHeldLeft Obj Object of what to replace the entity's left hand is holding with.
----@field replaceHeldRight Obj Object of what to replace the entity's right hand is holding with.
+---@field replaceHeldLeft ObjType Object of what to replace the entity's left hand is holding with.
+---@field replaceHeldRight ObjType Object of what to replace the entity's right hand is holding with.
 ---@field maxLoop Int Maximum number of loops this animation can run for.
 ---@field animDuplicateBehaviour AnimationDuplicateBehaviour Determines what happens if the same animation is requested to be played while it is already being played.
-Seq = {}
+local Seq = {}
 
 ---Returns the corresponding output value for the given input ParamType .
 ---@param param ParamType The input param value.

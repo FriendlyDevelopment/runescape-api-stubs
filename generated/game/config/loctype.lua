@@ -57,7 +57,7 @@ LocShapeType = {
 ---@field multiVar VarType The variable which controls the currently displayed LocType .
 ---@field locShapeTypes LocShapeType[] Returns a list of all LocShapeTypes supported by this config. Use these along with Loc:GetModelIDs() to get the model IDs used by this config.
 ---@field params ParamType[] Returns a list of all the ParamTypes stored in this config.
-Loc = {}
+local Loc = {}
 
 ---Returns the custom CursorType , if any, used for the given op index.
 ---@param opIndex Int The op index. Valid values are 1 -> 6

@@ -103,4 +103,3 @@ function ui.List:HasEntry(id) end
 ---@field enabled Bool (Read-only) Whether this entry can be selected.
 ---@field visible Bool (Read-only) Whether this entry is currently hidden.
 ---@field selected Bool (Read-only) Whether this entry is currently selected.
-ListEntry = {}

@@ -8,7 +8,7 @@
 ---@field values {[1]: any, [2]: any}[] All data value pairs contained in this enum. Each pair contains an input and output value.
 ---@field inputValueType ValueType The expected type of data this enum expects as an input value.
 ---@field outputValueType ValueType The expected type of data this enum expects as an output value.
-Enum = {}
+local Enum = {}
 
 ---Returns the corresponding output value for the given input value.
 ---@param inputValue any The input data value. Data value type must match the ValueType of property inputValueType .

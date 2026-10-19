@@ -45,62 +45,116 @@
 -- ── Game runtime globals (not covered by any HTML docs page) ──────────────────
 -- These are injected by the RS client and have no documentation in site/.
 
----Integer constant database (fonts, styles, NPCs, objects, components, …).
----Sub-tables (e.g. id.Font, id.StyleSheet) are also id instances, so nested
----access like id.Font.MUSEO_SANS_15PT_REGULAR resolves without errors.
----Extends integer so that leaf values (e.g. id.Font.X) are accepted wherever
----an integer is expected.
----@class id: integer
----@field Category id.Category
----@field Component id.Component
----@field Cursor id.Cursor
----@field Font id.Font
----@field Interface id.Interface
----@field Inv id.Inv
----@field Loc id.Loc
----@field Music id.Music
----@field NPC id.NPC
----@field Obj id.Obj
----@field Quest id.Quest
----@field Sound id.Sound
----@field Sprite id.Sprite
----@field StyleSheet id.StyleSheet
----@field VarClient id.VarClient
----@field VarPlayer id.VarPlayer
----@field VarPlayerGroup id.VarPlayerGroup
----@field [any] id
+--Unique integer types for all configs that are part of the `id` global
+
+---@class DBRowId : integer
+---@class VarPlayerId : integer
+---@class InvId : integer
+---@class CategoryId : integer
+---@class MaterialId : integer
+---@class LocId : integer
+---@class QuestId : integer
+---@class SeqId : integer
+---@class VarPlayerGroupId : integer
+---@class VarClientId : integer
+---@class SoundId : integer
+---@class ObjId : integer
+---@class VarClanId : integer
+---@class InterfaceId : integer
+---@class MusicId : integer
+---@class HeadbarId : integer
+---@class SpriteId : integer
+---@class EnumId : integer
+---@class UIAnimCurveId : integer
+---@class VarClanSettingId : integer
+---@class StyleSheetId : integer
+---@class StructId : integer
+---@class FontId : integer
+---@class HitmarkId : integer
+---@class UIAnimId : integer
+---@class ComponentId : integer
+---@class BaseAnimSetId : integer
+---@class NPCId : integer
+---@class ParamId : integer
+---@class CursorId : integer
+---@class MapElementId : integer
+---@class AchievementId : integer
+---@class DBTableId : integer
+---@class ModelId : integer
+
+
+---@class _global.id
+---@field DBRow { [string]: DBRowId, FromID: fun(id: DBRowId): string}
+---@field VarPlayer { [string]: VarPlayerId, FromID: fun(id: VarPlayerId): string}
+---@field Inv { [string]: InvId, FromID: fun(id: InvId): string}
+---@field Category { [string]: CategoryId, FromID: fun(id: CategoryId): string}
+---@field Material { [string]: MaterialId, FromID: fun(id: MaterialId): string}
+---@field Loc { [string]: LocId, FromID: fun(id: LocId): string}
+---@field Quest { [string]: QuestId, FromID: fun(id: QuestId): string}
+---@field Seq { [string]: SeqId, FromID: fun(id: SeqId): string}
+---@field VarPlayerGroup { [string]: VarPlayerGroupId, FromID: fun(id: VarPlayerGroupId): string}
+---@field VarClient { [string]: VarClientId, FromID: fun(id: VarClientId): string}
+---@field Sound { [string]: SoundId, FromID: fun(id: SoundId): string}
+---@field Obj { [string]: ObjId, FromID: fun(id: ObjId): string}
+---@field VarClan { [string]: VarClanId, FromID: fun(id: VarClanId): string}
+---@field Interface { [string]: InterfaceId, FromID: fun(id: InterfaceId): string}
+---@field Music { [string]: MusicId, FromID: fun(id: MusicId): string}
+---@field Headbar { [string]: HeadbarId, FromID: fun(id: HeadbarId): string}
+---@field Sprite { [string]: SpriteId, FromID: fun(id: SpriteId): string}
+---@field Enum { [string]: EnumId, FromID: fun(id: EnumId): string}
+---@field UIAnimCurve { [string]: UIAnimCurveId, FromID: fun(id: UIAnimCurveId): string}
+---@field VarClanSetting { [string]: VarClanSettingId, FromID: fun(id: VarClanSettingId): string}
+---@field StyleSheet { [string]: StyleSheetId, FromID: fun(id: StyleSheetId): string}
+---@field Struct { [string]: StructId, FromID: fun(id: StructId): string}
+---@field Font { [string]: FontId, FromID: fun(id: FontId): string}
+---@field Hitmark { [string]: HitmarkId, FromID: fun(id: HitmarkId): string}
+---@field UIAnim { [string]: UIAnimId, FromID: fun(id: UIAnimId): string}
+---@field Component { [string]: ComponentId, FromID: fun(id: ComponentId): string}
+---@field BaseAnimSet { [string]: BaseAnimSetId, FromID: fun(id: BaseAnimSetId): string}
+---@field NPC { [string]: NPCId, FromID: fun(id: NPCId): string}
+---@field Param { [string]: ParamId, FromID: fun(id: ParamId): string}
+---@field Cursor { [string]: CursorId, FromID: fun(id: CursorId): string}
+---@field MapElement { [string]: MapElementId, FromID: fun(id: MapElementId): string}
+---@field Achievement { [string]: AchievementId, FromID: fun(id: AchievementId): string}
+---@field DBTable { [string]: DBTableId, FromID: fun(id: DBTableId): string}
+---@field Model { [string]: ModelId, FromID: fun(id: ModelId): string}
+
 id = {}
 
----@class var
----@field VarPlayer any
----@field VarClient any
----@field VarType VarType
+---@class _global.var
+---@field VarClient  { [string]: VarType, FromID: fun(id: VarPlayerId): VarType} Exists on the local game client, although the server is able to set its value remotely.
+---@field VarPlayer { [string]: VarType, FromID: fun(id: VarPlayerId): VarType} Variables which are stored in the player character's savegame.
+---@field VarPlayerGroup { [string]: VarType, FromID: fun(id: VarPlayerId): VarType} Currently unsupported
+---@field VarClan { [string]: VarType, FromID: fun(id: VarPlayerId): VarType} Currently unsupported
+---@field VarClanSettings { [string]: VarType, FromID: fun(id: VarPlayerId): VarType} Currently unsupported
+---@field VarNPC unknown Currently unsupported
+---@field VarObj unknown Currently unsupported
 var = {}
 
 ---Game config lookup tables (e.g. config.Obj.BRONZE_DAGGER).
 ---Sub-tables are also config instances for nested access.
----@class config
----@field Category config.Category
----@field Component config.Component
----@field Cursor config.Cursor
----@field Font config.Font
----@field Interface config.Interface
----@field Inv config.Inv
----@field Loc config.Loc
----@field Music config.Music
----@field NPC config.NPC
----@field Obj config.Obj
----@field Quest config.Quest
----@field Sound config.Sound
----@field Sprite config.Sprite
----@field StyleSheet config.StyleSheet
----@field VarClient config.VarClient
----@field VarPlayer config.VarPlayer
----@field VarPlayerGroup config.VarPlayerGroup
----@field [any] config
+---@class _global.config
+---@field DBRow { [string]: DBRowType, FromID: fun(id: DBRowId): DBRowType}
+---@field Inv { [string]: InvType, FromID: fun(id: InvId): InvType}
+---@field Headbar { [string]: HeadbarType, FromID: fun(id: HeadbarId): HeadbarType}
+---@field Enum { [string]: EnumType, FromID: fun(id: EnumId): EnumType}
+---@field Loc { [string]: LocType, FromID: fun(id: LocId): LocType}
+---@field Quest { [string]: QuestType, FromID: fun(id: QuestId): QuestType}
+---@field Seq { [string]: SeqType, FromID: fun(id: SeqId): SeqType}
+---@field Achievement { [string]: AchievementType, FromID: fun(id: AchievementId): AchievementType}
+---@field Font { [string]: FontType, FromID: fun(id: FontId): FontType}
+---@field Hitmark { [string]: HitmarkType, FromID: fun(id: HitmarkId): HitmarkType}
+---@field BaseAnimSet { [string]: BaseAnimSetType, FromID: fun(id: BaseAnimSetId): BaseAnimSetType}
+---@field MapElement { [string]: MapElementType, FromID: fun(id: MapElementId): MapElementType}
+---@field NPC { [string]: NPCType, FromID: fun(id: NPCId): NPCType}
+---@field Cursor { [string]: CursorType, FromID: fun(id: CursorId): CursorType}
+---@field Obj { [string]: ObjType, FromID: fun(id: ObjId): ObjType}
+---@field Param { [string]: ParamType, FromID: fun(id: ParamId): ParamType}
+---@field DBTable { [string]: DBTableType, FromID: fun(id: DBTableId): DBTableType}
+---@field Struct { [string]: StructType, FromID: fun(id: StructId): StructType}
 config = {}
 
----@class utils
+---@class _global.utils
 ---@field CalcTextWidth fun(fontID: Int, text: string) Int
 utils = {}
 

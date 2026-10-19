@@ -1,8 +1,5 @@
 ---@meta
 
----@class Core
-Core = {}
-
 ---Outputs a message containing the contents of the provided arguments separated by a space to the Lua console.
 ---@param ... any
 function print(...) end

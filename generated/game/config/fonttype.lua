@@ -9,7 +9,7 @@
 ---@field lowerCaseAscent Int The distance above the baseline for the lowercase 'x' glyph in the font.
 ---@field maxAscent Int The maximum distance above the baseline for the tallest glyph in the font.
 ---@field maxDescent Int The maximum distance below the baseline for the lowest glyph in the font.
-Font = {}
+local Font = {}
 
 ---Returns the pixel width of a string drawn with this font.
 ---@param text String The text to calculate the total pixel width for.

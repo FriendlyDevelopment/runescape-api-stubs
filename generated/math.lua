@@ -1,8 +1,5 @@
 ---@meta
 
----@class Math
-Math = {}
-
 ---Calculates a linearly interpolated value based on starting and final values and an interpolation factor.
 ---@overload fun(start: Vector2, final: Vector2, t: Float): Vector2
 ---@overload fun(start: Vector3, final: Vector3, t: Float): Vector3

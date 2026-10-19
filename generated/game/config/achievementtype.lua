@@ -57,7 +57,7 @@ AchievementHiddenType = {
 ---@field completionCountForPrereqGroups Int How many prerequisite groups need to be complete in order to consider all prerequisites as completed. For example, if prereqGroupCount == 2 and completionCountForPrereqGroups == 1 then only one of the two groups needs to be completed.
 ---@field requirementGroupCount Int How many separate groups of requirement tests exist.
 ---@field completionCountForRequirementGroups Int How many requirement groups need to be complete in order to consider all requirements as completed. For example, if requirementGroupCount == 2 and completionCountForRequirementGroups == 1 then only one of the two groups needs to be completed.
-Achievement = {}
+local Achievement = {}
 
 ---Returns whether the given prerequisite group is considered complete.
 ---@param group Int The group ID to be tested for completion. group is 0-indexed.
@@ -81,7 +81,6 @@ function Achievement:GetSubItemCompletionCountForRequirementGroup(group) end
 ---@field totalLevels Int The target total skill levels which must be achieved.
 ---@field description String The description for this test, if supplied.
 ---@field isComplete Bool Whether the Player Character has completed this test.
-AchievementTestSkill = {}
 
 ---This test checks whether the Player Character has completed the given quest.
 ---@class AchievementTestQuest
@@ -89,7 +88,6 @@ AchievementTestSkill = {}
 ---@field quest QuestTypeConfig The quest config to test for completion.
 ---@field description String The description for this test, if supplied.
 ---@field isComplete Bool Whether the Player Character has completed this test.
-AchievementTestQuest = {}
 
 ---This test checks whether the Player Character has completed the given achievement.
 ---@class AchievementTestAchievement
@@ -97,7 +95,6 @@ AchievementTestQuest = {}
 ---@field achievement AchievementType The achievement config to test for completion.
 ---@field description String The description for this test, if supplied.
 ---@field isComplete Bool Whether the Player Character has completed this test.
-AchievementTestAchievement = {}
 
 ---This test checks whether the cumulative total of a given list of VarPlayers values meets or exceeds a given total value.
 ---@class AchievementTestVarTotal
@@ -106,7 +103,6 @@ AchievementTestAchievement = {}
 ---@field totalValue Int The target value which must be met or exceeded.
 ---@field description String The description for this test, if supplied.
 ---@field isComplete Bool Whether the Player Character has completed this test.
-AchievementTestVarTotal = {}
 
 ---This test checks whether a specific bit in a VarPlayer value matches a given value of 0 or 1 .
 ---@class AchievementTestVarTestBit
@@ -116,4 +112,3 @@ AchievementTestVarTotal = {}
 ---@field bitValue Int The target value which must be matched. This is typically always 1 .
 ---@field description String The description for this test, if supplied.
 ---@field isComplete Bool Whether the Player Character has completed this test.
-AchievementTestVarTestBit = {}

@@ -19,8 +19,6 @@ function ShapeList.Draw(settings) end
 ---@param settings ShapeListDrawLineSettings A table of key-value pairs which describe the settings for the draw operation.
 function ShapeList.DrawLine(settings) end
 
----@param coord any
-
 ---Creates a new ShapeInstance with the given name. Returns nil if an instance already exists with that name.
 ---@param name String The name of the instance.
 ---@return ShapeInstance? # The created ShapeInstance . Returns nil if the instance could not be created.
@@ -115,7 +113,6 @@ function ShapeData.Unregister(name) end
 ---@field colour Int A 32-bit colour which is multiplied against the RGBA data of the shape being drawn.
 ---@field lineWidth Float The drawn thickness of any lines defined by the shape data. Maximum value is 10.0 .
 ---@field asBillboard Bool Whether the shape should always rotate to face the camera. This rotation is applied around the centre of final AABB of the drawn shape.
-ShapeListDrawSettings = {}
 
 ---@class ShapeListDrawLineSettings
 ---@field positions Vector3[] The list of positions to draw lines between.
@@ -125,7 +122,6 @@ ShapeListDrawSettings = {}
 ---@field ignoreDepth Bool Controls how the lines handle depth testing when drawing: true - Always draws on top of world geometry false - Draws behind occluding world geometry.
 ---@field colour Int The 32-bit colour to use as the line colour.
 ---@field lineWidth Float The drawn thickness of the lines. Maximum value is 10.0 .
-ShapeListDrawLineSettings = {}
 
 ---A ShapeInstance is a dynamic object which contains some ShapeData and automatically handles drawing itself in the game world.
 ---@class ShapeInstance
@@ -140,7 +136,7 @@ ShapeListDrawLineSettings = {}
 ---@field colour Int A 32-bit colour which is multiplied against the RGBA data of the ShapeData being drawn.
 ---@field lineWidth Float The drawn thickness of any lines defined by the instance's ShapeData . Maximum value is 10.0 .
 ---@field asBillboard Bool Whether the shape should always rotate to face the camera. This rotation is applied around the centre of final AABB of the drawn shape.
-ShapeInstance = {}
+local ShapeInstance = {}
 
 ---Assigns a copy of the given shape data to the instance and returns whether the data was valid and successfully set.
 ---@param shapeData ShapeData The shape data to copy to the instance.
@@ -173,7 +169,7 @@ function ShapeInstance:Destroy() end
 ---@field rotation Float The starting rotation of the entity. Rotation occurs around the vertical Y axis. Units are in degrees.
 ---@field rotationSpeed Float How far the entity rotates in a clockwise direction in one second. Rotation occurs around the vertical Y axis. Units are in degrees.
 ---@field asBillboard Bool Whether the shape should always rotate to face the camera. This rotation is applied around the centre of final AABB of the drawn shape. This setting often conflicts with alignType - it is recommended to use ShapeEntityAlignType.NONE when drawing a shape entity as a billboard.
-ShapeEntity = {}
+local ShapeEntity = {}
 
 ---Assigns a copy of the given shape data to the entity and returns whether the data was valid and successfully set.
 ---@param shapeData ShapeData The shape data to copy to the entity.

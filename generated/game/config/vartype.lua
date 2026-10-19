@@ -55,4 +55,4 @@ ValueType = {
 ---@field isVarBit Bool Whether this config type is a VarBit .
 ---@field baseVar VarType Returns the base VarType , if this config is a VarBit . Otherwise returns nil .
 ---@field varBitMask Int Returns a bitmask showing the range of bits used, if this config is a VarBit . Otherwise returns nil . A VarBit using bits 3-5 would return a value of 56 ( 0x38 , 0b111000 ).
-VarType = {}
+local VarType = {}

@@ -40,4 +40,3 @@ function ObjStackList.Filter(filterSet) end
 ---@field config ObjType The config to match against entries of ObjEntry.config . { config = config.Obj.LOGS } See ObjStackList.ByConfig()
 ---@field configID Int The config ID to match against entries of ObjEntry.configID . { configID = id.Obj.LOGS } See ObjStackList.ByConfigID()
 ---@field func fun(objStackEntity: ObjStackEntity): Bool A predicate used to include matching object-stack entities.
-ObjStackListFilterSettings = {}

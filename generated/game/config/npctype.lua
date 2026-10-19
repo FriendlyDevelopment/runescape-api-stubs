@@ -44,7 +44,7 @@
 ---@field backgroundSoundDropoffRange Int The tile distance, in Grid units , at which background sounds in this config begin to drop off in volume. Distances below this range set volume to 100%.
 ---@field backgroundSoundVolume Int The base volume of any background sounds played by an NPCEntity using this config.
 ---@field params ParamType[] Returns a list of all the ParamTypes stored in this config.
-NPC = {}
+local NPC = {}
 
 ---Returns the custom CursorType , if any, used for the given op index.
 ---@param opIndex Int The op index. Valid values are 1 -> 6
