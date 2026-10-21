@@ -43,6 +43,9 @@ CONFIG_TYPES = {
     "Struct": "StructType",
 }
 
+# Types that are exposed under the var global.
+VAR_CONFIG_TYPES = {"VarPlayer", "VarClient"}
+
 
 def sanitise_name(raw: str) -> str:
     """Convert an arbitrary string to a valid Lua identifier."""
@@ -132,10 +135,29 @@ def _config_enum_block(enum_name: str, entries: list[tuple[int, str]]) -> str:
     return "\n".join(lines)
 
 
+def _var_enum_block(enum_name: str, entries: list[tuple[int, str]]) -> str:
+    fields = [f"    {lua_key(name)} = {{}},"
+              for name in dict.fromkeys(name for _, name in entries)]
+    lines = [
+        "---@meta",
+        "---@diagnostic disable: missing-fields",
+        "",
+        f"var.{enum_name} = {{",
+        *fields,
+        "}",
+        "",
+        f"---@param id {enum_name}Id",
+        "---@return VarType",
+        f"function var.{enum_name}.FromID(id) end",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def generate_stub_files(
     enum_name: str, entries: list[tuple[int, str]]
 ) -> dict[str, str]:
-    """Generate numeric IDs and, where supported, named config object fields."""
+    """Generate numeric IDs and supported config or variable object fields."""
     kv_lines = [f"    {lua_key(name)} = {entry_id}," for entry_id, name in entries]
     kv_block = "\n".join(kv_lines)
 
@@ -144,6 +166,8 @@ def generate_stub_files(
     }
     if enum_name in CONFIG_TYPES:
         files[f"{enum_name}.config.lua"] = _config_enum_block(enum_name, entries)
+    if enum_name in VAR_CONFIG_TYPES:
+        files[f"{enum_name}.var.lua"] = _var_enum_block(enum_name, entries)
     return files
 
 
