@@ -535,6 +535,9 @@ config.Quest = {
     QUEST_EASTER26 = {},
     QUEST_WENDLE_SECRETS = {},
     QUEST_CONSTRUCTION_TUTORIAL = {},
+    QUEST_WENDLE_HERALDS = {},
+    QUEST_HALLOWEEN26 = {},
+    QUEST_TUT6 = {},
 }
 
 ---@param id QuestId
