@@ -533,6 +533,8 @@ id.Quest = {
     QUEST_CRAB = 528,
     QUEST_WIZARD_CHILD = 529,
     QUEST_EASTER26 = 530,
+    QUEST_WENDLE_SECRETS = 531,
+    QUEST_CONSTRUCTION_TUTORIAL = 532,
 }
 
 ---@param id integer

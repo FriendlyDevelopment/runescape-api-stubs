@@ -139,7 +139,7 @@ var = {}
 ---@field Headbar { [string]: HeadbarType, FromID: fun(id: HeadbarId): HeadbarType}
 ---@field Enum { [string]: EnumType, FromID: fun(id: EnumId): EnumType}
 ---@field Loc { [string]: LocType, FromID: fun(id: LocId): LocType}
----@field Quest { [string]: QuestType, FromID: fun(id: QuestId): QuestType}
+---@field Quest { [string]: QuestTypeConfig, FromID: fun(id: QuestId): QuestTypeConfig}
 ---@field Seq { [string]: SeqType, FromID: fun(id: SeqId): SeqType}
 ---@field Achievement { [string]: AchievementType, FromID: fun(id: AchievementId): AchievementType}
 ---@field Font { [string]: FontType, FromID: fun(id: FontId): FontType}
