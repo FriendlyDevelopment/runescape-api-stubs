@@ -538,5 +538,5 @@ config.Quest = {
 }
 
 ---@param id QuestId
----@return QuestType
+---@return QuestTypeConfig
 function config.Quest.FromID(id) end

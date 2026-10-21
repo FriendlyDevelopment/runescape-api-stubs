@@ -35,7 +35,7 @@ _IDENT_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 # Types that are exposed under the config global.
 CONFIG_TYPES = {
     "DBRow": "DBRowType", "Inv": "InvType", "Headbar": "HeadbarType",
-    "Enum": "EnumType", "Loc": "LocType", "Quest": "QuestType",
+    "Enum": "EnumType", "Loc": "LocType", "Quest": "QuestTypeConfig",
     "Seq": "SeqType", "Achievement": "AchievementType", "Font": "FontType",
     "Hitmark": "HitmarkType", "BaseAnimSet": "BaseAnimSetType",
     "MapElement": "MapElementType", "NPC": "NPCType", "Cursor": "CursorType",
