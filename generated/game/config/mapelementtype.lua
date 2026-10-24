@@ -41,7 +41,7 @@ MapElementTextSize = {
 ---@field textBGOutlineColour Vector4 The colour of the background for the text displayed on the map.
 ---@field textBGOutlineRGBA Int The colour of the background outline for the text displayed on the when a mouse hovers over it on the map as an integer.
 ---@field showOnMiniMap Bool Is this config displayed on the minimap.
----@field showOnWorldMap Bool Is the config displayed on the world map.
+---@field showOnWorldMap Bool Is this config displayed on the world map.
 ---@field category Int The MapElement category this config is associated with.
 ---@field subjectText String The text for the world map subject for the associated MapElement.
 ---@field flashSpriteID Int The ID of the sprite associated with the MapElement when flashing on the map.
