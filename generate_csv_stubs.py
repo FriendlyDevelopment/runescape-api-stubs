@@ -32,6 +32,20 @@ LUA_KEYWORDS = frozenset(
 
 _IDENT_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
+# Types that are exposed under the config global.
+CONFIG_TYPES = {
+    "DBRow": "DBRowType", "Inv": "InvType", "Headbar": "HeadbarType",
+    "Enum": "EnumType", "Loc": "LocType", "Quest": "QuestTypeConfig",
+    "Seq": "SeqType", "Achievement": "AchievementType", "Font": "FontType",
+    "Hitmark": "HitmarkType", "BaseAnimSet": "BaseAnimSetType",
+    "MapElement": "MapElementType", "NPC": "NPCType", "Cursor": "CursorType",
+    "Obj": "ObjType", "Param": "ParamType", "DBTable": "DBTableType",
+    "Struct": "StructType",
+}
+
+# Types that are exposed under the var global.
+VAR_CONFIG_TYPES = {"VarPlayer", "VarClient"}
+
 
 def sanitise_name(raw: str) -> str:
     """Convert an arbitrary string to a valid Lua identifier."""
@@ -101,18 +115,60 @@ def _enum_block(prefix: str, enum_name: str, kv_block: str) -> str:
     return "\n".join(lines)
 
 
-def generate_enum_files(
+def _config_enum_block(enum_name: str, entries: list[tuple[int, str]]) -> str:
+    object_type = CONFIG_TYPES[enum_name]
+    fields = [f"    {lua_key(name)} = {{}},"
+              for name in dict.fromkeys(name for _, name in entries)]
+    lines = [
+        "---@meta",
+        "---@diagnostic disable: missing-fields",
+        "",
+        f"config.{enum_name} = {{",
+        *fields,
+        "}",
+        "",
+        f"---@param id {enum_name}Id",
+        f"---@return {object_type}",
+        f"function config.{enum_name}.FromID(id) end",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def _var_enum_block(enum_name: str, entries: list[tuple[int, str]]) -> str:
+    fields = [f"    {lua_key(name)} = {{}},"
+              for name in dict.fromkeys(name for _, name in entries)]
+    lines = [
+        "---@meta",
+        "---@diagnostic disable: missing-fields",
+        "",
+        f"var.{enum_name} = {{",
+        *fields,
+        "}",
+        "",
+        f"---@param id {enum_name}Id",
+        "---@return VarType",
+        f"function var.{enum_name}.FromID(id) end",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def generate_stub_files(
     enum_name: str, entries: list[tuple[int, str]]
 ) -> dict[str, str]:
-    """Return {filename: contents} for one enum: id.<name> in <name>.lua,
-    config.<name> in <name>.config.lua."""
+    """Generate numeric IDs and supported config or variable object fields."""
     kv_lines = [f"    {lua_key(name)} = {entry_id}," for entry_id, name in entries]
     kv_block = "\n".join(kv_lines)
 
-    return {
+    files = {
         f"{enum_name}.lua": _enum_block("id", enum_name, kv_block),
-        f"{enum_name}.config.lua": _enum_block("config", enum_name, kv_block),
     }
+    if enum_name in CONFIG_TYPES:
+        files[f"{enum_name}.config.lua"] = _config_enum_block(enum_name, entries)
+    if enum_name in VAR_CONFIG_TYPES:
+        files[f"{enum_name}.var.lua"] = _var_enum_block(enum_name, entries)
+    return files
 
 
 def process(csv_dir: Path, out_dir: Path, verbose: bool = False):
@@ -132,7 +188,7 @@ def process(csv_dir: Path, out_dir: Path, verbose: bool = False):
             continue
 
         enum_name = csv_path.stem
-        for filename, lua_code in generate_enum_files(enum_name, entries).items():
+        for filename, lua_code in generate_stub_files(enum_name, entries).items():
             out_path = out_dir / filename
             out_path.write_text(lua_code, encoding="utf-8")
 
@@ -140,7 +196,7 @@ def process(csv_dir: Path, out_dir: Path, verbose: bool = False):
                 print(f"  wrote: {out_path.name}  ({len(entries)} entries)")
             generated += 1
 
-    print(f"Generated {generated} enum file(s) in {out_dir}.")
+    print(f"Generated {generated} stub file(s) in {out_dir}.")
 
 
 def main():
