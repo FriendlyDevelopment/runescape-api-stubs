@@ -23,3 +23,8 @@ If you also want to have type hints for the constants, like NPC IDs, Obj IDs, et
 > [!NOTE]
 > This will slow your LSP down a lot as the constants are very large.
 
+## License
+
+This project is licensed under the [MIT License](LICENSE). You may use, modify,
+and redistribute it, including commercially, provided you retain the copyright
+and license notice in copies or substantial portions of the software.
