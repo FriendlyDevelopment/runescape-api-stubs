@@ -17,7 +17,7 @@ body:
     attributes:
       label: Description
       description: |
-      Describe what's wrong about the stubs, what you did to solve it and any other relevant information.
-      Please keep things brief and to the point - if there's a lot of changes of course it makes sense for your description to be longer.
+        Describe what's wrong about the stubs, what you did to solve it and any other relevant information.
+        Please keep things brief and to the point - if there's a lot of changes of course it makes sense for your description to be longer.
     validations:
       required: true
