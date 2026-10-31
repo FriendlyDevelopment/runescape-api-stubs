@@ -23,6 +23,10 @@ If you also want to have type hints for the constants, like NPC IDs, Obj IDs, et
 > [!NOTE]
 > This will slow your LSP down a lot as the constants are very large.
 
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening an issue or pull request. Humans must write their own contribution text; agents must not open pull requests.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE). You may use, modify,

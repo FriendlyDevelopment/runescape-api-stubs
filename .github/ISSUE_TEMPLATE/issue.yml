@@ -1,0 +1,23 @@
+name: Issue
+description: Report a problem or suggest an improvement.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please read [CONTRIBUTING.md](/FriendlyDevelopment/runescape-api-stubs/blob/HEAD/CONTRIBUTING.md) before submitting.
+  - type: checkboxes
+    id: human-authorship
+    attributes:
+      label: Human authorship
+      options:
+        - label: I am a human and have written this text myself
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: |
+      Describe what's wrong about the stubs, what you did to solve it and any other relevant information.
+      Please keep things brief and to the point - if there's a lot of changes of course it makes sense for your description to be longer.
+    validations:
+      required: true
