@@ -12,10 +12,9 @@ ui.Interface = {}
 
 ---Attempts to retrieve the component associated with the various provided IDs contained within this interface.
 ---@overload fun(self: ui.Interface, interfaceID: Int, staticID: Uint, categoryID: Uint, dynamicID: Uint): ui.Component?
----@param interfaceID Int
 ---@param staticID Uint ID value used to identify the static component that's being retrieved, or that contains the dynamic component that's being retrieved.
 ---@return ui.Component? # The component of the appropriate type associated with the specified interface and component IDs, or nil if there's no component with these IDs.
-function ui.Interface:GetComponent(interfaceID, staticID) end
+function ui.Interface:GetComponent(staticID) end
 
 ---The ui.Interfaces object provides helper methods for quickly retrieving loaded interfaces and their components.
 ---@class ui.Interfaces
